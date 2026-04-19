@@ -1,8 +1,8 @@
 const CONFIG = {
-    // Dynamically switch between Local and Production Backend
+    // Unified Architecture: All requests now go to the internal Next.js API
     API_BASE_URL: window.location.hostname.includes('netlify.app') 
-        ? 'https://personal-finance-tracker-1.onrender.com' 
-        : `http://localhost:5005`,
+        ? '' 
+        : `http://localhost:3001`,
     APP_NAME: 'Dumbo Finance',
     VERSION: '1.0.0'
 };
