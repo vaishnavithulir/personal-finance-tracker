@@ -1,0 +1,12 @@
+{
+  "name": "dumbo-finance-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Dumbo Finance Tracker",
+  "scripts": {
+    "start": "live-server .",
+    "dev": "live-server ."
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

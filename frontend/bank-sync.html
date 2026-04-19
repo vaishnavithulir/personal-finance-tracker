@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Sync - Dumbo Finance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --fast-blue: #38bdf8;
+            --fast-blue-dark: #0ea5e9;
+            --bg-dark: #0a0f1e;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: #f8fafc; margin: 0; }
+        .top-nav { 
+            background: rgba(10, 15, 30, 0.8); 
+            backdrop-filter: blur(20px);
+            padding: 1rem 8%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            color: white; 
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-links { display: flex; gap: 2.5rem; align-items: center; }
+        .nav-links a { color: #94a3b8; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: 0.3s; }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a.active { color: var(--fast-blue); font-weight: 700; }
+        
+        .hero-section { 
+            padding: 8rem 8%; 
+            text-align: center; 
+            background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.05) 0%, transparent 60%);
+        }
+        
+        .dropdown-menu-sim {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+            margin-top: 1.5rem;
+            overflow: hidden;
+            max-height: 500px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+        }
+        .dropdown-item {
+            padding: 1.25rem 2rem;
+            color: #cbd5e1;
+            font-weight: 500;
+            border-bottom: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .dropdown-item:hover { background: rgba(56, 189, 248, 0.1); color: #fff; }
+        .dropdown-item.active { background: var(--fast-blue); color: #0a0f1e; font-weight: 800; }
+        
+        .btn-outline { 
+            border: 1px solid var(--glass-border); 
+            color: #fff; 
+            padding: 0.6rem 1.5rem; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            font-weight: 700; 
+            background: rgba(255,255,255,0.05);
+            transition: 0.3s; 
+        }
+        .btn-outline:hover { background: #fff; color: #0a0f1e; }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div style="display: flex; align-items: center; gap: 3rem;">
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 1rem; color: #fff;">
+
+                <span style="font-weight: 900; font-size: 1.5rem; letter-spacing: -0.05em;">Dumbo Finance</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="bank-sync.html" class="active">Bank sync</a>
+                <a href="index.html#gallery">Gallery</a>
+                <a href="index.html#support">Support</a>
+            </div>
+        </div>
+        <div class="action-btns" style="display: flex; gap: 0.75rem; align-items: center;">
+            <div style="position: relative; display: inline-block;">
+                <button onclick="toggleLoginMenu()" class="btn-outline" style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                    Log in <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+                </button>
+                <div id="loginDropdown" style="display: none; position: absolute; top: 110%; right: 0; background: #fff; min-width: 180px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid #eee; z-index: 2000; overflow: hidden;">
+                    <a href="admin-login.html" style="display: block; padding: 1rem 1.5rem; color: #333; text-decoration: none; font-weight: 600; font-size: 0.95rem; border-bottom: 1px solid #eee;">Dumbo Admin</a>
+                    <a href="user-login.html" style="display: block; padding: 1rem 1.5rem; color: #333; text-decoration: none; font-weight: 600; font-size: 0.95rem;">Dumbo User</a>
+                </div>
+            </div>
+            <a href="signup.html" class="btn-outline" style="background: var(--fast-blue); color: #0a0f1e; border: none;">Sign up</a>
+        </div>
+
+        <script>
+            function toggleLoginMenu() {
+                const dropdown = document.getElementById('loginDropdown');
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            }
+            window.onclick = function(event) {
+                if (!event.target.closest('button')) {
+                    const dropdown = document.getElementById('loginDropdown');
+                    if (dropdown) dropdown.style.display = 'none';
+                }
+            }
+        </script>
+    </nav>
+
+    <div class="hero-section">
+        <h1 style="font-size: 3.5rem; color: #fff; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 4rem; background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Verify if your bank is available</h1>
+        
+        <div style="max-width: 700px; margin: 0 auto; text-align: left;">
+            <p style="color: #64748b; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.85rem; margin-left: 1rem;">Jurisdiction / Region</p>
+            <div class="dropdown-menu-sim">
+                <div class="dropdown-item active"><span>🇮🇳</span> India (Primary)</div>
+                <div class="dropdown-item"><span>🇬🇧</span> United Kingdom</div>
+                <div class="dropdown-item"><span>🇺🇸</span> United States</div>
+                <div class="dropdown-item"><span>🇦🇪</span> UAE</div>
+                <div class="dropdown-item"><span>🇦🇺</span> Australia</div>
+                <div class="dropdown-item"><span>🇨🇦</span> Canada</div>
+                <div class="dropdown-item"><span>🇫🇷</span> France</div>
+                <div class="dropdown-item"><span>🇩🇪</span> Deutschland</div>
+                <div class="dropdown-item"><span>🇸🇬</span> Singapore</div>
+                <div class="dropdown-item"><span>🇯🇵</span> Japan</div>
+                <div class="dropdown-item"><span>🇪🇸</span> España</div>
+                <div class="dropdown-item"><span>🇨🇭</span> Switzerland</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+</body>
+</html>

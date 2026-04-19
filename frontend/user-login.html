@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Dumbo Finance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.3);
+            --bg-dark: #0a0f1e;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: var(--bg-dark);
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+        }
+        .landscape-left {
+            flex: 1.2;
+            background: linear-gradient(rgba(10, 15, 30, 0.4), rgba(10, 15, 30, 0.8)), 
+                        url('https://images.unsplash.com/photo-1543286386-713bdd548da4?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8%;
+            border-right: 1px solid var(--glass-border);
+        }
+        .landscape-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5%;
+            background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.05) 0%, transparent 100%);
+        }
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 3.5rem;
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        }
+        input {
+            width: 100%;
+            padding: 1rem 0;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--glass-border);
+            color: #fff;
+            font-size: 1.1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus {
+            border-bottom-color: var(--primary);
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 1.1rem;
+            background: var(--primary);
+            color: #0a0f1e;
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 2rem;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
+        }
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.4);
+        }
+        .back-home {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: 0.3s;
+            z-index: 100;
+        }
+        .back-home:hover { color: #fff; }
+        @media (max-width: 768px) {
+            .back-home {
+                top: 1rem;
+                right: 1.5rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="auth-page-body">
+    
+    <div class="landscape-left">
+
+        <h1 style="font-size: 4rem; font-weight: 900; margin: 0; letter-spacing: -0.05em; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Dumbo Finance</h1>
+        <p style="font-size: 1.4rem; color: #94a3b8; line-height: 1.5; max-width: 500px; margin-top: 1.5rem; font-weight: 500;">Your Secure Personal Wealth Vault.</p>
+        
+        <div style="margin-top: 4rem; display: flex; gap: 3rem;">
+            <div><h3 style="margin: 0; font-size: 1.8rem;">Tier 1</h3><p style="color: #64748b; margin: 0.5rem 0;">Security</p></div>
+            <div><h3 style="margin: 0; font-size: 1.8rem;">Live</h3><p style="color: #64748b; margin: 0.5rem 0;">Monitoring</p></div>
+        </div>
+    </div>
+
+    <div class="landscape-right">
+        <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> BACK TO HOME</a>
+        
+        <div class="auth-container">
+            <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 3rem; letter-spacing: -0.02em;">User Portal</h2>
+            
+            <form id="loginForm">
+                <div style="margin-bottom: 2rem;">
+                    <label style="display: block; color: #64748b; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Email Address</label>
+                    <input type="email" id="email" placeholder="rahul@gmail.com" required>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; color: #64748b; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; color: #94a3b8; font-size: 0.9rem; cursor: pointer;">
+                        <input type="checkbox" id="rememberMe" style="width: auto;"> Remember Me
+                    </label>
+                    <a href="forgot-password.html" style="color: var(--primary); text-decoration: none; font-size: 0.9rem; font-weight: 700;">Reset Password</a>
+                </div>
+                
+                <button type="submit" id="loginBtn" class="btn-submit">Sign In</button>
+            </form>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <p style="color: #64748b; font-size: 0.9rem;">New to Dumbo? <a href="signup.html" style="color: #fff; text-decoration: none; font-weight: 700;">Join Now</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            
+            try {
+                loginBtn.textContent = 'SECURE LOADING...';
+                loginBtn.disabled = true;
+
+                const res = await fetch(`${CONFIG.API_BASE_URL}/api/users/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userName', data.user.fullName);
+                    localStorage.setItem('userEmail', data.user.email);
+                    localStorage.setItem('userRole', data.user.role);
+                    
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert(data.msg || 'Access denied.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Network error.');
+            } finally {
+                loginBtn.textContent = 'SIGN IN';
+                loginBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

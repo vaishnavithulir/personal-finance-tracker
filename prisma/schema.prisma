@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String          @id @default(cuid())
+  fullName      String?
+  email         String?         @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String          @default("User")
+  bankName      String?
+  accountNumber String?
+  ifscCode      String?
+  transactions  Transaction[]
+  categories    Category[]      // Added categories relation
+  budgets       Budget[]        // Added budgets relation
+  goals         FinancialGoal[] // Added goals relation
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model Transaction {
+  id          String    @id @default(cuid())
+  amount      Float
+  description String
+  type        String    // "income" or "expense"
+  date        DateTime  @default(now())
+  
+  // Link to a structured category
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  legacyCategory String @default("Other") // Keep for compatibility
+
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+}
+
+model Category {
+  id           String        @id @default(cuid())
+  name         String
+  icon         String?       @default("tag")
+  color        String?       @default("#64748b")
+  userId       String
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+  budgets      Budget[]
+}
+
+model Budget {
+  id         String   @id @default(cuid())
+  limit      Float
+  spent      Float    @default(0)
+  period     String   @default("monthly") // monthly, weekly
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model FinancialGoal {
+  id           String   @id @default(cuid())
+  title        String
+  targetAmount Float
+  currentAmount Float   @default(0)
+  deadline     DateTime?
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+}
+
