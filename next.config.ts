@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   devIndicators: {
-    // Standard property supported by Next.js
-    buildActivityPosition: "bottom-right",
+    // In Next.js 15+, this property is renamed to 'position'
+    position: "bottom-right",
   },
   experimental: {
     // @ts-ignore
