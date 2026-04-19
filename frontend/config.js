@@ -1,5 +1,8 @@
 const CONFIG = {
-    API_BASE_URL: `http://${typeof window !== 'undefined' ? window.location.hostname : 'localhost'}:5005`,
+    // Dynamically switch between Local and Production Backend
+    API_BASE_URL: window.location.hostname.includes('netlify.app') 
+        ? 'https://personal-finance-tracker-backend.onrender.com' // Replace with your actual Render URL
+        : `http://localhost:5005`,
     APP_NAME: 'Dumbo Finance',
     VERSION: '1.0.0'
 };
