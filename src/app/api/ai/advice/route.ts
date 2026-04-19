@@ -8,6 +8,7 @@ export async function POST(req: Request) {
 
     const transactions = await prisma.transaction.findMany({
       where: { userId },
+      include: { category: true },
       orderBy: { date: "desc" },
       take: 50,
     });
@@ -21,7 +22,7 @@ export async function POST(req: Request) {
     }
 
     const dataStr = transactions
-      .map((t) => `${t.type}: ₹${t.amount} (${t.category} - ${t.description})`)
+      .map((t) => `${t.type}: ₹${t.amount} (${t.category?.name || t.legacyCategory} - ${t.description})`)
       .join("\n");
 
     const apiKey = process.env.GEMINI_API_KEY;

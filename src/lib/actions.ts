@@ -30,7 +30,7 @@ export async function addTransaction(formData: FormData, userId: string) {
         description,
         amount,
         type,
-        category,
+        legacyCategory: category,
         userId
       }
     });
