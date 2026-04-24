@@ -27,8 +27,7 @@ jobs:
         run: |
           cd frontend
           npm install
-          chmod +x node_modules/.bin/cap
-          node node_modules/.bin/cap update android
+          node node_modules/@capacitor/cli/bin/capacitor update android
 
       - name: Build with Gradle
         run: cd frontend/android && ./gradlew assembleDebug
