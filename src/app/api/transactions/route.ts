@@ -16,8 +16,8 @@ export async function GET(req: Request) {
     });
     return NextResponse.json(transactions);
   } catch (err: any) {
-    console.error(err.message);
-    return NextResponse.json({ msg: "Server Error" }, { status: 500 });
+    console.error("TRANSACTIONS GET ERROR:", err.message);
+    return NextResponse.json({ msg: "Server Error: " + err.message }, { status: 500 });
   }
 }
 
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(transaction);
   } catch (err: any) {
-    console.error(err.message);
-    return NextResponse.json({ msg: "Server Error" }, { status: 500 });
+    console.error("TRANSACTIONS POST ERROR:", err.message);
+    return NextResponse.json({ msg: "Server Error: " + err.message }, { status: 500 });
   }
 }

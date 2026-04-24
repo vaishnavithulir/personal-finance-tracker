@@ -31,7 +31,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(users);
   } catch (err: any) {
-    console.error(err.message);
-    return NextResponse.json({ msg: "Server Error" }, { status: 500 });
+    console.error("USERS GET ERROR:", err.message);
+    return NextResponse.json({ msg: "Server Error: " + err.message }, { status: 500 });
   }
 }
