@@ -20,6 +20,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x frontend/android/gradlew
 
+      - name: Fix line endings for gradlew
+        run: sed -i 's/\r$//' frontend/android/gradlew
+
       - name: Build with Gradle
         run: cd frontend/android && ./gradlew assembleDebug
 
