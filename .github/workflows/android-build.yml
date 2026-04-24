@@ -23,6 +23,9 @@ jobs:
       - name: Fix line endings for gradlew
         run: sed -i 's/\r$//' frontend/android/gradlew
 
+      - name: Sync Capacitor Plugins
+        run: cd frontend && npx cap update android
+
       - name: Build with Gradle
         run: cd frontend/android && ./gradlew assembleDebug
 
