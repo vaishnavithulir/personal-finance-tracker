@@ -14,6 +14,10 @@ services:
         generateValue: true
       - key: NEXTAUTH_SECRET
         generateValue: true
+      - key: PRISMA_CLIENT_ENGINE_TYPE
+        value: library
+      - key: PRISMA_CLI_QUERY_ENGINE_TYPE
+        value: library
 
 databases:
   - name: dumbo-db
