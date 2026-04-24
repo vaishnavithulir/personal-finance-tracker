@@ -40,7 +40,10 @@ export async function POST(req: Request) {
       },
     });
   } catch (err: any) {
-    console.error(err.message);
-    return NextResponse.json({ msg: "Server Error" }, { status: 500 });
+    console.error("REGISTRATION ERROR:", err.message);
+    return NextResponse.json({ 
+      msg: "Server Error: " + err.message,
+      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    }, { status: 500 });
   }
 }
