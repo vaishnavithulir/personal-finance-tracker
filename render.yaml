@@ -3,7 +3,7 @@ services:
     name: dumbo-finance-app
     runtime: node
     plan: free
-    buildCommand: npm install && npx prisma generate && npm run build
+    buildCommand: sed -i 's/provider = "sqlite"/provider = "postgresql"/' prisma/schema.prisma && npm install && npm run build
     startCommand: npm run start
     envVars:
       - key: DATABASE_URL

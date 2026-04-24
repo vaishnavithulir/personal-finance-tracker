@@ -1,8 +1,6 @@
 const CONFIG = {
     // Unified Architecture: All requests now go to the internal Next.js API
-    API_BASE_URL: window.location.origin.includes('netlify.app') 
-        ? '' 
-        : `${window.location.protocol}//${window.location.hostname}:3001`,
+    API_BASE_URL: 'https://dumbo-finance-app.onrender.com',
     APP_NAME: 'Dumbo Finance',
     VERSION: '1.0.0'
 };

@@ -6,7 +6,9 @@
     "dev": "next dev -p 3001",
     "build": "npx prisma generate && npx prisma db push --accept-data-loss && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "mobile:sync": "cd frontend && npx cap sync android",
+    "mobile:open": "cd frontend && npx cap open android"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
