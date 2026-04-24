@@ -1,13 +1,11 @@
 import { PrismaClient } from '@prisma/client'
 import { PrismaLibSql } from '@prisma/adapter-libsql'
-import { Pool } from 'pg'
-import { PrismaPg } from '@prisma/adapter-pg'
 
 const prismaClientOptions: any = {
-  log: ['query'],
+  log: ['query', 'error', 'warn'],
 }
 
-// Support both local SQLite and Cloud PostgreSQL (Prisma 7 pattern)
+// Check if we are using SQLite or LibSQL
 const dbUrl = process.env.DATABASE_URL || 'file:./dev.db'
 
 if (dbUrl.startsWith('file:') || dbUrl.startsWith('libsql:')) {
@@ -15,11 +13,9 @@ if (dbUrl.startsWith('file:') || dbUrl.startsWith('libsql:')) {
     url: dbUrl,
   })
   prismaClientOptions.adapter = adapter
-} else {
-  const pool = new Pool({ connectionString: dbUrl })
-  const adapter = new PrismaPg(pool)
-  prismaClientOptions.adapter = adapter
 }
+// For PostgreSQL (starts with postgres:// or postgresql://), 
+// Prisma 7 handles it natively without an adapter on standard servers like Render.
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient }
 
