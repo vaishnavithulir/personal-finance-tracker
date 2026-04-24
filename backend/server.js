@@ -8,7 +8,8 @@ const port = process.env.PORT || 5005;
 
 // Middleware
 app.use(cors({
-    origin: ['https://clever-gumption-61694d.netlify.app', 'http://localhost:8080', 'http://127.0.0.1:8080'],
+    origin: true, // Allow all origins for local development to avoid port-mismatch issues
+    credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'x-auth-token', 'Authorization']
 }));

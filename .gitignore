@@ -3,6 +3,7 @@ node_modules
 out
 build
 android
+ios
 www
 dist
 .env

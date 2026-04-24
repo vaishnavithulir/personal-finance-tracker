@@ -1,9 +1,9 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.dumbofinance.app',
-  appName: 'Dumbo Finance',
-  webDir: 'www',
+  appId: 'com.dumbofinance.app', // Aligned with mobile project
+  appName: 'Wealth Central',
+  webDir: 'out',
   bundledWebRuntime: false,
   server: {
     androidScheme: 'https',
@@ -11,12 +11,10 @@ const config: CapacitorConfig = {
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 2000,
-      backgroundColor: "#0a0f1e",
+      launchShowDuration: 1500,
+      backgroundColor: "#000000",
       showSpinner: true,
-      androidSpinnerStyle: "large",
-      iosSpinnerStyle: "small",
-      spinnerColor: "#38bdf8"
+      spinnerColor: "#ffffff"
     }
   }
 };

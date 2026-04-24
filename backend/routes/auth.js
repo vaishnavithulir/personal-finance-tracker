@@ -5,11 +5,16 @@ const jwt = require('jsonwebtoken');
 const prisma = require('../db');
 
 // Auth middleware (reused across routes)
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
     const token = req.header('x-auth-token');
     if (!token) return res.status(401).json({ msg: 'No token, authorization denied' });
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+        
+        // Verify User still exists in vault (Critical after data wipes)
+        const user = await prisma.user.findUnique({ where: { id: decoded.user.id } });
+        if (!user) return res.status(401).json({ msg: 'Profile no longer exists, please re-authenticate' });
+
         req.user = decoded.user;
         next();
     } catch (err) {
@@ -100,6 +105,34 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+// @route    DELETE api/users/:id
+// @desc     Delete user (Admin only)
+// @access   Private
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        if (!req.user.role || req.user.role.toLowerCase() !== 'admin') {
+            return res.status(403).json({ msg: 'Terminal Access Denied. Administrative clearance required.' });
+        }
+
+        const userId = req.params.id;
+        
+        // Prevent self-deletion
+        if (userId === req.user.id) {
+            return res.status(400).json({ msg: 'Security Override: Cannot terminate own administrative vault.' });
+        }
+
+        // Transactions will be deleted automatically if cascade is set in prisma, 
+        // else we handle it. (Assuming prisma handles or we accept deletion of user)
+        await prisma.transaction.deleteMany({ where: { userId } });
+        await prisma.user.delete({ where: { id: userId } });
+
+        res.json({ msg: 'Institutional user vault terminated successfully.' });
+    } catch (err) {
+        console.error('Deletion Fault:', err.message);
+        res.status(500).json({ msg: 'System Deletion Fault: Entity may not exist or is protected.' });
+    }
+});
+
 // @route   GET api/users/profile
 // @desc    Get user profile data
 // @access  Private
@@ -122,6 +155,40 @@ router.get('/profile', auth, async (req, res) => {
         }
 
         res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ msg: 'Server Error' });
+    }
+});
+
+// @route   PUT api/users/profile
+// @desc    Update user profile details
+// @access  Private
+router.put('/profile', auth, async (req, res) => {
+    try {
+        const { fullName, email, bankName, accountNumber, ifscCode } = req.body;
+        
+        // Check if email is already taken by another user
+        if (email) {
+            const existingUser = await prisma.user.findUnique({
+                where: { email }
+            });
+            if (existingUser && existingUser.id !== req.user.id) {
+                return res.status(400).json({ msg: 'Email is already at use by another institutional vault' });
+            }
+        }
+
+        const updated = await prisma.user.update({
+            where: { id: req.user.id },
+            data: {
+                fullName,
+                email,
+                bankName,
+                accountNumber,
+                ifscCode
+            }
+        });
+        res.json({ msg: 'Profile updated successfully', user: updated });
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ msg: 'Server Error' });

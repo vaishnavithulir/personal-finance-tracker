@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Dumbo Finance</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#38bdf8">
@@ -28,38 +30,27 @@
             </a>
         </div>
 
-        <!-- Quick Actions Removed as per user request -->
-        <div style="display: flex; align-items: center; gap: 1rem;">
-            <!-- Admin Only: Bank Sync shortcut -->
-            <div id="topAdminNav" style="display: none; align-items: center; gap: 1.25rem;">
-                <a role="button" onclick="selectNavItem(document.getElementById('banksyncNavItem'), 'banksync')" style="color: #38bdf8; text-decoration: none; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; background: rgba(56, 189, 248, 0.1); padding: 0.6rem; border-radius: 10px; border: 1px solid rgba(56, 189, 248, 0.2);">
-                    <i class="fas fa-university"></i> <span class="hide-mobile" style="margin-left: 0.4rem;">Bank Sync</span>
-                </a>
+            <!-- Quick Actions Removed as per user request -->
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <!-- topAdminNav was here (Bank Sync) -->
             </div>
-        </div>
     </nav>
 
     <div class="dashboard-layout" style="margin-top: 70px;">
         <!-- Section 1: Navigation Sidebar -->
-        <aside class="sidebar" style="top: 70px; height: calc(100vh - 70px); overflow-y: auto; overflow-x: hidden;">
-
-
-            <nav class="sidebar-nav" style="padding: 0 0.5rem;">
-                <p style="font-size: 0.65rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin: 1.5rem 0 0.75rem 1rem;">Main Menu</p>
+        <aside class="sidebar" style="top: 70px; height: calc(100vh - 70px);">
+            <div class="sidebar-nav">
+                <nav class="vertical-nav" style="padding: 0;">
+                    <p style="font-size: 0.65rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin: 1.1rem 0 0.5rem 2rem;">Main Intelligence</p>
 
                 <a href="#overviewSection" class="nav-item active" onclick="selectNavItem(this)">
-                    <i class="fas fa-th-large"></i>
+                    <i class="fas fa-th-large" style="color: var(--primary);"></i>
                     <span>Dashboard</span>
                 </a>
 
-                <a role="button" id="aiNavItem" onclick="selectNavItem(this, 'ai')" class="nav-item">
-                    <i class="fas fa-brain" style="color: #c084fc;"></i>
-                    <span>AI Advisor</span>
-                </a>
-                
-                <a role="button" id="incomeNavItem" onclick="selectNavItem(this, 'income')" class="nav-item" style="display: none;">
+                <a role="button" id="incomeNavItem" onclick="selectNavItem(this, 'income')" class="nav-item">
                     <i class="fas fa-wallet" style="color: #34d399;"></i>
-                    <span>My Income</span>
+                    <span>Income Logs</span>
                 </a>
 
                 <a role="button" id="expenseNavItem" onclick="selectNavItem(this, 'expense')" class="nav-item">
@@ -67,54 +58,59 @@
                     <span>My Expenses</span>
                 </a>
 
-                <a role="button" onclick="selectNavItem(this, 'banksync')" class="nav-item">
+                <a role="button" id="aiNavItem" onclick="selectNavItem(this, 'ai')" class="nav-item">
+                    <i class="fas fa-brain" style="color: #c084fc;"></i>
+                    <span>AI Advisor</span>
+                </a>
+
+                <p style="font-size: 0.65rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin: 1.1rem 0 0.5rem 2rem;">Governance & Identity</p>
+                
+                <div id="adminPortalHeader" style="display: none;">
+                    <a role="button" id="userMgmtNavItem" onclick="selectNavItem(this, 'usermgmt')" class="nav-item">
+                        <i class="fas fa-users-cog" style="color: #c084fc;"></i>
+                        <span>User Management</span>
+                    </a>
+                </div>
+
+                <a role="button" id="banksyncNavItem" onclick="selectNavItem(this, 'banksync')" class="nav-item">
                     <i class="fas fa-university" style="color: #38bdf8;"></i>
                     <span>Bank Sync</span>
                 </a>
 
-                <p style="font-size: 0.65rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin: 1.5rem 0 0.75rem 1rem;">Account & Tools</p>
-                
                 <a role="button" id="helpNavItem" class="nav-item" onclick="selectNavItem(this, 'help')">
                     <i class="fas fa-headset" style="color: #38bdf8;"></i>
                     <span>Help & Support</span>
                 </a>
 
-                <a role="button" id="settingsNavItem" onclick="selectNavItem(this, 'settings')" class="nav-item">
-                    <i class="fas fa-cog" style="color: #94a3b8;"></i>
-                    <span>My Settings</span>
+                <a role="button" id="profileNavItem" onclick="selectNavItem(this, 'profile')" class="nav-item">
+                    <i class="fas fa-user-circle" style="color: #6366f1;"></i>
+                    <span>My Profile</span>
                 </a>
 
-                <a role="button" id="userMgmtNavItem" onclick="selectNavItem(this, 'usermgmt')" class="nav-item" style="display:none;">
-                    <i class="fas fa-users" style="color: #c084fc;"></i>
-                    <span>User Management</span>
-                </a>
+                <!-- Hidden Nodes -->
                 
-                <!-- Admin Strategy Removed -->
+                </nav>
+            </div>
 
-
-
-                <!-- User/Admin Portal Section (Moved to Bottom) -->
-                <p id="portalLabel" style="font-size: 0.65rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin: 1.5rem 0 0.75rem 1.25rem;">User Portal</p>
-                
-                <div style="padding: 0 0.5rem; margin-top: 1rem; margin-bottom: 2rem;">
-                    <!-- Active User Info -->
-                    <div class="user-profile" style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; padding: 0.75rem 1rem; background: rgba(56, 189, 248, 0.05); border-radius: 12px; border: 1px solid rgba(56, 189, 248, 0.1);">
-                        <div id="userAvatar" style="width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 0.9rem; box-shadow: 0 4px 10px var(--primary-glow);">R</div>
-                        <div style="overflow: hidden; flex: 1;">
-                            <h4 id="displayName" style="margin: 0; font-size: 0.85rem; color: #fff; white-space: nowrap; text-overflow: ellipsis; font-weight: 700;">Loading...</h4>
-                            <p id="userEmailLabel" style="margin: 0; font-size: 0.7rem; color: #cbd5e1; white-space: nowrap; text-overflow: ellipsis; font-weight: 500;">...</p>
+            <div class="sidebar-footer">
+                <!-- Active User Info -->
+                <div class="user-profile" style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; padding: 1rem; background: rgba(56, 189, 248, 0.05); border-radius: 14px; border: 1px solid rgba(56, 189, 248, 0.12); margin: 0 1rem;">
+                    <div id="userAvatar" style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 1rem; box-shadow: 0 4px 12px var(--primary-glow); flex-shrink:0;">R</div>
+                    <div style="overflow: hidden; flex: 1;">
+                        <h4 id="displayName" style="margin: 0; font-size: 0.85rem; color: #fff; white-space: nowrap; text-overflow: ellipsis; font-weight: 700;">Loading...</h4>
+                        <div style="display: flex; align-items: center; gap: 0.4rem; margin-top: 0.25rem;">
+                            <span id="userRoleBadge" style="font-size: 0.55rem; background: rgba(56, 189, 248, 0.15); color: var(--primary); padding: 0.1rem 0.45rem; border-radius: 5px; font-weight: 900; letter-spacing: 0.05em; display: inline-block;">...</span>
+                            <span id="userEmailLabel" style="font-size: 0.6rem; color: #94a3b8; white-space: nowrap; text-overflow: ellipsis; font-weight: 500; font-family: 'JetBrains Mono', monospace;">...</span>
                         </div>
                     </div>
-
-                    <!-- Sign Out as a Nav Item -->
-                    <a role="button" onclick="logout()" class="nav-item" style="color: #ef4444; margin-top: 0.25rem;">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Sign Out</span>
-                    </a>
                 </div>
 
-
-            </nav>
+                <!-- Sign Out as a Nav Item -->
+                <a role="button" onclick="logout()" class="nav-item" style="color: #ef4444; margin: 0.5rem 1rem 0; padding: 0 1rem;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </a>
+            </div>
         </aside>
 
         <!-- Section 2: Main Bar (Content) -->
@@ -132,20 +128,20 @@
                     <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1.5rem;">
                         <div>
                             <label style="display: block; font-size: 0.75rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; margin-bottom: 0.75rem;">Description</label>
-                            <input type="text" id="desc" placeholder="e.g., Monthly Salary / AWS Service" style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none;">
+                            <input type="text" id="desc" placeholder="e.g., Monthly Salary / AWS Service" class="premium-input">
                         </div>
                         <div>
                             <label style="display: block; font-size: 0.75rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; margin-bottom: 0.75rem;">Amount (₹)</label>
-                            <input type="number" id="amount" placeholder="0.00" style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none;">
+                            <input type="number" id="amount" placeholder="0.00" class="premium-input">
                         </div>
                         <div>
                             <label style="display: block; font-size: 0.75rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; margin-bottom: 0.75rem;">Classification</label>
-                            <select id="category" style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none;">
-                                <option value="General">General</option>
-                                <option value="Investment">Investment</option>
-                                <option value="Salary">Salary</option>
-                                <option value="Business">Business</option>
-                                <option value="Utilities">Utilities</option>
+                            <select id="category" class="premium-input" style="height: 52px; background-image: none;">
+                                <option value="General" style="color:#333;">General</option>
+                                <option value="Investment" style="color:#333;">Investment</option>
+                                <option value="Salary" style="color:#333;">Salary</option>
+                                <option value="Business" style="color:#333;">Business</option>
+                                <option value="Utilities" style="color:#333;">Utilities</option>
                             </select>
                         </div>
                     </div>
@@ -161,34 +157,42 @@
                     <div id="statsGrid" class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
 
                         <!-- USER stats (default) -->
-                        <div id="userStatBalance" class="stat-card total-banner" style="margin-bottom:0; background:linear-gradient(135deg,rgba(56,189,248,0.1),transparent);">
-                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600;">My Net Balance</p>
-                            <h2 style="font-size:2.5rem; color:#fff;">₹<span id="total">0.00</span></h2>
+                        <div id="userStatBalance" class="stat-card">
+                            <p>My Net Balance</p>
+                            <h2>₹<span id="total">0.00</span></h2>
+                            <i class="fas fa-wallet" style="color: var(--primary);"></i>
                         </div>
-                        <div id="incomeStatCard" class="stat-card total-banner" style="margin-bottom:0; background:linear-gradient(135deg,rgba(52,211,153,0.1),transparent);">
-                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600;">Monthly Income</p>
-                            <h2 style="font-size:2.5rem; color:var(--success);">+ ₹<span id="monthlyIncome">0.00</span></h2>
+                        <div id="incomeStatCard" class="stat-card">
+                            <p>Monthly Income</p>
+                            <h2 style="color: var(--success) !important;">₹<span id="monthlyIncome">0.00</span></h2>
+                            <i class="fas fa-arrow-up" style="color: var(--success);"></i>
                         </div>
-                        <div id="expenseStatCard" class="stat-card total-banner" style="margin-bottom:0; background:linear-gradient(135deg,rgba(239,68,68,0.1),transparent);">
-                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600;">Monthly Expenses</p>
-                            <h2 style="font-size:2.5rem; color:#ef4444;">- ₹<span id="monthlyExpense">0.00</span></h2>
+                        <div id="expenseStatCard" class="stat-card">
+                            <p>Monthly Expenses</p>
+                            <h2 style="color: #ef4444 !important;">₹<span id="monthlyExpense">0.00</span></h2>
+                            <i class="fas fa-arrow-down" style="color: #ef4444;"></i>
                         </div>
 
-                        <!-- ADMIN stats (hidden by default, shown for admin) -->
-                        <div id="adminStatUsers" class="stat-card total-banner" style="display:none; margin-bottom:0; background:linear-gradient(135deg,rgba(192,132,252,0.12),transparent); cursor:pointer;" onclick="selectNavItem(document.getElementById('userMgmtNavItem'),'usermgmt')">
-                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em;">Total Registered Users</p>
-                            <h2 style="font-size:2.8rem; color:#c084fc;"><span id="adminUserCount">—</span></h2>
-                            <i class="fas fa-users" style="position:absolute; right:2rem; top:2rem; font-size:1.2rem; color:#c084fc; opacity:0.5;"></i>
+                        <!-- ADMIN stats -->
+                        <div id="adminStatUsers" class="stat-card" style="display:none; border-left: 4px solid #c084fc;" onclick="selectNavItem(document.getElementById('userMgmtNavItem'),'usermgmt')">
+                            <p>Total Institutional Members</p>
+                            <h2 style="color: #c084fc !important;"><span id="adminUserCount">—</span></h2>
+                            <i class="fas fa-users" style="color: #c084fc;"></i>
                         </div>
-                        <div id="adminStatTxns" class="stat-card total-banner" style="display:none; margin-bottom:0; background:linear-gradient(135deg,rgba(56,189,248,0.1),transparent);">
-                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em;">Platform Transactions</p>
-                            <h2 style="font-size:2.8rem; color:var(--primary);"><span id="adminTxnCount">—</span></h2>
-                            <i class="fas fa-exchange-alt" style="position:absolute; right:2rem; top:2rem; font-size:1.2rem; color:var(--primary); opacity:0.5;"></i>
+                        <div id="adminPlatformStat" class="stat-card" style="display:none; border-left: 4px solid var(--primary);">
+                            <p>Global Institutional Balance</p>
+                            <h2 style="color: var(--primary) !important;">₹<span id="adminPlatformBalance">0.00</span></h2>
+                            <i class="fas fa-vault" style="color: var(--primary);"></i>
                         </div>
-                        <div id="adminStatExpense" class="stat-card total-banner" style="display:none; margin-bottom:0; background:linear-gradient(135deg,rgba(239,68,68,0.08),transparent);">
-                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em;">Platform Total Expenses</p>
-                            <h2 style="font-size:2.2rem; color:#ef4444;">₹<span id="adminExpenseTotal">—</span></h2>
-                            <i class="fas fa-receipt" style="position:absolute; right:2rem; top:2rem; font-size:1.2rem; color:#ef4444; opacity:0.5;"></i>
+                        <div id="adminIncomeStat" class="stat-card" style="display:none; border-left: 4px solid var(--success);">
+                            <p>Total Platform Revenue</p>
+                            <h2 style="color: var(--success) !important;">₹<span id="adminPlatformIncome">0.00</span></h2>
+                            <i class="fas fa-chart-line" style="color: var(--success);"></i>
+                        </div>
+                        <div id="adminStatExpense" class="stat-card" style="display:none; border-left: 4px solid #ef4444;">
+                            <p>System Global Expenses</p>
+                            <h2 style="color: #ef4444 !important;">₹<span id="adminExpenseTotal">—</span></h2>
+                            <i class="fas fa-receipt" style="color: #ef4444;"></i>
                         </div>
 
                     </div>
@@ -222,34 +226,86 @@
 
                 <!-- Section 2: Income Module (Dedicated) -->
                 <div id="incomeSection" style="display: none; animation: fadeIn 0.5s ease-out;">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3rem;">
-                        <div>
-                            <h2 style="font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem;"><i class="fas fa-wallet" style="color: var(--success); margin-right: 0.75rem;"></i>Income Management</h2>
-                            <p style="color: var(--text-gray);">Track and analyze your revenue streams.</p>
+                    <div class="premium-header gradient-glow">
+                        <div style="display: flex; justify-content: space-between; align-items: center;" class="flex-between">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+                                    <div style="width: 50px; height: 50px; background: rgba(52, 211, 153, 0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--success);">
+                                        <i class="fas fa-wallet" style="font-size: 1.5rem;"></i>
+                                    </div>
+                                    <h2 style="font-size: 2.2rem; color: #fff; margin: 0; font-weight: 800; letter-spacing: -0.02em;">Income Flow</h2>
+                                </div>
+                                <p style="color: var(--text-gray); margin: 0; font-weight: 500;">Monitor your institutional revenue streams and wealth growth.</p>
+                            </div>
+                            <button onclick="openEntryModal('income')" class="action-btn-pill">
+                                <i class="fas fa-plus-circle"></i> Add New Income
+                            </button>
                         </div>
-                        <button onclick="openEntryModal('income')" style="width: auto; padding: 0.85rem 2rem; background: var(--success); color: var(--bg-dark); border: none; border-radius: 14px; font-weight: 800; display: flex; align-items: center; gap: 0.75rem;">
-                            <i class="fas fa-plus"></i> Add New Income
-                        </button>
+                        
+                        <!-- Income Analytics Grid -->
+                        <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2.5rem;">
+                            <div class="stat-card" style="border-left: 4px solid var(--success);">
+                                <p style="font-size: 0.65rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 0.5rem; text-align: left !important;">Total Invoiced</p>
+                                <h2 style="font-size: 2.2rem; color: #fff; font-weight: 800; margin: 0; text-align: left !important;">₹<span id="incMiniTotal">0.00</span></h2>
+                                <i class="fas fa-file-invoice-dollar" style="position: absolute; top: 1.5rem; right: 1.5rem; color: var(--success); opacity: 0.4;"></i>
+                            </div>
+                            <div class="stat-card" style="border-left: 4px solid var(--primary);">
+                                <p style="font-size: 0.65rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 0.5rem; text-align: left !important;">Highest Payday</p>
+                                <h2 style="font-size: 2.2rem; color: #fff; font-weight: 800; margin: 0; text-align: left !important;">₹<span id="incMiniMax">0.00</span></h2>
+                                <i class="fas fa-trophy" style="position: absolute; top: 1.5rem; right: 1.5rem; color: var(--primary); opacity: 0.4;"></i>
+                            </div>
+                            <div class="stat-card" style="border-left: 4px solid var(--secondary);">
+                                <p style="font-size: 0.65rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 0.5rem; text-align: left !important;">Velocity/MO</p>
+                                <h2 style="font-size: 2.2rem; color: #fff; font-weight: 800; margin: 0; text-align: left !important;">₹<span id="incMiniRate">0.00</span></h2>
+                                <i class="fas fa-bolt" style="position: absolute; top: 1.5rem; right: 1.5rem; color: var(--secondary); opacity: 0.4;"></i>
+                            </div>
+                        </div>
                     </div>
 
-                    <div id="incomeHistoryList" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div id="incomeHistoryList" style="display: flex; flex-direction: column; gap: 1.25rem;">
                         <!-- Filtered Income list will appear here -->
                     </div>
                 </div>
 
                 <!-- Section 3: Expense Module (Dedicated) -->
                 <div id="expenseSection" style="display: none; animation: fadeIn 0.5s ease-out;">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3rem;">
-                        <div>
-                            <h2 style="font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem;"><i class="fas fa-receipt" style="color: #ef4444; margin-right: 0.75rem;"></i>Expense Tracking</h2>
-                            <p style="color: var(--text-gray);">Manage and monitor your daily spending.</p>
+                    <div class="premium-header gradient-glow" style="border-color: rgba(239, 68, 68, 0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;" class="flex-between">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+                                    <div style="width: 50px; height: 50px; background: rgba(239, 68, 68, 0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #ef4444;">
+                                        <i class="fas fa-receipt" style="font-size: 1.5rem;"></i>
+                                    </div>
+                                    <h2 style="font-size: 2.2rem; color: #fff; margin: 0; font-weight: 800; letter-spacing: -0.02em;">Expense Tracking</h2>
+                                </div>
+                                <p style="color: var(--text-gray); margin: 0; font-weight: 500;">Manage and monitor your daily spending and burn rate.</p>
+                            </div>
+                            <button onclick="openEntryModal('expense')" class="action-btn-pill" style="background: #ef4444; color: #fff !important; box-shadow: 0 10px 20px rgba(239, 68, 68, 0.2);">
+                                <i class="fas fa-minus-circle"></i> Add New Expense
+                            </button>
                         </div>
-                        <button onclick="openEntryModal('expense')" style="width: auto; padding: 0.85rem 2rem; background: #ef4444; color: #fff; border: none; border-radius: 14px; font-weight: 800; display: flex; align-items: center; gap: 0.75rem;">
-                            <i class="fas fa-minus"></i> Add New Expense
-                        </button>
+                        
+                        <!-- Expense Analytics Grid -->
+                        <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2.5rem;">
+                            <div class="stat-card" style="border-left: 4px solid #ef4444;">
+                                <p style="font-size: 0.65rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 0.5rem; text-align: left !important;">Total Burned</p>
+                                <h2 style="font-size: 2.2rem; color: #fff; font-weight: 800; margin: 0; text-align: left !important;">₹<span id="expMiniTotal">0.00</span></h2>
+                                <i class="fas fa-fire" style="position: absolute; top: 1.5rem; right: 1.5rem; color: #ef4444; opacity: 0.4;"></i>
+                            </div>
+                            <div class="stat-card" style="border-left: 4px solid #f59e0b;">
+                                <p style="font-size: 0.65rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 0.5rem; text-align: left !important;">Highest Burn</p>
+                                <h2 style="font-size: 2.2rem; color: #fff; font-weight: 800; margin: 0; text-align: left !important;">₹<span id="expMiniMax">0.00</span></h2>
+                                <i class="fas fa-chart-area" style="position: absolute; top: 1.5rem; right: 1.5rem; color: #f59e0b; opacity: 0.4;"></i>
+                            </div>
+                            <div class="stat-card" style="border-left: 4px solid #ef4444;">
+                                <p style="font-size: 0.65rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 0.5rem; text-align: left !important;">Burn Rate/Day</p>
+                                <h2 style="font-size: 2.2rem; color: #fff; font-weight: 800; margin: 0; text-align: left !important;">₹<span id="expMiniRate">0.00</span></h2>
+                                <i class="fas fa-tachometer-alt" style="position: absolute; top: 1.5rem; right: 1.5rem; color: #ef4444; opacity: 0.4;"></i>
+                            </div>
+                        </div>
                     </div>
 
-                    <div id="expenseHistoryList" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div id="expenseHistoryList" style="display: flex; flex-direction: column; gap: 1.25rem;">
                         <!-- Filtered Expense list will appear here -->
                     </div>
                 </div>
@@ -334,6 +390,35 @@
                         <!-- AI Response will be injected here -->
                     </div>
 
+                    <!-- Strategic Expenses Grid (New) -->
+                    <div id="strategicPillars" style="display: none; width: 100%; margin-top: 2rem; border-top: 1px solid rgba(192, 132, 252, 0.1); padding-top: 2rem;">
+                        <h4 style="color: #fff; margin-bottom: 1.5rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-chess-knight" style="color: var(--primary);"></i> Strategic Institutional Pillars
+                        </h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div class="glass-card" style="padding: 1.5rem; background: rgba(52, 211, 153, 0.05); border: 1px solid rgba(52, 211, 153, 0.2); border-radius: 16px;">
+                                <p style="color: #34d399; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">Wealth Accumulation</p>
+                                <h3 id="pillarWealth" style="color: #fff; margin: 0; font-size: 1.25rem;">₹0.00</h3>
+                                <p style="color: #64748b; font-size: 0.7rem; margin-top: 0.5rem;">Target: 25% of Income</p>
+                            </div>
+                            <div class="glass-card" style="padding: 1.5rem; background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 16px;">
+                                <p style="color: #38bdf8; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">Life Quality Index</p>
+                                <h3 id="pillarLife" style="color: #fff; margin: 0; font-size: 1.25rem;">₹0.00</h3>
+                                <p style="color: #64748b; font-size: 0.7rem; margin-top: 0.5rem;">Target: 40% of Income</p>
+                            </div>
+                            <div class="glass-card" style="padding: 1.5rem; background: rgba(192, 132, 252, 0.05); border: 1px solid rgba(192, 132, 252, 0.2); border-radius: 16px;">
+                                <p style="color: #c084fc; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">Institutional Growth</p>
+                                <h3 id="pillarGrowth" style="color: #fff; margin: 0; font-size: 1.25rem;">₹0.00</h3>
+                                <p style="color: #64748b; font-size: 0.7rem; margin-top: 0.5rem;">Target: 15% of Income</p>
+                            </div>
+                            <div class="glass-card" style="padding: 1.5rem; background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 16px;">
+                                <p style="color: #ef4444; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">Risk Mitigation</p>
+                                <h3 id="pillarRisk" style="color: #fff; margin: 0; font-size: 1.25rem;">₹0.00</h3>
+                                <p style="color: #64748b; font-size: 0.7rem; margin-top: 0.5rem;">Target: 20% of Income</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="aiLoader" style="display: none; text-align: center;">
                         <div class="ai-pulse" style="width: 60px; height: 60px; background: #c084fc; border-radius: 50%; margin: 0 auto 1.5rem; animation: pulse 1.5s infinite;"></div>
                         <h4 style="color: #fff;">Analyzing your finances...</h4>
@@ -405,26 +490,76 @@
                         </div>
                     </div>
 
-                    <div id="bankSelectionGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; text-align: left;">
-                        <div class="glass-card" style="padding: 2rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
-                            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏦</div>
-                            <h4 style="color: #fff; margin-bottom: 0.5rem;">HDFC Bank</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-gray);">Institutional Access</p>
+                    <div id="bankSelectionGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; text-align: left;">
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🏦</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">HDFC Bank</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Institutional</p>
                         </div>
-                        <div class="glass-card" style="padding: 2rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
-                            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏛️</div>
-                            <h4 style="color: #fff; margin-bottom: 0.5rem;">ICICI Bank</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-gray);">Direct Connect</p>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🏛️</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">ICICI Bank</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Direct Connect</p>
                         </div>
-                        <div class="glass-card" style="padding: 2rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
-                            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏢</div>
-                            <h4 style="color: #fff; margin-bottom: 0.5rem;">State Bank of India</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-gray);">Official Partner</p>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🏢</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">State Bank of India</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Official Partner</p>
                         </div>
-                        <div class="glass-card" style="padding: 2rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
-                            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏘️</div>
-                            <h4 style="color: #fff; margin-bottom: 0.5rem;">Axis Bank</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-gray);">Fast Sync</p>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🏘️</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">Axis Bank</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Fast Sync</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">💰</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">Kotak Mahindra</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Premium Access</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">💎</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">IndusInd Bank</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Wealth Sync</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">⚡</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">Yes Bank</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Turbo Import</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🛡️</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">PNB</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Secure Node</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">📜</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">Bank of Baroda</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Legacy Sync</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🏛️</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">Canara Bank</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Public Node</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🔗</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">Union Bank</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Direct Link</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🇮🇳</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">Indian Bank</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Verified Sync</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🏦</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">IDFC FIRST</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Digital First</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🌟</div>
+                            <h4 style="color: #fff; margin-bottom: 0.3rem; font-size: 0.95rem;">Federal Bank</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-gray);">Reliable Sync</p>
                         </div>
                     </div>
 
@@ -459,6 +594,72 @@
                     .bank-card-active { border-color: var(--primary) !important; background: rgba(56, 189, 248, 0.05) !important; transform: translateY(-5px); }
                     @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
                 </style>
+
+            <!-- Section 4.5: My Profile -->
+            <div id="profileSection" style="display: none; animation: fadeIn 0.5s ease-out;">
+                <div style="max-width: 800px; margin: 0 auto; text-align: center; padding: 2rem 0;">
+                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, var(--primary), #6366f1); border-radius: 30px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; color: #fff; font-weight: 800; margin: 0 auto 2rem; box-shadow: 0 20px 40px rgba(56, 189, 248, 0.3);" id="profileAvatarLarge">U</div>
+                    <h2 id="profileNameLarge" style="font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem;">User Name</h2>
+                    <p id="profileEmailLarge" style="color: var(--text-gray); font-size: 1.1rem; margin-bottom: 3rem;">email@example.com</p>
+
+                    <div class="glass-card" style="text-align: left; padding: 2.5rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;">
+                            <div>
+                                <label style="display: block; color: var(--text-gray); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Account Status</label>
+                                <p style="color: var(--success); font-weight: 700; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-check-circle"></i> Active Institutional Member
+                                </p>
+                            </div>
+                            <div>
+                                <label style="display: block; color: var(--text-gray); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Access Role</label>
+                                <p id="profileRoleLabel" style="color: #fff; font-weight: 700; margin: 0; text-transform: capitalize;">User</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="text-align: left; padding: 2.5rem; margin-top: 1.5rem; border-left: 4px solid var(--primary);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                            <h4 style="color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; margin: 0;">Institutional Bank Details</h4>
+                            <button onclick="openProfileEditModal()" style="width: auto; background: none; border: 1px solid rgba(56, 189, 248, 0.3); color: var(--primary); padding: 0.5rem 1.25rem; border-radius: 10px; font-size: 0.75rem; font-weight: 800; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='rgba(56, 189, 248, 0.1)'" onmouseout="this.style.background='none'">EDIT DETAILS</button>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem;">
+                            <div>
+                                <label style="display: block; color: var(--text-gray); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Bank Name</label>
+                                <p id="profileBankName" style="color: #fff; font-weight: 700; margin: 0; font-size: 1rem;">Not Set</p>
+                            </div>
+                            <div>
+                                <label style="display: block; color: var(--text-gray); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Account Number</label>
+                                <p id="profileAccount" style="color: #fff; font-weight: 700; margin: 0; font-size: 1rem;">•••• •••• ••••</p>
+                            </div>
+                            <div>
+                                <label style="display: block; color: var(--text-gray); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">IFSC Code</label>
+                                <p id="profileIFSC" style="color: #fff; font-weight: 700; margin: 0; font-size: 1rem;">—</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="text-align: left; padding: 2.5rem; margin-top: 1.5rem; border-left: 4px solid #c084fc;">
+                        <h4 style="color: #c084fc; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; margin-bottom: 2rem;">Institutional Identity & Security</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                            <div>
+                                <label style="display: block; color: var(--text-gray); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Institutional Name</label>
+                                <input type="text" id="newName" placeholder="Your Name" style="width: 100%; padding: 0.85rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none; font-size: 0.95rem;">
+                            </div>
+                            <div>
+                                <label style="display: block; color: var(--text-gray); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Vault Email Address</label>
+                                <input type="email" id="newEmail" placeholder="email@example.com" style="width: 100%; padding: 0.85rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none; font-size: 0.95rem;">
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: flex-end;">
+                            <div>
+                                <label style="display: block; color: var(--text-gray); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Rotate Access Key (Password)</label>
+                                <input type="password" id="newPassword" placeholder="Minimum 8 characters" style="width: 100%; padding: 0.85rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none; font-size: 0.95rem;">
+                            </div>
+                            <button onclick="updateInstitutionalProfile()" style="padding: 0.85rem 2rem; background: #c084fc; color: #fff; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(192, 132, 252, 0.2); transition: 0.3s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">Update Identity & Key</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Section 5: Help & Support -->
             <div id="helpSection" style="display: none; animation: fadeIn 0.5s ease-out;">
                 <div style="text-align: center; padding: 4rem 1rem;">
@@ -481,71 +682,6 @@
                                 <p style="color: #64748b; font-size: 0.9rem;">+91 800 234 5678</p>
                             </div>
                         </a>
-                    </div>
-                </div>
-            </div>
-            <!-- Section 6: My Settings -->
-            <div id="settingsSection" style="display: none; animation: fadeIn 0.5s ease-out;">
-                <div style="max-width: 800px; margin: 0 auto;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 3rem;">
-                        <div>
-                            <h2 style="font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem;"><i class="fas fa-user-shield" style="color: var(--primary); margin-right: 0.75rem;"></i>Institutional Settings</h2>
-                            <p style="color: var(--text-gray);">Manage your profile and secure settlement credentials.</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card" style="padding: 2.5rem; margin-bottom: 2rem;">
-                        <h4 style="color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; margin-bottom: 1.5rem;">Profile Identity</h4>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-                            <div>
-                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Full Name</label>
-                                <div id="setFullName" style="padding: 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; font-weight: 600;">Loading...</div>
-                            </div>
-                            <div>
-                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Email Endpoint</label>
-                                <div id="setEmail" style="padding: 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; font-weight: 600;">Loading...</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card" style="padding: 2.5rem; margin-bottom: 2rem; border-left: 4px solid #c084fc;">
-                        <h4 style="color: #c084fc; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; margin-bottom: 1.5rem;">Security & Access</h4>
-                        <div style="max-width: 400px;">
-                            <div style="margin-bottom: 1.5rem;">
-                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">New Password</label>
-                                <input type="password" id="newPassword" placeholder="Minimum 8 characters" style="width: 100%; padding: 0.8rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 10px; color: #fff; outline: none;">
-                            </div>
-                            <button onclick="updatePassword()" style="width: auto; padding: 0.75rem 2rem; background: #c084fc; color: #fff; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">Update Credentials</button>
-                        </div>
-                    </div>
-
-                    <div class="glass-card" style="padding: 2.5rem; border-left: 4px solid var(--primary); margin-bottom: 2rem;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-                            <h4 style="color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; margin: 0;">Settlement Accounts</h4>
-                            <span style="background: rgba(52, 211, 153, 0.1); color: var(--success); font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 6px; border: 1px solid rgba(52, 211, 153, 0.2);">VERIFIED</span>
-                        </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem;">
-                            <div>
-                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Bank Entity</label>
-                                <p id="setBankName" style="color: #fff; font-weight: 700; margin: 0; font-size: 1.1rem;">Not Configured</p>
-                            </div>
-                            <div>
-                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Account Routing</label>
-                                <p id="setAccountNum" style="color: #fff; font-weight: 700; margin: 0; font-size: 1.1rem;">•••• •••• ••••</p>
-                            </div>
-                            <div>
-                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">IFSC Clearance</label>
-                                <p id="setIFSC" style="color: #fff; font-weight: 700; margin: 0; font-size: 1.1rem;">—</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card" style="padding: 2.5rem; border: 1px dashed var(--primary); background: rgba(56, 189, 248, 0.02); text-align: center;">
-                        <h4 style="color: #fff; margin-bottom: 1rem;">Global Institutional Sync</h4>
-                        <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 2rem;">Reconnect all verified bank endpoints to synchronize the last 90 days of transactions into your secondary wealth vault.</p>
-                        <button onclick="selectNavItem(null, 'banksync')" style="width: auto; padding: 1rem 2.5rem; background: var(--primary); color: #0a1128; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 30px var(--primary-glow);">
-                            <i class="fas fa-sync-alt" style="margin-right: 0.75rem;"></i> Sync All Institutional Details
-                        </button>
                     </div>
                 </div>
             </div>
@@ -588,6 +724,42 @@
         </div>
     </div>
 
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(15px); z-index:10000; align-items:center; justify-content:center;">
+        <div class="glass-card" style="width:100%; max-width:550px; padding:3rem; border:1px solid rgba(56,189,248,0.3); animation:scaleUp 0.3s ease;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2.5rem;">
+                <h3 style="margin:0; color:#fff; font-size:1.5rem;"><i class="fas fa-university" style="color:var(--primary); margin-right:0.75rem;"></i>Update Vault Credentials</h3>
+                <button onclick="closeProfileEditModal()" style="background:none; border:none; color:#64748b; font-size:1.8rem; cursor:pointer;">&times;</button>
+            </div>
+
+            <div style="margin-bottom:1.5rem;">
+                <label style="display:block; color:#64748b; font-size:0.75rem; font-weight:800; text-transform:uppercase; margin-bottom:0.75rem;">Full Name</label>
+                <input type="text" id="editProfileName" style="width:100%; padding:1.1rem; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:14px; color:#fff; outline:none; font-size:1rem;">
+            </div>
+
+            <div style="margin-bottom:1.5rem;">
+                <label style="display:block; color:#64748b; font-size:0.75rem; font-weight:800; text-transform:uppercase; margin-bottom:0.75rem;">Bank Entity Name</label>
+                <input type="text" id="editProfileBank" placeholder="e.g. HDFC Bank" style="width:100%; padding:1.1rem; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:14px; color:#fff; outline:none; font-size:1rem;">
+            </div>
+
+            <div style="display:grid; grid-template-columns:1.2fr 0.8fr; gap:1.5rem; margin-bottom:2.5rem;">
+                <div>
+                    <label style="display:block; color:#64748b; font-size:0.75rem; font-weight:800; text-transform:uppercase; margin-bottom:0.75rem;">Account Routing Number</label>
+                    <input type="text" id="editProfileAccount" placeholder="•••• •••• ••••" style="width:100%; padding:1.1rem; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:14px; color:#fff; outline:none; font-size:1rem;">
+                </div>
+                <div>
+                    <label style="display:block; color:#64748b; font-size:0.75rem; font-weight:800; text-transform:uppercase; margin-bottom:0.75rem;">IFSC Clearance</label>
+                    <input type="text" id="editProfileIFSC" placeholder="HDFC0001234" style="width:100%; padding:1.1rem; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:14px; color:#fff; outline:none; font-size:1rem;">
+                </div>
+            </div>
+
+            <div style="display:flex; gap:1rem;">
+                <button onclick="saveProfileDetails()" style="flex:1; padding:1.1rem; background:var(--primary); color:#0a1128; border:none; border-radius:14px; font-weight:800; font-size:1rem; cursor:pointer; box-shadow:0 10px 25px var(--primary-glow);">SECURE UPDATE</button>
+                <button onclick="closeProfileEditModal()" style="flex:0.4; padding:1.1rem; background:rgba(255,255,255,0.05); color:#94a3b8; border:1px solid var(--glass-border); border-radius:14px; font-weight:700; cursor:pointer;">CANCEL</button>
+            </div>
+        </div>
+    </div>
+
     <script src="config.js"></script>
     <script src="script.js"></script>
     <script>
@@ -597,6 +769,24 @@
         if(localStorage.getItem('isLoggedIn') !== 'true') {
             window.location.href = 'login.html';
         } else {
+            // Update New Premium Mini Stats
+            const miniTotal = document.getElementById('incMiniTotal');
+            const miniMax = document.getElementById('incMiniMax');
+            const miniRate = document.getElementById('incMiniRate');
+
+            const incomeTxns = allTransactions.filter(t => t.type === 'income');
+            if (miniTotal) miniTotal.textContent = incomeSum.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            
+            if (incomeTxns.length > 0) {
+                if (miniMax) {
+                    const max = Math.max(...incomeTxns.map(t => t.amount));
+                    miniMax.textContent = max.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+                }
+                if (miniRate) {
+                    miniRate.textContent = (incomeSum / 30).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+                }
+            }
+
             // Robust Session Check
             const userName = localStorage.getItem('userName') || localStorage.getItem('userEmail') || 'Valued User';
             const userEmail = localStorage.getItem('userEmail') || 'user@dumbo.com';
@@ -614,10 +804,158 @@
                 avatar.textContent = userName.charAt(0).toUpperCase();
             }
 
-            const portalLabel = document.getElementById('portalLabel');
-            if (portalLabel) {
-                portalLabel.textContent = userRole.toLowerCase() === 'admin' ? 'Admin Portal' : 'User Portal';
+            const roleBadge = document.getElementById('userRoleBadge');
+            if (roleBadge) {
+                const isAdmin = userRole.toLowerCase() === 'admin';
+                roleBadge.textContent = isAdmin ? 'ADMIN' : 'USER';
+                roleBadge.style.background = isAdmin ? 'rgba(192, 132, 252, 0.15)' : 'rgba(56, 189, 248, 0.15)';
+                roleBadge.style.color = isAdmin ? '#c084fc' : 'var(--primary)';
             }
+
+            // Sync Profile section data
+            window.syncProfileView = async function() {
+                const pName = document.getElementById('profileNameLarge');
+                const pEmail = document.getElementById('profileEmailLarge');
+                const pAvatar = document.getElementById('profileAvatarLarge');
+                const pRole = document.getElementById('profileRoleLabel');
+                const pBank = document.getElementById('profileBankName');
+                const pAcc = document.getElementById('profileAccount');
+                const pIfsc = document.getElementById('profileIFSC');
+
+                if (pName) pName.textContent = userName;
+                if (pEmail) pEmail.textContent = userEmail;
+                if (pRole) pRole.textContent = userRole;
+                if (pAvatar && userName.length > 0) pAvatar.textContent = userName.charAt(0).toUpperCase();
+
+                // Fetch latest profile from server
+                try {
+                    const res = await fetch(`${CONFIG.API_BASE_URL}/api/users/profile`, {
+                        headers: { 'x-auth-token': localStorage.getItem('token') }
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        if (pBank) pBank.textContent = data.bankName || 'Not Set';
+                        if (pAcc) pAcc.textContent = data.accountNumber || '•••• •••• ••••';
+                        if (pIfsc) pIfsc.textContent = data.ifscCode || '—';
+
+                        // Pre-fill security inputs
+                        const iName = document.getElementById('newName');
+                        const iEmail = document.getElementById('newEmail');
+                        if (iName) iName.value = data.fullName || userName;
+                        if (iEmail) iEmail.value = data.email || userEmail;
+
+                        // Save IDs for edit modal if needed
+                        window.currentUserProfile = data;
+                    }
+                } catch (e) { console.error('Profile sync failed', e); }
+            };
+            syncProfileView();
+
+            window.openProfileEditModal = function() {
+                document.getElementById('editProfileModal').style.display = 'flex';
+                const p = window.currentUserProfile || {};
+                document.getElementById('editProfileName').value = p.fullName || userName;
+                document.getElementById('editProfileBank').value = p.bankName || '';
+                document.getElementById('editProfileAccount').value = p.accountNumber || '';
+                document.getElementById('editProfileIFSC').value = p.ifscCode || '';
+            };
+
+            window.closeProfileEditModal = function() {
+                document.getElementById('editProfileModal').style.display = 'none';
+            };
+
+            window.saveProfileDetails = async function() {
+                const updatedData = {
+                    fullName: document.getElementById('editProfileName').value,
+                    bankName: document.getElementById('editProfileBank').value,
+                    accountNumber: document.getElementById('editProfileAccount').value,
+                    ifscCode: document.getElementById('editProfileIFSC').value,
+                    email: window.currentUserProfile ? window.currentUserProfile.email : userEmail
+                };
+
+                try {
+                    const res = await fetch(`${CONFIG.API_BASE_URL}/api/users/profile`, {
+                        method: 'PUT',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'x-auth-token': localStorage.getItem('token') 
+                        },
+                        body: JSON.stringify(updatedData)
+                    });
+
+                    if (res.ok) {
+                        alert('Vault Identity Updated successfully.');
+                        localStorage.setItem('userName', updatedData.fullName);
+                        window.userName = updatedData.fullName;
+                        closeProfileEditModal();
+                        syncProfileView();
+                        
+                        // Update other UI elements
+                        const nameEl = document.getElementById('displayName');
+                        if (nameEl) nameEl.textContent = updatedData.fullName;
+                        const avatar = document.getElementById('userAvatar');
+                        if (avatar) avatar.textContent = updatedData.fullName.charAt(0).toUpperCase();
+                    } else {
+                        const err = await res.json();
+                        alert('Update Failed: ' + (err.msg || 'Server Error'));
+                    }
+                } catch (e) { alert('Network Error'); }
+            };
+
+            window.updateInstitutionalProfile = async function() {
+                const name = document.getElementById('newName').value;
+                const email = document.getElementById('newEmail').value;
+                const pwd = document.getElementById('newPassword').value;
+
+                try {
+                    // 1. Update Profile (Name/Email)
+                    const profileRes = await fetch(`${CONFIG.API_BASE_URL}/api/users/profile`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-auth-token': localStorage.getItem('token')
+                        },
+                        body: JSON.stringify({ fullName: name, email: email })
+                    });
+
+                    if (!profileRes.ok) {
+                        const data = await profileRes.json();
+                        alert('Identity Update Failed: ' + (data.msg || 'Unknown error'));
+                        return;
+                    }
+
+                    // 2. Update Password if provided
+                    if (pwd && pwd.length > 0) {
+                        if (pwd.length < 8) {
+                            alert('Security Alert: Key rotation requires minimum 8 characters.');
+                            return;
+                        }
+                        const pwdRes = await fetch(`${CONFIG.API_BASE_URL}/api/users/password`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'x-auth-token': localStorage.getItem('token')
+                            },
+                            body: JSON.stringify({ password: pwd })
+                        });
+                        if (!pwdRes.ok) {
+                            alert('Identity updated, but Key rotation failed.');
+                            return;
+                        }
+                    }
+
+                    alert('Institutional Identity & Security successfully synchronized.');
+                    document.getElementById('newPassword').value = '';
+                    
+                    // Force local update of displayed name/email
+                    if (name) localStorage.setItem('userName', name);
+                    if (email) localStorage.setItem('userEmail', email);
+                    location.reload(); // Reload to refresh all UI markers
+                } catch (err) {
+                    console.error(err);
+                    alert('Critical connection failure during synchronization.');
+                }
+            };
 
             // Ensure sections are visible
             const analytics = document.getElementById('analyticsHub');
@@ -635,32 +973,35 @@
                     const aiNavItem = document.querySelector('[onclick*="\'ai\'"]');
                     if (aiNavItem) selectNavItem(aiNavItem, 'ai');
                 }, 500);
-            } else if (requestedFrame === 'banksync') {
-                setTimeout(() => {
-                    const syncNavItem = document.querySelector('[onclick*="\'banksync\'"]');
-                    if (syncNavItem) selectNavItem(syncNavItem, 'banksync');
-                }, 500);
             } else {
                 switchFrame('all');
             }
 
             if (userRole.toLowerCase() === 'admin') {
                 // Hide user-facing stat cards, show admin KPI cards
-                document.getElementById('userStatBalance').style.display = 'none';
-                document.getElementById('incomeStatCard').style.display = 'none';
-                document.getElementById('expenseStatCard').style.display = 'none';
-                document.getElementById('adminStatUsers').style.display = 'block';
-                document.getElementById('adminStatTxns').style.display = 'block';
-                document.getElementById('adminStatExpense').style.display = 'block';
+                const userCards = ['userStatBalance', 'incomeStatCard', 'expenseStatCard'];
+                userCards.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'none';
+                });
+
+                const adminCards = ['adminStatUsers', 'adminPlatformStat', 'adminIncomeStat', 'adminStatExpense'];
+                adminCards.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'block';
+                });
 
                 const aiNav = document.getElementById('aiNavItem');
                 if (aiNav) aiNav.style.display = 'none';
-                const topAdminEl = document.getElementById('topAdminNav');
-                if (topAdminEl) topAdminEl.style.display = 'flex';
+                const incomeNav = document.getElementById('incomeNavItem');
+                if (incomeNav) incomeNav.style.display = 'none';
                 const userBtn = document.getElementById('userNewEntryBtn');
                 if (userBtn) userBtn.style.display = 'none';
 
-                // Show User Management nav for Admins
+                // Show Admin Portal header and Nav
+                const adminPortal = document.getElementById('adminPortalHeader');
+                if (adminPortal) adminPortal.style.display = 'block';
+
                 const umNav = document.getElementById('userMgmtNavItem');
                 if (umNav) umNav.style.display = 'flex';
 
@@ -668,9 +1009,9 @@
                 loadAdminOverview();
                 loadAdminUsers();
             } else if (userRole.toLowerCase() === 'user') {
-                // Income Nav is visible for users
-                const incNav = document.getElementById('incomeNavItem');
-                if (incNav) incNav.style.display = 'flex';
+                // Bank Sync is visible only for standard users
+                const syncNav = document.getElementById('banksyncNavItem');
+                if (syncNav) syncNav.style.display = 'flex';
             }
         }
 
@@ -695,8 +1036,8 @@
             document.getElementById('aiModelSection').style.display = 'none';
             document.getElementById('banksyncSection').style.display = 'none';
             document.getElementById('userManagementSection').style.display = 'none';
+            document.getElementById('profileSection').style.display = 'none';
             document.getElementById('helpSection').style.display = 'none';
-            document.getElementById('settingsSection').style.display = 'none';
 
             // Show relevant section
             if (frame === 'income') {
@@ -709,9 +1050,9 @@
                 document.getElementById('aiModelSection').style.display = 'block';
             } else if (frame === 'banksync') {
                 document.getElementById('banksyncSection').style.display = 'block';
-            } else if (frame === 'settings') {
-                document.getElementById('settingsSection').style.display = 'block';
-                loadSettings();
+            } else if (frame === 'profile') {
+                document.getElementById('profileSection').style.display = 'block';
+                syncProfileView();
             } else if (frame === 'usermgmt') {
                 document.getElementById('userManagementSection').style.display = 'block';
                 loadAdminUsers();
@@ -869,7 +1210,7 @@
                             </div>
                             <div style="display:flex; align-items:center; gap:1.5rem;">
                                 <h4 style="margin: 0; font-size: 1.25rem; color: ${i.type === 'income' ? 'var(--success)' : '#ef4444'};">
-                                    ${i.type === 'income' ? '+' : '-'} ₹${i.amount.toLocaleString('en-IN')}
+                                    ₹${i.amount.toLocaleString('en-IN')}
                                 </h4>
                                 ${showActions ? `
                                 <div style="display:flex; gap:0.5rem;">
@@ -950,10 +1291,22 @@
                 const txns = await txnRes.json();
                 if (Array.isArray(txns)) {
                     document.getElementById('adminTxnCount').textContent = txns.length.toLocaleString('en-IN');
+                    
                     const totalExpense = txns
                         .filter(t => t.type === 'expense')
                         .reduce((sum, t) => sum + t.amount, 0);
+                    const totalIncome = txns
+                        .filter(t => t.type === 'income')
+                        .reduce((sum, t) => sum + t.amount, 0);
+                        
                     document.getElementById('adminExpenseTotal').textContent = totalExpense.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+                    
+                    // Populate other Admin stats if they exist
+                    const pBalance = document.getElementById('adminPlatformBalance');
+                    if (pBalance) pBalance.textContent = (totalIncome - totalExpense).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+                    
+                    const pIncome = document.getElementById('adminPlatformIncome');
+                    if (pIncome) pIncome.textContent = totalIncome.toLocaleString('en-IN', { minimumFractionDigits: 2 });
                 }
             } catch (err) {
                 console.error('Admin overview error:', err);
@@ -992,9 +1345,14 @@
                                 <p style="margin:0; color:#64748b; font-size:0.75rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${u.email}</p>
                             </div>
                         </div>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="background:${u.role==='Admin' ? 'rgba(192,132,252,0.15)' : 'rgba(56,189,248,0.1)'}; color:${u.role==='Admin' ? '#c084fc' : 'var(--primary)'}; padding:0.25rem 0.75rem; border-radius:8px; font-size:0.75rem; font-weight:700;">${u.role}</span>
-                            <span style="color:#64748b; font-size:0.8rem;"><i class="fas fa-exchange-alt" style="margin-right:0.4rem;"></i>${u._count.transactions} txns</span>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem;">
+                            <div style="display:flex; gap:0.5rem; align-items:center;">
+                                <span style="background:${u.role==='Admin' ? 'rgba(192,132,252,0.15)' : 'rgba(56,189,248,0.1)'}; color:${u.role==='Admin' ? '#c084fc' : 'var(--primary)'}; padding:0.25rem 0.75rem; border-radius:8px; font-size:0.7rem; font-weight:700;">${u.role}</span>
+                                <span style="color:#64748b; font-size:0.75rem;"><i class="fas fa-exchange-alt" style="margin-right:0.3rem;"></i>${u._count.transactions}</span>
+                            </div>
+                            <button onclick="event.stopPropagation(); deleteUser('${u.id}', '${u.fullName.replace(/'/g,"\\'")}')" style="background:rgba(239,68,68,0.1); border:none; color:#ef4444; width:32px; height:32px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
                         </div>
                     `;
                     grid.appendChild(card);
@@ -1004,6 +1362,30 @@
                 grid.innerHTML = '<div style="padding:2rem; text-align:center; color:#ef4444;">Network error loading users.</div>';
             }
         }
+
+        window.deleteUser = async function(userId, userName) {
+            if (!confirm(`SECURITY OVERRIDE: Are you absolutely certain you wish to terminate the institutional vault for "${userName}"? This action is irreversible.`)) {
+                return;
+            }
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/api/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                });
+
+                if (res.ok) {
+                    alert('Institutional vault decommissioned.');
+                    loadAdminUsers();
+                    loadAdminOverview();
+                } else {
+                    const data = await res.json();
+                    alert('Access Denied: ' + (data.msg || 'Unable to delete user.'));
+                }
+            } catch (err) {
+                alert('System error during deletion protocol.');
+            }
+        };
 
         // --- Admin: Filter Transactions by User ---
         async function filterByUser(userId, name, email, bank = null, account = null, ifsc = null) {
@@ -1055,7 +1437,7 @@
                             </div>
                         </div>
                         <h4 style="margin:0; font-size:1.15rem; color:${i.type === 'income' ? 'var(--success)' : '#ef4444'};">
-                            ${i.type === 'income' ? '+' : '-'} ₹${i.amount.toLocaleString('en-IN')}
+                            ₹${i.amount.toLocaleString('en-IN')}
                         </h4>
                     `;
                     list.appendChild(card);

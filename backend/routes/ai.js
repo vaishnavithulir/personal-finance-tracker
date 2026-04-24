@@ -40,19 +40,56 @@ router.post('/advice', auth, async (req, res) => {
         
         const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
-            // Institutional Mock Advisor Fallback
-            const incomeCount = transactions.filter(t => t.type === 'income').length;
-            const expenseCount = transactions.filter(t => t.type === 'expense').length;
-            const totalSpent = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+            // Enhanced Dynamic Mock Advisor
+            const incomeTotal = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+            const expenseTotal = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+            const netBalance = incomeTotal - expenseTotal;
+            const savingsRate = incomeTotal > 0 ? ((netBalance / incomeTotal) * 100).toFixed(1) : 0;
+
+            // Group expenses by category
+            const categories = {};
+            transactions.filter(t => t.type === 'expense').forEach(t => {
+                categories[t.category] = (categories[t.category] || 0) + t.amount;
+            });
+            const topCategories = Object.entries(categories)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 3);
+
+            const tips = [];
+            if (topCategories.length > 0) {
+                topCategories.forEach(([cat, amt]) => {
+                    if (cat.toLowerCase().includes('food') || cat.toLowerCase().includes('dining')) {
+                        tips.push(`Your ${cat} expenditure (₹${amt.toLocaleString()}) is high; consider meal prepping to save 20% next month.`);
+                    } else if (cat.toLowerCase().includes('shop') || cat.toLowerCase().includes('cloth')) {
+                        tips.push(`Allocating ₹${amt.toLocaleString()} to ${cat} represents a significant leak; try the 24-hour rule before purchasing non-essentials.`);
+                    } else if (cat.toLowerCase().includes('rent') || cat.toLowerCase().includes('bill')) {
+                        tips.push(`Your fixed costs for ${cat} are stable. Monitoring utility patterns could reveal subtle optimization areas.`);
+                    } else {
+                        tips.push(`Strategic review of your ${cat} allocations (₹${amt.toLocaleString()}) could unlock hidden liquidity.`);
+                    }
+                });
+            }
+
+            // Fill up to 3 tips
+            if (tips.length < 3) tips.push("Implement the 50/30/20 rule: 50% Needs, 30% Wants, 20% Savings.");
+            if (tips.length < 3) tips.push("Your institutional health index is improving. Continue tracking every signal.");
+            if (tips.length < 3) tips.push("Diversifying your liquidity into low-risk bonds could normalize your yield curve.");
+
+            let summary = `Based on your recent ${transactions.length} institutional signals, your vault has processed ₹${expenseTotal.toLocaleString()} in outflows. `;
+            if (savingsRate > 20) {
+                summary += `Excellent! Your savings rate is ${savingsRate}%, which is well above the institutional baseline.`;
+            } else if (savingsRate > 0) {
+                summary += `Your current savings rate is ${savingsRate}%. There is significant room to optimize your capital retention.`;
+            } else {
+                summary += `Warning: Your expenditure exceeds accumulation by ₹${Math.abs(netBalance).toLocaleString()}. Immediate strategy realignment is required.`;
+            }
 
             return res.json({
-                summary: `Based on your recent ${transactions.length} institutional signals, your cash flow is currently weighted towards ${expenseCount > incomeCount ? 'expenditure' : 'accumulation'}. Total platform outflow detected at ₹${totalSpent.toLocaleString()}.`,
-                tips: [
-                    "Diversify your institutional dividend portfolio to mitigate sector volatility.",
-                    "Review high-recurring SaaS subscriptions (AWS/Google) for idle resource costs.",
-                    "Optimize your monthly tax-saving instruments before the quarter ends."
-                ],
-                encouragement: "Your institutional footprint is growing. Strategic monitoring today leads to financial dominance tomorrow."
+                summary,
+                tips: tips.slice(0, 3),
+                encouragement: netBalance > 0 
+                    ? "Financial dominance achieved for this cycle. Keep the momentum high." 
+                    : "Every master was once a beginner. Realignment starts with your next transaction."
             });
         }
 

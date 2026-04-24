@@ -26,6 +26,7 @@ async function loadTransactions() {
                 }
             });
             updateVisuals();
+            switchFrame('all');
         } else if (res.status === 401) {
             localStorage.clear();
             window.location.href = 'login.html';
@@ -48,6 +49,42 @@ function updateVisuals() {
     if (incomeDisplay) incomeDisplay.textContent = incomeSum.toLocaleString('en-IN', { minimumFractionDigits: 2 });
     if (expenseDisplay) expenseDisplay.textContent = expenseSum.toLocaleString('en-IN', { minimumFractionDigits: 2 });
     
+    // Update New Premium Mini Stats
+    const miniTotal = document.getElementById('incMiniTotal');
+    const miniMax = document.getElementById('incMiniMax');
+    const miniRate = document.getElementById('incMiniRate');
+
+    const incomeTxns = allTransactions.filter(t => t.type === 'income');
+    if (miniTotal) miniTotal.textContent = incomeSum.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    
+    if (incomeTxns.length > 0) {
+        if (miniMax) {
+            const max = Math.max(...incomeTxns.map(t => t.amount));
+            miniMax.textContent = max.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        }
+        if (miniRate) {
+            miniRate.textContent = (incomeSum / 30).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+        }
+    }
+
+    // Update Expense Premium Mini Stats
+    const expMiniTotal = document.getElementById('expMiniTotal');
+    const expMiniMax = document.getElementById('expMiniMax');
+    const expMiniRate = document.getElementById('expMiniRate');
+
+    if (expMiniTotal) expMiniTotal.textContent = expenseSum.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    
+    const expenseTxns = allTransactions.filter(t => t.type === 'expense');
+    if (expenseTxns.length > 0) {
+        if (expMiniMax) {
+            const max = Math.max(...expenseTxns.map(t => t.amount));
+            expMiniMax.textContent = max.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        }
+        if (expMiniRate) {
+            expMiniRate.textContent = (expenseSum / 30).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+        }
+    }
+
     if (typeof updateChart === 'function') {
         updateChart();
     }
@@ -157,6 +194,17 @@ async function getAIAdvice() {
                     </div>
                 </div>
             `;
+
+            // Generate Strategic Pillar Allocations
+            const pillars = document.getElementById('strategicPillars');
+            if (pillars) {
+                pillars.style.display = 'block';
+                const income = incomeSum || 0;
+                document.getElementById('pillarWealth').textContent = '₹' + (income * 0.25).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+                document.getElementById('pillarLife').textContent = '₹' + (income * 0.40).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+                document.getElementById('pillarGrowth').textContent = '₹' + (income * 0.15).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+                document.getElementById('pillarRisk').textContent = '₹' + (income * 0.20).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            }
         } else {
             placeholder.style.display = 'block';
             alert(data.msg || 'AI Analysis failed. Check if API Key is set.');
@@ -248,5 +296,148 @@ async function updatePassword() {
     } catch (err) {
         console.error('Password update error:', err);
         alert('Could not reach the security server.');
+    }
+}
+
+// UI Bridge Functions for Entry Form
+function openEntryModal(type) {
+    const formCard = document.getElementById('entryFormCard');
+    const typeInput = document.getElementById('type');
+    const titleEl = document.getElementById('entryFormTitle');
+    const submitBtn = document.getElementById('submitBtn');
+
+    if (!formCard) return;
+
+    if (typeInput) typeInput.value = type;
+    
+    if (titleEl) {
+        titleEl.innerHTML = type === 'income' 
+            ? '<i class="fas fa-wallet" style="color: var(--success); margin-right: 0.5rem;"></i>Add New Income Record' 
+            : '<i class="fas fa-receipt" style="color: #ef4444; margin-right: 0.5rem;"></i>Add New Expense Record';
+    }
+
+    if (submitBtn) {
+        submitBtn.textContent = type === 'income' ? 'Process Income Entry' : 'Process Expense Entry';
+        submitBtn.style.background = type === 'income' ? 'var(--success)' : '#ef4444';
+        submitBtn.style.color = type === 'income' ? 'var(--bg-dark)' : '#fff';
+    }
+
+    formCard.style.display = 'block';
+    formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeEntryForm() {
+    const formCard = document.getElementById('entryFormCard');
+    if (formCard) formCard.style.display = 'none';
+}
+
+// Filtering and Rendering
+function switchFrame(filter, containerId = 'transactionList') {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    let filtered = [...allTransactions];
+    
+    if (filter === 'income') {
+        filtered = allTransactions.filter(t => t.type === 'income');
+    } else if (filter === 'expense') {
+        filtered = allTransactions.filter(t => t.type === 'expense');
+    }
+
+    renderTransactions(filtered, containerId);
+}
+
+function renderTransactions(txns, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    if (txns.length === 0) {
+        container.innerHTML = '<div class="glass-card" style="padding: 2rem; text-align: center; color: var(--text-gray);">No records found in this vault.</div>';
+        return;
+    }
+
+    container.innerHTML = txns.map(t => `
+        <div class="glass-card" style="padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid ${t.type === 'income' ? 'var(--success)' : '#ef4444'};">
+            <div>
+                <h4 style="margin: 0; color: #fff; font-size: 1.1rem;">${t.description}</h4>
+                <p style="margin: 0.25rem 0 0; color: var(--text-gray); font-size: 0.8rem; font-weight: 600;">${t.category} • ${new Date(t.date).toLocaleDateString()}</p>
+            </div>
+            <div style="text-align: right; display: flex; align-items: center; gap: 1.5rem;">
+                <h3 style="margin: 0; color: ${t.type === 'income' ? 'var(--success)' : '#ef4444'}; font-family: monospace;">
+                    ₹${t.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                </h3>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button onclick="openEditModal('${t.id}')" style="background: rgba(56, 189, 248, 0.1); border: none; color: var(--primary); padding: 0.5rem; border-radius: 8px; cursor: pointer;"><i class="fas fa-edit"></i></button>
+                    <button onclick="deleteTransaction('${t.id}')" style="background: rgba(239, 68, 68, 0.1); border: none; color: #ef4444; padding: 0.5rem; border-radius: 8px; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// CRUD: Update & Delete
+function openEditModal(txnId) {
+    const txn = allTransactions.find(t => t.id === txnId);
+    if (!txn) return;
+
+    document.getElementById('editTxnId').value = txn.id;
+    document.getElementById('editDesc').value = txn.description;
+    document.getElementById('editAmount').value = txn.amount;
+    document.getElementById('editType').value = txn.type;
+    document.getElementById('editCategory').value = txn.category;
+    
+    document.getElementById('editModal').style.display = 'flex';
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').style.display = 'none';
+}
+
+async function saveEditTransaction() {
+    const id = document.getElementById('editTxnId').value;
+    const description = document.getElementById('editDesc').value;
+    const amount = parseFloat(document.getElementById('editAmount').value);
+    const type = document.getElementById('editType').value;
+    const category = document.getElementById('editCategory').value;
+
+    try {
+        const res = await fetch(`${CONFIG.API_BASE_URL}/api/transactions/${id}`, {
+            method: 'PUT',
+            headers: { 
+                'Content-Type': 'application/json',
+                'x-auth-token': localStorage.getItem('token') 
+            },
+            body: JSON.stringify({ description, amount, type, category })
+        });
+
+        if (res.ok) {
+            closeEditModal();
+            await loadTransactions();
+        } else {
+            alert('Update failed.');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Could not reach the server.');
+    }
+}
+
+async function deleteTransaction(id) {
+    if (!confirm('Are you sure you want to erase this record from the vault?')) return;
+
+    try {
+        const res = await fetch(`${CONFIG.API_BASE_URL}/api/transactions/${id}`, {
+            method: 'DELETE',
+            headers: { 'x-auth-token': localStorage.getItem('token') }
+        });
+
+        if (res.ok) {
+            await loadTransactions();
+        } else {
+            alert('Deletion failed.');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Server connection error.');
     }
 }
