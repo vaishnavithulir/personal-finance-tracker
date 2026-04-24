@@ -27,7 +27,7 @@ jobs:
         run: |
           cd frontend
           npm install
-          npx cap update android
+          npx --yes @capacitor/cli update android
 
       - name: Build with Gradle
         run: cd frontend/android && ./gradlew assembleDebug
