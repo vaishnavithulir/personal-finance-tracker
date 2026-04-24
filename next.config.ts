@@ -1,10 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  images: {
-    unoptimized: true,
-  },
   devIndicators: {
     // In Next.js 15+, this property is renamed to 'position'
     position: "bottom-right",
