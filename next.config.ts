@@ -1,14 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'export',
+  images: {
+    unoptimized: true,
+  },
   devIndicators: {
     // In Next.js 15+, this property is renamed to 'position'
     position: "bottom-right",
   },
-  experimental: {
-    // @ts-ignore
-    nextScriptWorkers: true,
-  },
+  experimental: {},
+  // nextScriptWorkers: true,
   // Ensure no dev logs or indicators are injected
   productionBrowserSourceMaps: false,
 };

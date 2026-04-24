@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dumbo Finance - Modern Wealth Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#38bdf8">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2830/2830284.png">
+    <style>
+        :root {
+            --fast-blue: #38bdf8;
+            --fast-blue-dark: #0ea5e9;
+            --bg-dark: #0a0f1e;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            margin: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .top-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 8%;
+            background: rgba(10, 15, 30, 0.8);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .hero-fast {
+            padding: 12rem 8%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 60%);
+        }
+        .btn-fast-reg {
+            background: var(--fast-blue);
+            color: #0c0f1a;
+            border: none;
+            padding: 1.1rem 3rem;
+            border-radius: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.25);
+        }
+        .btn-fast-reg:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(56, 189, 248, 0.4);
+            filter: brightness(1.1);
+        }
+        .btn-fast-log {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid var(--glass-border);
+            padding: 0.75rem 1.75rem;
+            border-radius: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            white-space: nowrap;
+            min-width: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-fast-log:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255,255,255,0.3);
+        }
+        .hero-text-fast h1 {
+            font-size: 5.5rem;
+            line-height: 0.95;
+            color: #fff;
+            margin-bottom: 2rem;
+            font-weight: 950;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 900px;
+        }
+        .hero-text-fast p {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 4rem;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 500;
+        }
+        .stats-section {
+            padding: 10rem 8%;
+            text-align: center;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .stat-box {
+            background: var(--glass);
+            padding: 4rem 2rem;
+            border-radius: 32px;
+            border: 1px solid var(--glass-border);
+            transition: 0.3s;
+        }
+        .stat-box:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(56, 189, 248, 0.3);
+            transform: translateY(-10px);
+        }
+        footer.fast-footer {
+            background: #05070a;
+            padding: 5rem 8%;
+            border-top: 1px solid var(--glass-border);
+            color: #64748b;
+            text-align: center;
+        }
+        .nav-menu a {
+            color: #94a3b8;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+        .nav-menu a:hover {
+            color: #fff;
+        }
+        @media (max-width: 768px) {
+            .nav-menu { display: none !important; }
+            .top-banner { 
+                padding: 1.5rem 5% !important; 
+                flex-direction: column !important;
+                height: auto !important;
+                gap: 1.5rem !important;
+                text-align: center;
+            }
+            .hero-fast { 
+                padding: 10rem 5% 5rem !important; 
+                text-align: center;
+            }
+            .hero-fast h1 { font-size: 2.5rem !important; line-height: 1.2; }
+            .hero-fast p { font-size: 1rem !important; margin-bottom: 2.5rem; }
+            .hero-fast > div { 
+                flex-direction: column !important; 
+                width: 100%;
+                gap: 1rem !important;
+            }
+            .hero-fast button { width: 100% !important; justify-content: center; }
+            
+            @keyframes neural-drift {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            @keyframes core-pulse {
+                0%, 100% { transform: scale(1); box-shadow: 0 0 50px rgba(56, 189, 248, 0.3); }
+                50% { transform: scale(1.1); box-shadow: 0 0 80px rgba(56, 189, 248, 0.6); }
+            }
+            
+            .btn-fast-reg { padding: 1rem 2rem !important; font-size: 0.9rem !important; width: 100% !important; }
+            .btn-fast-log { 
+                padding: 1rem 2rem !important; 
+                font-size: 0.9rem !important; 
+                width: 100% !important; 
+                justify-content: center;
+                background: rgba(255,255,255,0.05);
+                border: 1px solid var(--glass-border);
+                border-radius: 14px !important;
+                white-space: nowrap !important;
+            }
+            .lang-wrapper { display: none !important; }
+            .stats-section h2 { font-size: 2.2rem !important; }
+            .stats-grid { grid-template-columns: 1fr !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Banner -->
+    <div class="top-banner">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <h2 style="font-weight: 900; font-size: clamp(1.2rem, 4vw, 1.8rem); color: #fff; margin: 0; letter-spacing: -0.05em;">Dumbo Finance</h2>
+        </div>
+        
+        <div class="nav-menu" style="display: flex; gap: 2rem; align-items: center;">
+            <a href="index.html">Home</a>
+            <a href="bank-sync.html">Bank sync</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#support">Support</a>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="position: relative;">
+                <button onclick="document.getElementById('loginDropdown').style.display='block'" class="btn-fast-log">Login <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></button>
+                <div id="loginDropdown" style="display: none; position: absolute; top: 100%; right: 0; background: #fff; min-width: 180px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee; z-index: 2000;">
+                    <a href="admin-login.html" style="display: block; padding: 1rem; color: #333; text-decoration: none; font-weight: 600; border-bottom: 1px solid #eee;">Dumbo Admin</a>
+                    <a href="user-login.html" style="display: block; padding: 1rem; color: #333; text-decoration: none; font-weight: 600;">Dumbo User</a>
+                </div>
+            </div>
+            <button onclick="window.location.href='signup.html'" class="btn-fast-reg">Sign up</button>
+            
+            <!-- Language Dropdown -->
+            <div class="lang-wrapper" style="position: relative; margin-left: 0.5rem;">
+                <button onclick="document.getElementById('langMenu').style.display='block'" style="background: none; border: none; color: #555; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.3rem;">
+                    <i class="fas fa-globe"></i> Language
+                </button>
+                <div id="langMenu" style="display: none; position: absolute; top: 100%; right: 0; background: white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-radius: 8px; z-index: 100; min-width: 120px;">
+                    <a href="javascript:void(0)" onclick="alert('English'); document.getElementById('langMenu').style.display='none'" style="display: block; padding: 0.75rem 1rem; color: #333; text-decoration: none;">English</a>
+                    <a href="javascript:void(0)" onclick="alert('Spanish'); document.getElementById('langMenu').style.display='none'" style="display: block; padding: 0.75rem 1rem; color: #333; text-decoration: none;">Español</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero-fast">
+        <h1>Your Finances at a Glance</h1>
+        <p>Stop wondering where your money goes. Dumbo Finance provides a customizable overview of your wealth on a single screen. Intuitive, robust, and lightning fast.</p>
+        <div style="display: flex; gap: 1.5rem;">
+            <button onclick="window.location.href='signup.html'" class="btn-fast-reg">Start Free Trial</button>
+            <button onclick="openVideoModal()" style="background: white; border: 1px solid #ddd; padding: 1.1rem 2.5rem; border-radius: 12px; font-weight: 700; color: #555; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 0.75rem;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='white'">
+                <i class="fas fa-play-circle" style="color: var(--fast-blue);"></i> Demo Video
+            </button>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div id="gallery" class="stats-section" style="background: radial-gradient(circle at 50% 100%, rgba(56, 189, 248, 0.05) 0%, transparent 50%);">
+        <h2 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 1rem; color: #fff; letter-spacing: -0.02em;">Experience the Future</h2>
+        <p style="color: #94a3b8; margin-bottom: 5rem; font-size: 1.2rem;">Take a tour of our high-fidelity financial management interfaces.</p>
+        
+        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem;">
+            <a href="login.html" class="stat-box" style="padding: 0; overflow: hidden; border-radius: 24px; position: relative; text-decoration: none; display: block;">
+                <img src="dashboard_preview_1_1776352312356.png" style="width: 100%; height: 300px; object-fit: cover; transition: 0.5s transform cubic-bezier(0.4, 0, 0.2, 1);">
+                <div style="padding: 2rem; background: linear-gradient(to top, rgba(10, 15, 30, 0.95), transparent); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; text-align: left;">
+                    <h4 style="margin: 0; color: #fff; font-size: 1.4rem; font-weight: 800;">Global Finance Hub</h4>
+                    <p style="margin: 0.5rem 0 0; color: #38bdf8; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">Real-time Portfolio Tracking</p>
+                </div>
+            </a>
+            <a href="bank-sync.html" class="stat-box" style="padding: 0; overflow: hidden; border-radius: 24px; position: relative; text-decoration: none; display: block;">
+                <img src="dashboard_preview_2_1776352328685.png" style="width: 100%; height: 300px; object-fit: cover; transition: 0.5s transform cubic-bezier(0.4, 0, 0.2, 1);">
+                <div style="padding: 2rem; background: linear-gradient(to top, rgba(10, 15, 30, 0.95), transparent); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; text-align: left;">
+                    <h4 style="margin: 0; color: #fff; font-size: 1.4rem; font-weight: 800;">Bank Sync Ecosystem</h4>
+                    <p style="margin: 0.5rem 0 0; color: #38bdf8; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">Multi-Bank Encryption</p>
+                </div>
+            </a>
+            <a href="login.html?tour=true" class="stat-box" style="padding: 0; overflow: hidden; border-radius: 24px; position: relative; text-decoration: none; display: block;">
+                <img src="dashboard_preview_3_1776352345873.png" style="width: 100%; height: 300px; object-fit: cover; transition: 0.5s transform cubic-bezier(0.4, 0, 0.2, 1);">
+                <div style="padding: 2rem; background: linear-gradient(to top, rgba(10, 15, 30, 0.95), transparent); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; text-align: left;">
+                    <h4 style="margin: 0; color: #fff; font-size: 1.4rem; font-weight: 800;">Zenith AI Advisor</h4>
+                    <p style="margin: 0.5rem 0 0; color: #38bdf8; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">Smart Growth Predictions</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Support Section -->
+    <div id="support" class="stats-section" style="background: rgba(255,255,255,0.02); border-top: 1px solid var(--glass-border);">
+        <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 1.5rem; color: #fff;">Institutional Support Desk</h2>
+        <p style="color: #94a3b8; margin-bottom: 4rem; max-width: 600px; margin-left: auto; margin-right: auto;">Our dedicated technical desk is available 24/7 to assist with your wealth management queries.</p>
+        <div style="max-width: 600px; margin: 0 auto; background: var(--glass); padding: 3.5rem; border-radius: 24px; border: 1px solid var(--glass-border); box-shadow: 0 30px 60px rgba(0,0,0,0.3); text-align: left;">
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; color: #64748b; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Work Email Address</label>
+                <input type="email" placeholder="email@institution.com" style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none; transition: 0.3s; box-sizing: border-box;" onfocus="this.style.borderColor='var(--fast-blue)'" onblur="this.style.borderColor='var(--glass-border)'">
+            </div>
+            <div style="margin-bottom: 2rem;">
+                <label style="display: block; color: #64748b; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Nature of Inquiry</label>
+                <textarea placeholder="Describe your technical or account issue..." style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none; transition: 0.3s; min-height: 120px; box-sizing: border-box;" onfocus="this.style.borderColor='var(--fast-blue)'" onblur="this.style.borderColor='var(--glass-border)'"></textarea>
+            </div>
+            <button onclick="alert('Support Case Opened! ID: #'+Math.floor(Math.random()*1000000))" class="btn-fast-reg" style="width: 100%; padding: 1.1rem;">Open Support Case</button>
+        </div>
+    </div>
+
+    <footer class="fast-footer">
+        <p>&copy; 2026 Dumbo Finance. All rights reserved.</p>
+    </footer>
+
+    <script>
+        window.onclick = function(event) {
+            if (!event.target.closest('.btn-fast-log')) document.getElementById('loginDropdown').style.display='none';
+            if (!event.target.closest('button[onclick*="langMenu"]')) document.getElementById('langMenu').style.display='none';
+        }
+    </script>
+    <script src="config.js"></script>
+    <!-- Dumbo AI Concierge Chatbot -->
+    <div id="chatbot-container">
+        <div id="chatbot-window">
+            <div id="chatbot-header">
+                <div style="width: 40px; height: 40px; background: var(--fast-blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-size: 1.2rem;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <h4 style="margin: 0; color: #fff; font-size: 1rem;">Dumbo Finance</h4>
+                    <p style="margin: 0; color: var(--fast-blue); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">Smart Personal Finance Tracker & Advisor</p>
+                </div>
+                <button onclick="toggleChatbot()" style="background: none; border: none; color: #64748b; margin-left: auto; cursor: pointer; font-size: 1.2rem;">&times;</button>
+            </div>
+            <div id="chatbot-messages">
+                <div class="chat-msg ai">Greetings! I am the Dumbo Finance Advisor. Welcome to the future of wealth management. How can I help you track and optimize your finances today?</div>
+            </div>
+            <div id="chatbot-input-container">
+                <input type="text" id="chatbot-input" placeholder="Ask about Dumbo Finance...">
+                <button id="chatbot-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        <div id="chatbot-bubble" onclick="toggleChatbot()">
+            <i class="fas fa-comment-dots"></i>
+        </div>
+    </div>
+
+    <script>
+        const chatInput = document.getElementById('chatbot-input');
+        const chatWindow = document.getElementById('chatbot-window');
+        const msgContainer = document.getElementById('chatbot-messages');
+
+        function toggleChatbot() {
+            if (chatWindow.style.display === 'flex') {
+                chatWindow.style.display = 'none';
+            } else {
+                chatWindow.style.display = 'flex';
+                setTimeout(() => chatInput.focus(), 150);
+            }
+        }
+
+        async function sendChatMessage() {
+            const msg = chatInput.value.trim();
+            if (!msg) return;
+
+            // User Message
+            const userDiv = document.createElement('div');
+            userDiv.className = 'chat-msg user';
+            userDiv.textContent = msg;
+            msgContainer.appendChild(userDiv);
+            chatInput.value = '';
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+
+            // AI Thinking State
+            const aiDiv = document.createElement('div');
+            aiDiv.className = 'chat-msg ai';
+            aiDiv.innerHTML = '<span class="ai-typing">Analyzing...</span>';
+            msgContainer.appendChild(aiDiv);
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+
+            // Simulated AI Logic for Landing Page
+            setTimeout(() => {
+                const query = msg.toLowerCase();
+                let response = "Dumbo Finance is a next-generation wealth management platform. Would you like to see our institutional projections?";
+                
+                if (query.includes('price') || query.includes('cost')) {
+                    response = "We offer tiered pricing starting with a Free Trial for all new wealth vaults.";
+                } else if (query.includes('safe') || query.includes('secure')) {
+                    response = "Our platform uses 256-bit bank-grade encryption and decentralized vault nodes.";
+                } else if (query.includes('hi') || query.includes('hello')) {
+                    response = "Greetings! I am the Dumbo Finance Advisor. How can I help you optimize your wealth today?";
+                }
+                
+                aiDiv.textContent = response;
+                msgContainer.scrollTop = msgContainer.scrollHeight;
+            }, 800);
+        }
+
+        // Attach listeners robustly
+        document.getElementById('chatbot-send').addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+    </script>
+    <!-- Cinematic Video Modal -->
+    <div id="videoModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; backdrop-filter: blur(15px); align-items: center; justify-content: center; padding: 5%;">
+        <div style="position: relative; width: 100%; max-width: 1200px; background: #000; border-radius: 30px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 50px 100px rgba(0,0,0,0.8);">
+            <button onclick="closeVideoModal()" style="position: absolute; top: 30px; right: 30px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; z-index: 10;">&times;</button>
+            
+            <div id="demoCarousel" style="width: 100%; height: 75vh; position: relative; background: #050a15; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 20px;">
+                <!-- Procedural Neural Engine -->
+                <div id="neural-mask" style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at center, transparent 30%, #050a15 80%); z-index: 2;"></div>
+                <div id="neural-bg" style="position: absolute; width: 100%; height: 100%; opacity: 0.4;">
+                    <div style="position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background-image: radial-gradient(rgba(56, 189, 248, 0.2) 1px, transparent 1px); background-size: 50px 50px; animation: neural-drift 60s linear infinite;"></div>
+                </div>
+                
+                <div style="z-index: 5; text-align: center;">
+                    <div id="neural-core" style="width: 150px; height: 150px; background: rgba(56, 189, 248, 0.1); border: 2px solid var(--fast-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; box-shadow: 0 0 50px rgba(56, 189, 248, 0.3); animation: core-pulse 4s ease-in-out infinite;">
+                        <i class="fas fa-brain" style="font-size: 4rem; color: var(--fast-blue);"></i>
+                    </div>
+                    <h2 style="font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase;">Zenith AI Active</h2>
+                    <p style="color: #38bdf8; font-weight: 700; margin-bottom: 3rem; letter-spacing: 0.2em;">INSTITUTIONAL NEURAL VAULT MONITORING</p>
+                    
+                    <div style="display: flex; justify-content: center; gap: 4rem;">
+                        <div style="text-align: left;">
+                            <div style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase;">Sync Status</div>
+                            <div id="sync-val" style="color: #fff; font-family: monospace; font-size: 1.2rem;">CALIBRATING...</div>
+                        </div>
+                        <div style="text-align: left;">
+                            <div style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase;">Vault Growth</div>
+                            <div id="growth-val" style="color: var(--fast-blue); font-family: monospace; font-size: 1.2rem;">+0.00%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="padding: 2rem; background: #0a0f1e; text-align: center;">
+                <button onclick="window.location.href='signup.html'" class="btn-fast-reg" style="max-width: 400px; margin: 0 auto;">Claim Your Vault Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let nnInterval;
+        
+        function openVideoModal() {
+            document.getElementById('videoModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            const sync = document.getElementById('sync-val');
+            const growth = document.getElementById('growth-val');
+            const statuses = ["ENCRYPTING...", "SYNCHRONIZING...", "OPTIMIZING...", "LIVE VAULT"];
+            let step = 0;
+
+            nnInterval = setInterval(() => {
+                // Ticker
+                if (Math.random() > 0.8) {
+                    sync.textContent = statuses[step % statuses.length];
+                    step++;
+                }
+                
+                // Growth
+                const val = (Math.random() * 0.05 + step * 0.1).toFixed(2);
+                growth.textContent = `+${val}%`;
+            }, 100);
+        }
+
+        function closeVideoModal() {
+            document.getElementById('videoModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            clearInterval(nnInterval);
+        }
+    </script>
+</body>
+</html>

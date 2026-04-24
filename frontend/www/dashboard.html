@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Dumbo Finance</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#38bdf8">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2830/2830284.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-page">
+    <!-- Section 0: Top Navigation Bar -->
+    <nav class="top-dashboard-nav" style="position: fixed; top: 0; left: 0; right: 0; height: 70px; background: var(--glass); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; z-index: 1100;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <!-- Hamburger Menu for Mobile -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <a href="index.html" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; overflow: hidden; white-space: nowrap;">
+                <span style="font-weight: 900; font-size: clamp(0.9rem, 4vw, 1.25rem); color: #ffffff; letter-spacing: -0.02em;">Dumbo Finance</span>
+                <span class="hide-mobile" style="background: rgba(56, 189, 248, 0.1); color: var(--primary); font-size: 0.6rem; font-weight: 800; padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.2); text-transform: uppercase;">Institutional</span>
+            </a>
+        </div>
+
+        <!-- Quick Actions Removed as per user request -->
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <!-- Admin Only: Bank Sync shortcut -->
+            <div id="topAdminNav" style="display: none; align-items: center; gap: 1.25rem;">
+                <a role="button" onclick="selectNavItem(document.getElementById('banksyncNavItem'), 'banksync')" style="color: #38bdf8; text-decoration: none; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; background: rgba(56, 189, 248, 0.1); padding: 0.6rem; border-radius: 10px; border: 1px solid rgba(56, 189, 248, 0.2);">
+                    <i class="fas fa-university"></i> <span class="hide-mobile" style="margin-left: 0.4rem;">Bank Sync</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-layout" style="margin-top: 70px;">
+        <!-- Section 1: Navigation Sidebar -->
+        <aside class="sidebar" style="top: 70px; height: calc(100vh - 70px); overflow-y: auto; overflow-x: hidden;">
+
+
+            <nav class="sidebar-nav" style="padding: 0 0.5rem;">
+                <p style="font-size: 0.65rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin: 1.5rem 0 0.75rem 1rem;">Main Menu</p>
+
+                <a href="#overviewSection" class="nav-item active" onclick="selectNavItem(this)">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a role="button" id="aiNavItem" onclick="selectNavItem(this, 'ai')" class="nav-item">
+                    <i class="fas fa-brain" style="color: #c084fc;"></i>
+                    <span>AI Advisor</span>
+                </a>
+                
+                <a role="button" id="incomeNavItem" onclick="selectNavItem(this, 'income')" class="nav-item" style="display: none;">
+                    <i class="fas fa-wallet" style="color: #34d399;"></i>
+                    <span>My Income</span>
+                </a>
+
+                <a role="button" id="expenseNavItem" onclick="selectNavItem(this, 'expense')" class="nav-item">
+                    <i class="fas fa-receipt" style="color: #ef4444;"></i>
+                    <span>My Expenses</span>
+                </a>
+
+                <a role="button" onclick="selectNavItem(this, 'banksync')" class="nav-item">
+                    <i class="fas fa-university" style="color: #38bdf8;"></i>
+                    <span>Bank Sync</span>
+                </a>
+
+                <p style="font-size: 0.65rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin: 1.5rem 0 0.75rem 1rem;">Account & Tools</p>
+                
+                <a role="button" id="helpNavItem" class="nav-item" onclick="selectNavItem(this, 'help')">
+                    <i class="fas fa-headset" style="color: #38bdf8;"></i>
+                    <span>Help & Support</span>
+                </a>
+
+                <a role="button" id="settingsNavItem" onclick="selectNavItem(this, 'settings')" class="nav-item">
+                    <i class="fas fa-cog" style="color: #94a3b8;"></i>
+                    <span>My Settings</span>
+                </a>
+
+                <a role="button" id="userMgmtNavItem" onclick="selectNavItem(this, 'usermgmt')" class="nav-item" style="display:none;">
+                    <i class="fas fa-users" style="color: #c084fc;"></i>
+                    <span>User Management</span>
+                </a>
+                
+                <!-- Admin Strategy Removed -->
+
+
+
+                <!-- User/Admin Portal Section (Moved to Bottom) -->
+                <p id="portalLabel" style="font-size: 0.65rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin: 1.5rem 0 0.75rem 1.25rem;">User Portal</p>
+                
+                <div style="padding: 0 0.5rem; margin-top: 1rem; margin-bottom: 2rem;">
+                    <!-- Active User Info -->
+                    <div class="user-profile" style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; padding: 0.75rem 1rem; background: rgba(56, 189, 248, 0.05); border-radius: 12px; border: 1px solid rgba(56, 189, 248, 0.1);">
+                        <div id="userAvatar" style="width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 0.9rem; box-shadow: 0 4px 10px var(--primary-glow);">R</div>
+                        <div style="overflow: hidden; flex: 1;">
+                            <h4 id="displayName" style="margin: 0; font-size: 0.85rem; color: #fff; white-space: nowrap; text-overflow: ellipsis; font-weight: 700;">Loading...</h4>
+                            <p id="userEmailLabel" style="margin: 0; font-size: 0.7rem; color: #cbd5e1; white-space: nowrap; text-overflow: ellipsis; font-weight: 500;">...</p>
+                        </div>
+                    </div>
+
+                    <!-- Sign Out as a Nav Item -->
+                    <a role="button" onclick="logout()" class="nav-item" style="color: #ef4444; margin-top: 0.25rem;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sign Out</span>
+                    </a>
+                </div>
+
+
+            </nav>
+        </aside>
+
+        <!-- Section 2: Main Bar (Content) -->
+        <main class="main-content">
+            <!-- Top spacer for layout consistency -->
+            <div style="height: 2rem;"></div>
+
+                <!-- Universal Entry Form (Hidden by default) -->
+                <div id="entryFormCard" class="glass-card" style="display: none; padding: 2.5rem; margin-bottom: 3rem; border-left: 5px solid var(--primary); animation: slideDown 0.4s ease-out;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h3 id="entryFormTitle" style="margin: 0; font-size: 1.5rem;">Add New Record</h3>
+                        <button onclick="closeEntryForm()" style="background: none; border: none; color: var(--text-gray); cursor: pointer; font-size: 1.25rem;"><i class="fas fa-times"></i></button>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <label style="display: block; font-size: 0.75rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; margin-bottom: 0.75rem;">Description</label>
+                            <input type="text" id="desc" placeholder="e.g., Monthly Salary / AWS Service" style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.75rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; margin-bottom: 0.75rem;">Amount (₹)</label>
+                            <input type="number" id="amount" placeholder="0.00" style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.75rem; color: var(--text-gray); text-transform: uppercase; font-weight: 800; margin-bottom: 0.75rem;">Classification</label>
+                            <select id="category" style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none;">
+                                <option value="General">General</option>
+                                <option value="Investment">Investment</option>
+                                <option value="Salary">Salary</option>
+                                <option value="Business">Business</option>
+                                <option value="Utilities">Utilities</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="type" value="income">
+                    
+                    <button onclick="addExpense()" id="submitBtn" style="margin-top: 2rem; width: 100%; padding: 1.1rem; background: var(--primary); color: var(--bg-dark); border: none; border-radius: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.3s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">Process Access Entry</button>
+                </div>
+
+                <!-- Section 1: Dashboard Overview -->
+                <div id="overviewSection">
+                    <!-- Stats Grid - dynamically rewritten for role -->
+                    <div id="statsGrid" class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+
+                        <!-- USER stats (default) -->
+                        <div id="userStatBalance" class="stat-card total-banner" style="margin-bottom:0; background:linear-gradient(135deg,rgba(56,189,248,0.1),transparent);">
+                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600;">My Net Balance</p>
+                            <h2 style="font-size:2.5rem; color:#fff;">₹<span id="total">0.00</span></h2>
+                        </div>
+                        <div id="incomeStatCard" class="stat-card total-banner" style="margin-bottom:0; background:linear-gradient(135deg,rgba(52,211,153,0.1),transparent);">
+                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600;">Monthly Income</p>
+                            <h2 style="font-size:2.5rem; color:var(--success);">+ ₹<span id="monthlyIncome">0.00</span></h2>
+                        </div>
+                        <div id="expenseStatCard" class="stat-card total-banner" style="margin-bottom:0; background:linear-gradient(135deg,rgba(239,68,68,0.1),transparent);">
+                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600;">Monthly Expenses</p>
+                            <h2 style="font-size:2.5rem; color:#ef4444;">- ₹<span id="monthlyExpense">0.00</span></h2>
+                        </div>
+
+                        <!-- ADMIN stats (hidden by default, shown for admin) -->
+                        <div id="adminStatUsers" class="stat-card total-banner" style="display:none; margin-bottom:0; background:linear-gradient(135deg,rgba(192,132,252,0.12),transparent); cursor:pointer;" onclick="selectNavItem(document.getElementById('userMgmtNavItem'),'usermgmt')">
+                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em;">Total Registered Users</p>
+                            <h2 style="font-size:2.8rem; color:#c084fc;"><span id="adminUserCount">—</span></h2>
+                            <i class="fas fa-users" style="position:absolute; right:2rem; top:2rem; font-size:1.2rem; color:#c084fc; opacity:0.5;"></i>
+                        </div>
+                        <div id="adminStatTxns" class="stat-card total-banner" style="display:none; margin-bottom:0; background:linear-gradient(135deg,rgba(56,189,248,0.1),transparent);">
+                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em;">Platform Transactions</p>
+                            <h2 style="font-size:2.8rem; color:var(--primary);"><span id="adminTxnCount">—</span></h2>
+                            <i class="fas fa-exchange-alt" style="position:absolute; right:2rem; top:2rem; font-size:1.2rem; color:var(--primary); opacity:0.5;"></i>
+                        </div>
+                        <div id="adminStatExpense" class="stat-card total-banner" style="display:none; margin-bottom:0; background:linear-gradient(135deg,rgba(239,68,68,0.08),transparent);">
+                            <p style="color:var(--text-gray); margin-bottom:0.5rem; font-weight:600; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em;">Platform Total Expenses</p>
+                            <h2 style="font-size:2.2rem; color:#ef4444;">₹<span id="adminExpenseTotal">—</span></h2>
+                            <i class="fas fa-receipt" style="position:absolute; right:2rem; top:2rem; font-size:1.2rem; color:#ef4444; opacity:0.5;"></i>
+                        </div>
+
+                    </div>
+
+                    <!-- Charts Hub (Visible to all) -->
+                    <div id="analyticsHub" style="display: block; margin-bottom: 5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                            <h3><i class="fas fa-chart-line" style="color: var(--primary);"></i> Financial Analytics</h3>
+                            <div class="btn-group" style="display: flex; gap: 0.5rem;">
+                                 <button class="active" onclick="switchFrame('daily')" style="padding: 0.4rem 1rem; font-size: 0.8rem; width: auto; margin-top: 0;">Daily</button>
+                                 <button onclick="switchFrame('weekly')" style="padding: 0.4rem 1rem; font-size: 0.8rem; width: auto; margin-top: 0; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">Weekly</button>
+                                 <button onclick="switchFrame('monthly')" style="padding: 0.4rem 1rem; font-size: 0.8rem; width: auto; margin-top: 0; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">Monthly</button>
+                            </div>
+                        </div>
+                        <div style="background: var(--glass); border: 1px solid var(--glass-border); padding: 2.5rem; border-radius: 32px; height: 450px; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
+                            <canvas id="financeChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity (Overview Version) -->
+                    <div id="transactionHistorySection" style="margin-top: 4rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                            <h3 id="historyTitle"><i class="fas fa-history" style="color: var(--primary);"></i> Recent Activity</h3>
+                            <button onclick="selectNavItem(document.querySelector('[onclick*=\'expense\']'), 'expense')" style="width: auto; background: none; border: 1px solid var(--glass-border); color: var(--text-gray); padding: 0.5rem 1rem; border-radius: 10px; font-size: 0.8rem; cursor: pointer;">View All</button>
+                        </div>
+                        <div id="transactionList" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div class="glass-card" style="padding: 2rem; text-align: center; color: var(--text-gray);">Loading transactions...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Income Module (Dedicated) -->
+                <div id="incomeSection" style="display: none; animation: fadeIn 0.5s ease-out;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3rem;">
+                        <div>
+                            <h2 style="font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem;"><i class="fas fa-wallet" style="color: var(--success); margin-right: 0.75rem;"></i>Income Management</h2>
+                            <p style="color: var(--text-gray);">Track and analyze your revenue streams.</p>
+                        </div>
+                        <button onclick="openEntryModal('income')" style="width: auto; padding: 0.85rem 2rem; background: var(--success); color: var(--bg-dark); border: none; border-radius: 14px; font-weight: 800; display: flex; align-items: center; gap: 0.75rem;">
+                            <i class="fas fa-plus"></i> Add New Income
+                        </button>
+                    </div>
+
+                    <div id="incomeHistoryList" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <!-- Filtered Income list will appear here -->
+                    </div>
+                </div>
+
+                <!-- Section 3: Expense Module (Dedicated) -->
+                <div id="expenseSection" style="display: none; animation: fadeIn 0.5s ease-out;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3rem;">
+                        <div>
+                            <h2 style="font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem;"><i class="fas fa-receipt" style="color: #ef4444; margin-right: 0.75rem;"></i>Expense Tracking</h2>
+                            <p style="color: var(--text-gray);">Manage and monitor your daily spending.</p>
+                        </div>
+                        <button onclick="openEntryModal('expense')" style="width: auto; padding: 0.85rem 2rem; background: #ef4444; color: #fff; border: none; border-radius: 14px; font-weight: 800; display: flex; align-items: center; gap: 0.75rem;">
+                            <i class="fas fa-minus"></i> Add New Expense
+                        </button>
+                    </div>
+
+                    <div id="expenseHistoryList" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <!-- Filtered Expense list will appear here -->
+                    </div>
+                </div>
+
+
+
+
+            <!-- Section 4: Admin User Management -->
+            <div id="userManagementSection" style="display:none; animation: fadeIn 0.5s ease-out; margin-top: 1rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2.5rem;">
+                    <div>
+                        <h2 style="font-size:2rem; color:#fff; margin-bottom:0.5rem;"><i class="fas fa-users" style="color:#c084fc; margin-right:0.75rem;"></i>User Management</h2>
+                        <p style="color:var(--text-gray);">Select a user to view their complete financial activity.</p>
+                    </div>
+                    <button onclick="loadAdminUsers()" style="width:auto; padding:0.75rem 1.5rem; background:rgba(192,132,252,0.1); border:1px solid rgba(192,132,252,0.3); color:#c084fc; border-radius:14px; font-weight:700; cursor:pointer; margin:0; display:flex; align-items:center; gap:0.5rem;">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+
+                <!-- User Cards Grid -->
+                <div id="userCardGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:1.5rem; margin-bottom:3rem;">
+                    <div style="padding:2rem; text-align:center; color:var(--text-gray);">Loading users...</div>
+                </div>
+
+                <!-- Selected User Transactions -->
+                <div id="selectedUserPanel" style="display:none;">
+                    <div style="display:flex; align-items:center; gap:1.5rem; margin-bottom:2rem; padding:1.5rem 2rem; background:rgba(192,132,252,0.05); border:1px solid rgba(192,132,252,0.2); border-radius:20px;">
+                        <div id="selectedUserAvatar" style="width:52px; height:52px; background:linear-gradient(135deg,#c084fc,#a855f7); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:800; color:#fff;">U</div>
+                        <div style="flex:1;">
+                            <h3 id="selectedUserName" style="margin:0; color:#fff; font-size:1.2rem;">User Name</h3>
+                            <p id="selectedUserEmail" style="margin:0; color:#64748b; font-size:0.85rem;">email@example.com</p>
+                        </div>
+                        <div style="display:flex; gap:1rem;">
+                            <div style="text-align:center; padding:0.75rem 1.25rem; background:rgba(239,68,68,0.1); border-radius:12px;">
+                                <p style="margin:0; font-size:0.7rem; color:#64748b; font-weight:700; text-transform:uppercase;">Total Settlements (Expenses)</p>
+                                <h4 id="selectedUserExpense" style="margin:0; color:#ef4444; font-size:1.1rem;">₹0</h4>
+                            </div>
+                        </div>
+                        <div id="bankDetailsSection" style="display:flex; gap:1rem; border-left:1px solid rgba(255,255,255,0.1); padding-left:1.5rem; margin-left:0.5rem;">
+                            <div style="text-align:left;">
+                                <p style="margin:0; font-size:0.65rem; color:#64748b; font-weight:700; text-transform:uppercase;">Bank Name</p>
+                                <h4 id="selUserBank" style="margin:0; color:#fff; font-size:0.9rem; font-weight:600;">—</h4>
+                            </div>
+                            <div style="text-align:left;">
+                                <p style="margin:0; font-size:0.65rem; color:#64748b; font-weight:700; text-transform:uppercase;">Account No.</p>
+                                <h4 id="selUserAccount" style="margin:0; color:#fff; font-size:0.9rem; font-weight:600;">—</h4>
+                            </div>
+                            <div style="text-align:left;">
+                                <p style="margin:0; font-size:0.65rem; color:#64748b; font-weight:700; text-transform:uppercase;">IFSC Code</p>
+                                <h4 id="selUserIFSC" style="margin:0; color:#fff; font-size:0.9rem; font-weight:600;">—</h4>
+                            </div>
+                        </div>
+                        <button onclick="document.getElementById('selectedUserPanel').style.display='none'" style="background:none; border:none; color:#64748b; font-size:1.3rem; cursor:pointer; width:auto; margin:0; padding:0.5rem;">&times;</button>
+                    </div>
+                    <div id="selectedUserTxnList" style="display:flex; flex-direction:column; gap:1rem;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: AI Advisor Section -->
+            <div id="aiModelSection" style="display: none; margin-top: 4rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem;">
+                    <div>
+                        <h2 style="font-size: 2rem; color: #fff; margin-bottom: 0.5rem;"><i class="fas fa-brain" style="color: #c084fc; margin-right: 0.75rem;"></i>AI Financial Advisor</h2>
+                        <p style="color: var(--text-gray);">Get personalized insights and strategies based on your spending habits.</p>
+                    </div>
+                    <button onclick="getAIAdvice()" id="aiAdviceBtn" style="width: auto; padding: 0.75rem 2rem; background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%); border: none; border-radius: 12px; font-weight: 700; color: white; display: flex; align-items: center; gap: 0.75rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);">
+                        <i class="fas fa-sparkles"></i> Generate Advice
+                    </button>
+                </div>
+
+                <div id="aiAdviceContainer" class="glass-card" style="padding: 2.5rem; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(192, 132, 252, 0.03); border: 1px dashed rgba(192, 132, 252, 0.3); border-radius: 24px;">
+                    <div id="aiPlaceholder" style="text-align: center;">
+                        <div style="width: 80px; height: 80px; background: rgba(192, 132, 252, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: #c084fc;">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Ready to help</h4>
+                        <p style="color: var(--text-gray); max-width: 400px;">Click the button above to let Gemini analyze your transactions and provide smart financial tips.</p>
+                    </div>
+                    
+                    <div id="aiResults" style="display: none; width: 100%;">
+                        <!-- AI Response will be injected here -->
+                    </div>
+
+                    <div id="aiLoader" style="display: none; text-align: center;">
+                        <div class="ai-pulse" style="width: 60px; height: 60px; background: #c084fc; border-radius: 50%; margin: 0 auto 1.5rem; animation: pulse 1.5s infinite;"></div>
+                        <h4 style="color: #fff;">Analyzing your finances...</h4>
+                        <p style="color: var(--text-gray);">Gemini is crunching the numbers</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Bank Sync Module (Moved Outside) -->
+            <div id="banksyncSection" style="display: none; animation: fadeIn 0.5s ease-out; text-align: center;">
+                    <div style="margin-bottom: 4rem;">
+                        <h2 style="font-size: 2.2rem; color: #fff; margin-bottom: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Verify if your bank is available</h2>
+                        
+                        <div style="max-width: 600px; margin: 0 auto; text-align: left;">
+                            <label style="color: #64748b; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; display: block; margin-left: 0.5rem;">Country</label>
+                            <select id="countrySelect" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 1.25rem; border-radius: 14px; font-size: 1.1rem; appearance: none; cursor: pointer; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%2000-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%20000%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1.5rem top 50%; background-size: 1rem auto; transition: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+                                <option value="in" style="background: #0a1128;">🇮🇳 India (Primary)</option>
+                                <option value="af" style="background: #0a1128;">🇦🇫 Afghanistan</option>
+                                <option value="al" style="background: #0a1128;">🇦🇱 Albania</option>
+                                <option value="dz" style="background: #0a1128;">🇩🇿 Algeria</option>
+                                <option value="ad" style="background: #0a1128;">🇦🇩 Andorra</option>
+                                <option value="ao" style="background: #0a1128;">🇦🇴 Angola</option>
+                                <option value="ar" style="background: #0a1128;">🇦🇷 Argentina</option>
+                                <option value="au" style="background: #0a1128;">🇦🇺 Australia</option>
+                                <option value="at" style="background: #0a1128;">🇦🇹 Austria</option>
+                                <option value="be" style="background: #0a1128;">🇧🇪 Belgium</option>
+                                <option value="br" style="background: #0a1128;">🇧🇷 Brazil</option>
+                                <option value="ca" style="background: #0a1128;">🇨🇦 Canada</option>
+                                <option value="cl" style="background: #0a1128;">🇨🇱 Chile</option>
+                                <option value="cn" style="background: #0a1128;">🇨🇳 China</option>
+                                <option value="co" style="background: #0a1128;">🇨🇴 Colombia</option>
+                                <option value="hr" style="background: #0a1128;">🇭🇷 Croatia</option>
+                                <option value="dk" style="background: #0a1128;">🇩🇰 Denmark</option>
+                                <option value="eg" style="background: #0a1128;">🇪🇬 Egypt</option>
+                                <option value="fi" style="background: #0a1128;">🇫🇮 Finland</option>
+                                <option value="fr" style="background: #0a1128;">🇫🇷 France</option>
+                                <option value="de" style="background: #0a1128;">🇩🇪 Germany</option>
+                                <option value="gr" style="background: #0a1128;">🇬🇷 Greece</option>
+                                <option value="hk" style="background: #0a1128;">🇭🇰 Hong Kong</option>
+                                <option value="id" style="background: #0a1128;">🇮🇩 Indonesia</option>
+                                <option value="ie" style="background: #0a1128;">🇮🇪 Ireland</option>
+                                <option value="it" style="background: #0a1128;">🇮🇹 Italy</option>
+                                <option value="jp" style="background: #0a1128;">🇯🇵 Japan</option>
+                                <option value="my" style="background: #0a1128;">🇲🇾 Malaysia</option>
+                                <option value="mx" style="background: #0a1128;">🇲🇽 Mexico</option>
+                                <option value="nl" style="background: #0a1128;">🇳🇱 Netherlands</option>
+                                <option value="nz" style="background: #0a1128;">🇳🇿 New Zealand</option>
+                                <option value="no" style="background: #0a1128;">🇳🇴 Norway</option>
+                                <option value="pk" style="background: #0a1128;">🇵🇰 Pakistan</option>
+                                <option value="ph" style="background: #0a1128;">🇵🇭 Philippines</option>
+                                <option value="pl" style="background: #0a1128;">🇵🇱 Poland</option>
+                                <option value="pt" style="background: #0a1128;">🇵🇹 Portugal</option>
+                                <option value="qa" style="background: #0a1128;">🇶🇦 Qatar</option>
+                                <option value="ru" style="background: #0a1128;">🇷🇺 Russia</option>
+                                <option value="sa" style="background: #0a1128;">🇸🇦 Saudi Arabia</option>
+                                <option value="sg" style="background: #0a1128;">🇸🇬 Singapore</option>
+                                <option value="za" style="background: #0a1128;">🇿🇦 South Africa</option>
+                                <option value="kr" style="background: #0a1128;">🇰🇷 South Korea</option>
+                                <option value="es" style="background: #0a1128;">🇪🇸 Spain</option>
+                                <option value="se" style="background: #0a1128;">🇸🇪 Sweden</option>
+                                <option value="ch" style="background: #0a1128;">🇨🇭 Switzerland</option>
+                                <option value="th" style="background: #0a1128;">🇹🇭 Thailand</option>
+                                <option value="tr" style="background: #0a1128;">🇹🇷 Turkey</option>
+                                <option value="ae" style="background: #0a1128;">🇦🇪 UAE</option>
+                                <option value="gb" style="background: #0a1128;">🇬🇧 United Kingdom</option>
+                                <option value="us" style="background: #0a1128;">🇺🇸 United States</option>
+                                <option value="vn" style="background: #0a1128;">🇻🇳 Vietnam</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="bankSelectionGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; text-align: left;">
+                        <div class="glass-card" style="padding: 2rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏦</div>
+                            <h4 style="color: #fff; margin-bottom: 0.5rem;">HDFC Bank</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-gray);">Institutional Access</p>
+                        </div>
+                        <div class="glass-card" style="padding: 2rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏛️</div>
+                            <h4 style="color: #fff; margin-bottom: 0.5rem;">ICICI Bank</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-gray);">Direct Connect</p>
+                        </div>
+                        <div class="glass-card" style="padding: 2rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏢</div>
+                            <h4 style="color: #fff; margin-bottom: 0.5rem;">State Bank of India</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-gray);">Official Partner</p>
+                        </div>
+                        <div class="glass-card" style="padding: 2rem; text-align: center; cursor: pointer; transition: 0.3s;" onclick="toggleBankSelection(this)">
+                            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏘️</div>
+                            <h4 style="color: #fff; margin-bottom: 0.5rem;">Axis Bank</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-gray);">Fast Sync</p>
+                        </div>
+                    </div>
+
+                    <div id="syncControl" style="background: var(--glass); border: 1px solid var(--glass-border); padding: 3rem; border-radius: 24px; text-align: center;">
+                        <div id="syncInitial">
+                            <i class="fas fa-lock" style="font-size: 3rem; color: #34d399; margin-bottom: 1.5rem; display: block;"></i>
+                            <h3 style="color: #fff; margin-bottom: 1rem;">Ready to Connect</h3>
+                            <p style="color: var(--text-gray); max-width: 500px; margin: 0 auto 2.5rem;">Select your bank above and click below to establish a secure, 256-bit encrypted connection and import the last 90 days of transactions.</p>
+                            <button onclick="startBankSync()" id="connectBankBtn" style="width: auto; padding: 1.1rem 3rem; background: var(--primary); color: var(--bg-dark); border: none; border-radius: 14px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 10px 25px var(--primary-glow);">Connect & Synchronize</button>
+                        </div>
+
+                        <div id="syncProgress" style="display: none;">
+                            <div style="width: 80px; height: 80px; border: 4px solid rgba(56, 189, 248, 0.1); border-top-color: var(--primary); border-radius: 50%; margin: 0 auto 2rem; animation: spin 1s linear infinite;"></div>
+                            <h3 style="color: #fff; margin-bottom: 1rem;" id="syncStatus">Securing Connection...</h3>
+                            <div style="width: 100%; max-width: 400px; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; margin: 0 auto; overflow: hidden;">
+                                <div id="syncProgressBar" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.3s ease;"></div>
+                            </div>
+                        </div>
+
+                        <div id="syncSuccess" style="display: none; text-align: center; animation: scaleUp 0.5s ease;">
+                            <div style="width: 80px; height: 80px; background: rgba(52, 211, 153, 0.1); color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 2rem;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3 style="color: #fff; margin-bottom: 1rem;">Vault Synchronization Complete!</h3>
+                            <p style="color: var(--text-gray); margin-bottom: 2rem;">Successfully imported 3 new verified transactions from your institutional account.</p>
+                            <button onclick="selectNavItem(document.querySelector('a[href=\'#overviewSection\']'))" style="width: auto; padding: 0.85rem 2.5rem; background: var(--primary); border: none; color: #0a1128; border-radius: 12px; font-weight: 800; text-transform: uppercase; cursor: pointer; box-shadow: 0 10px 20px var(--primary-glow);">View Transactions</button>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    .bank-card-active { border-color: var(--primary) !important; background: rgba(56, 189, 248, 0.05) !important; transform: translateY(-5px); }
+                    @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+                </style>
+            <!-- Section 5: Help & Support -->
+            <div id="helpSection" style="display: none; animation: fadeIn 0.5s ease-out;">
+                <div style="text-align: center; padding: 4rem 1rem;">
+                    <i class="fas fa-headset" style="font-size: 4rem; color: var(--primary); margin-bottom: 2rem; opacity: 0.5;"></i>
+                    <h2 style="font-size: 2.5rem; color: #fff; margin-bottom: 1rem;">Institutional Support</h2>
+                    <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto 3rem;">Need assistance with your wealth vault? Our concierge team is ready to help you navigate your finances.</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto;">
+                        <a href="mailto:support@dumbo.com" style="text-decoration: none;">
+                            <div class="glass-card" style="padding: 2.5rem; text-align: center; border: 1px solid rgba(255,255,255,0.05);">
+                                <i class="fas fa-envelope" style="font-size: 2rem; color: #38bdf8; margin-bottom: 1rem;"></i>
+                                <h4 style="color: #fff; margin-bottom: 0.5rem;">Email Concierge</h4>
+                                <p style="color: #64748b; font-size: 0.9rem;">24/7 Priority Tickets</p>
+                            </div>
+                        </a>
+                        <a href="tel:+918002345678" style="text-decoration: none;">
+                            <div class="glass-card" style="padding: 2.5rem; text-align: center; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;" onmouseover="this.style.borderColor='var(--success)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.05)'">
+                                <i class="fas fa-phone-volume" style="font-size: 2rem; color: #34d399; margin-bottom: 1rem;"></i>
+                                <h4 style="color: #fff; margin-bottom: 0.5rem;">Priority Call</h4>
+                                <p style="color: #64748b; font-size: 0.9rem;">+91 800 234 5678</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Section 6: My Settings -->
+            <div id="settingsSection" style="display: none; animation: fadeIn 0.5s ease-out;">
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 3rem;">
+                        <div>
+                            <h2 style="font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem;"><i class="fas fa-user-shield" style="color: var(--primary); margin-right: 0.75rem;"></i>Institutional Settings</h2>
+                            <p style="color: var(--text-gray);">Manage your profile and secure settlement credentials.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="padding: 2.5rem; margin-bottom: 2rem;">
+                        <h4 style="color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; margin-bottom: 1.5rem;">Profile Identity</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <div>
+                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Full Name</label>
+                                <div id="setFullName" style="padding: 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; font-weight: 600;">Loading...</div>
+                            </div>
+                            <div>
+                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Email Endpoint</label>
+                                <div id="setEmail" style="padding: 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; font-weight: 600;">Loading...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="padding: 2.5rem; margin-bottom: 2rem; border-left: 4px solid #c084fc;">
+                        <h4 style="color: #c084fc; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; margin-bottom: 1.5rem;">Security & Access</h4>
+                        <div style="max-width: 400px;">
+                            <div style="margin-bottom: 1.5rem;">
+                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">New Password</label>
+                                <input type="password" id="newPassword" placeholder="Minimum 8 characters" style="width: 100%; padding: 0.8rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 10px; color: #fff; outline: none;">
+                            </div>
+                            <button onclick="updatePassword()" style="width: auto; padding: 0.75rem 2rem; background: #c084fc; color: #fff; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">Update Credentials</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="padding: 2.5rem; border-left: 4px solid var(--primary); margin-bottom: 2rem;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; margin: 0;">Settlement Accounts</h4>
+                            <span style="background: rgba(52, 211, 153, 0.1); color: var(--success); font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 6px; border: 1px solid rgba(52, 211, 153, 0.2);">VERIFIED</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem;">
+                            <div>
+                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Bank Entity</label>
+                                <p id="setBankName" style="color: #fff; font-weight: 700; margin: 0; font-size: 1.1rem;">Not Configured</p>
+                            </div>
+                            <div>
+                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Account Routing</label>
+                                <p id="setAccountNum" style="color: #fff; font-weight: 700; margin: 0; font-size: 1.1rem;">•••• •••• ••••</p>
+                            </div>
+                            <div>
+                                <label style="display: block; color: #64748b; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">IFSC Clearance</label>
+                                <p id="setIFSC" style="color: #fff; font-weight: 700; margin: 0; font-size: 1.1rem;">—</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="padding: 2.5rem; border: 1px dashed var(--primary); background: rgba(56, 189, 248, 0.02); text-align: center;">
+                        <h4 style="color: #fff; margin-bottom: 1rem;">Global Institutional Sync</h4>
+                        <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 2rem;">Reconnect all verified bank endpoints to synchronize the last 90 days of transactions into your secondary wealth vault.</p>
+                        <button onclick="selectNavItem(null, 'banksync')" style="width: auto; padding: 1rem 2.5rem; background: var(--primary); color: #0a1128; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 30px var(--primary-glow);">
+                            <i class="fas fa-sync-alt" style="margin-right: 0.75rem;"></i> Sync All Institutional Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Transaction Modal (User Only) -->
+    <div id="editModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); z-index:9999; align-items:center; justify-content:center;">
+        <div style="background:#0e1a35; border:1px solid rgba(56,189,248,0.25); border-radius:28px; padding:3rem; width:100%; max-width:500px; margin:1rem; box-shadow:0 40px 100px rgba(0,0,0,0.6); animation:slideUp 0.3s ease;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
+                <h3 style="margin:0; color:#fff; font-size:1.4rem;"><i class="fas fa-edit" style="color:var(--primary); margin-right:0.75rem;"></i>Edit Transaction</h3>
+                <button onclick="closeEditModal()" style="background:none; border:none; color:#64748b; font-size:1.5rem; cursor:pointer; width:auto; margin:0; padding:0;">&times;</button>
+            </div>
+            <input type="hidden" id="editTxnId">
+            <div style="margin-bottom:1.5rem;">
+                <label style="display:block; color:#64748b; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Description</label>
+                <input type="text" id="editDesc" style="width:100%; padding:0.9rem 1.1rem; background:rgba(255,255,255,0.04); border:1px solid rgba(56,189,248,0.2); border-radius:12px; color:#fff; outline:none; font-size:1rem;">
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+                <div>
+                    <label style="display:block; color:#64748b; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Amount (₹)</label>
+                    <input type="number" id="editAmount" min="0" step="0.01" style="width:100%; padding:0.9rem 1.1rem; background:rgba(255,255,255,0.04); border:1px solid rgba(56,189,248,0.2); border-radius:12px; color:#fff; outline:none; font-size:1rem;">
+                </div>
+                <div>
+                    <label style="display:block; color:#64748b; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Type</label>
+                    <select id="editType" style="width:100%; padding:0.9rem 1.1rem; background:#0e1a35; border:1px solid rgba(56,189,248,0.2); border-radius:12px; color:#fff; outline:none; font-size:1rem;">
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-bottom:2rem;">
+                <label style="display:block; color:#64748b; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Category</label>
+                <input type="text" id="editCategory" style="width:100%; padding:0.9rem 1.1rem; background:rgba(255,255,255,0.04); border:1px solid rgba(56,189,248,0.2); border-radius:12px; color:#fff; outline:none; font-size:1rem;">
+            </div>
+            <div style="display:flex; gap:1rem;">
+                <button onclick="saveEditTransaction()" style="flex:1; padding:1rem; background:linear-gradient(135deg,var(--primary),var(--primary-light)); color:#0a1128; border:none; border-radius:14px; font-weight:800; font-size:1rem; cursor:pointer; margin:0;">Save Changes</button>
+                <button onclick="closeEditModal()" style="flex:0.4; padding:1rem; background:rgba(255,255,255,0.05); color:#94a3b8; border:1px solid rgba(255,255,255,0.1); border-radius:14px; font-weight:700; font-size:1rem; cursor:pointer; margin:0;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    <script>
+        let myChart;
+
+        // Basic Authentication Check
+        if(localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        } else {
+            // Robust Session Check
+            const userName = localStorage.getItem('userName') || localStorage.getItem('userEmail') || 'Valued User';
+            const userEmail = localStorage.getItem('userEmail') || 'user@dumbo.com';
+            const userRole = localStorage.getItem('userRole') || 'User';
+
+            // Update UI safely
+            const nameEl = document.getElementById('displayName');
+            if (nameEl) nameEl.textContent = userName;
+            
+            const emailEl = document.getElementById('userEmailLabel');
+            if (emailEl) emailEl.textContent = userEmail;
+            
+            const avatar = document.getElementById('userAvatar');
+            if (avatar && userName.length > 0) {
+                avatar.textContent = userName.charAt(0).toUpperCase();
+            }
+
+            const portalLabel = document.getElementById('portalLabel');
+            if (portalLabel) {
+                portalLabel.textContent = userRole.toLowerCase() === 'admin' ? 'Admin Portal' : 'User Portal';
+            }
+
+            // Ensure sections are visible
+            const analytics = document.getElementById('analyticsHub');
+            if (analytics) analytics.style.display = 'block';
+            
+            initChart();
+            
+            // Handle URL Parameters (Direct Navigation / Tour)
+            const urlParams = new URLSearchParams(window.location.search);
+            const isTour = urlParams.get('tour') === 'true';
+            const requestedFrame = urlParams.get('frame');
+            
+            if (isTour || requestedFrame === 'ai') {
+                setTimeout(() => {
+                    const aiNavItem = document.querySelector('[onclick*="\'ai\'"]');
+                    if (aiNavItem) selectNavItem(aiNavItem, 'ai');
+                }, 500);
+            } else if (requestedFrame === 'banksync') {
+                setTimeout(() => {
+                    const syncNavItem = document.querySelector('[onclick*="\'banksync\'"]');
+                    if (syncNavItem) selectNavItem(syncNavItem, 'banksync');
+                }, 500);
+            } else {
+                switchFrame('all');
+            }
+
+            if (userRole.toLowerCase() === 'admin') {
+                // Hide user-facing stat cards, show admin KPI cards
+                document.getElementById('userStatBalance').style.display = 'none';
+                document.getElementById('incomeStatCard').style.display = 'none';
+                document.getElementById('expenseStatCard').style.display = 'none';
+                document.getElementById('adminStatUsers').style.display = 'block';
+                document.getElementById('adminStatTxns').style.display = 'block';
+                document.getElementById('adminStatExpense').style.display = 'block';
+
+                const aiNav = document.getElementById('aiNavItem');
+                if (aiNav) aiNav.style.display = 'none';
+                const topAdminEl = document.getElementById('topAdminNav');
+                if (topAdminEl) topAdminEl.style.display = 'flex';
+                const userBtn = document.getElementById('userNewEntryBtn');
+                if (userBtn) userBtn.style.display = 'none';
+
+                // Show User Management nav for Admins
+                const umNav = document.getElementById('userMgmtNavItem');
+                if (umNav) umNav.style.display = 'flex';
+
+                // Load admin overview stats
+                loadAdminOverview();
+                loadAdminUsers();
+            } else if (userRole.toLowerCase() === 'user') {
+                // Income Nav is visible for users
+                const incNav = document.getElementById('incomeNavItem');
+                if (incNav) incNav.style.display = 'flex';
+            }
+        }
+
+        function selectNavItem(el, frame = null) {
+            // Close mobile menu if open
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar.classList.contains('mobile-active')) {
+                sidebar.classList.remove('mobile-active');
+            }
+            // Remove active class from all items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked item if provided
+            if (el) el.classList.add('active');
+            
+            // Hide all sections
+            document.getElementById('overviewSection').style.display = 'none';
+            document.getElementById('incomeSection').style.display = 'none';
+            document.getElementById('expenseSection').style.display = 'none';
+            document.getElementById('aiModelSection').style.display = 'none';
+            document.getElementById('banksyncSection').style.display = 'none';
+            document.getElementById('userManagementSection').style.display = 'none';
+            document.getElementById('helpSection').style.display = 'none';
+            document.getElementById('settingsSection').style.display = 'none';
+
+            // Show relevant section
+            if (frame === 'income') {
+                document.getElementById('incomeSection').style.display = 'block';
+                switchFrame('income', 'incomeHistoryList');
+            } else if (frame === 'expense') {
+                document.getElementById('expenseSection').style.display = 'block';
+                switchFrame('expense', 'expenseHistoryList');
+            } else if (frame === 'ai') {
+                document.getElementById('aiModelSection').style.display = 'block';
+            } else if (frame === 'banksync') {
+                document.getElementById('banksyncSection').style.display = 'block';
+            } else if (frame === 'settings') {
+                document.getElementById('settingsSection').style.display = 'block';
+                loadSettings();
+            } else if (frame === 'usermgmt') {
+                document.getElementById('userManagementSection').style.display = 'block';
+                loadAdminUsers();
+            } else if (frame === 'help') {
+                document.getElementById('helpSection').style.display = 'block';
+            } else {
+                document.getElementById('overviewSection').style.display = 'block';
+                // AI Advisor hidden for Admin
+                switchFrame('all', 'transactionList');
+            }
+        }
+
+        function toggleBankSelection(el) {
+            document.querySelectorAll('#bankSelectionGrid .glass-card').forEach(card => {
+                card.classList.remove('bank-card-active');
+            });
+            el.classList.add('bank-card-active');
+        }
+
+        function startBankSync() {
+            const activeBank = document.querySelector('.bank-card-active');
+            if (!activeBank) {
+                alert('Please select a bank institution first.');
+                return;
+            }
+
+            document.getElementById('syncInitial').style.display = 'none';
+            document.getElementById('syncProgress').style.display = 'block';
+            
+            const bar = document.getElementById('syncProgressBar');
+            const status = document.getElementById('syncStatus');
+            
+            const steps = [
+                { p: 20, t: 'Establishing Handshake...' },
+                { p: 45, t: 'Authenticating Secure Keys...' },
+                { p: 70, t: 'Decrypting Statement Data...' },
+                { p: 90, t: 'Categorizing Transactions...' },
+                { p: 100, t: 'Finalizing Import...' }
+            ];
+
+            let step = 0;
+            const interval = setInterval(() => {
+                if (step >= steps.length) {
+                    clearInterval(interval);
+                    
+                    // Simulation complete - transition to success view
+                    setTimeout(() => {
+                        document.getElementById('syncProgress').style.display = 'none';
+                        document.getElementById('syncSuccess').style.display = 'block';
+                        if (typeof loadTransactions === 'function') loadTransactions();
+                    }, 500);
+                    return;
+                }
+                bar.style.width = steps[step].p + '%';
+                status.innerText = steps[step].t;
+                step++;
+            }, 1000);
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('financeChart').getContext('2d');
+            myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Income', 'Expenses'],
+                    datasets: [{
+                        data: [0, 0],
+                        backgroundColor: ['#34d399', '#ef4444'],
+                        borderWidth: 0,
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Inter', weight: 'bold' } } }
+                    }
+                }
+            });
+        }
+
+        function updateChart(filteredIncome = incomeSum, filteredExpense = expenseSum) {
+            if (myChart) {
+                myChart.data.datasets[0].data = [filteredIncome, filteredExpense];
+                myChart.update();
+            }
+        }
+
+        // allTransactions is already declared in script.js
+        
+        async function switchFrame(frame, listId = 'transactionList') {
+            const btns = document.querySelectorAll('.btn-group button');
+            btns.forEach(b => b.classList.remove('active'));
+            // Only add active if currentTarget exists (manual click)
+            if (typeof event !== 'undefined' && event && event.target && event.target.tagName === 'BUTTON') {
+                event.target.classList.add('active');
+            }
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/api/transactions`, {
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    allTransactions = data;
+                    const now = new Date();
+                    let filtered = data.filter(item => {
+                        const itemDate = new Date(item.date);
+                        if (frame === 'daily') {
+                            return itemDate.toDateString() === now.toDateString();
+                        } else if (frame === 'weekly') {
+                            const diff = (now - itemDate) / (1000 * 60 * 60 * 24);
+                            return diff <= 7;
+                        } else if (frame === 'monthly') {
+                            return itemDate.getMonth() === now.getMonth() && itemDate.getFullYear() === now.getFullYear();
+                        } else if (frame === 'income') {
+                            return item.type === 'income';
+                        } else if (frame === 'expense') {
+                            return item.type === 'expense';
+                        }
+                        return true; // 'all' or default
+                    });
+
+                    let fIncome = 0, fExpense = 0;
+                    const listContainer = document.getElementById(listId);
+                    if (!listContainer) return;
+                    listContainer.innerHTML = '';
+                    
+                    if (filtered.length === 0) {
+                        listContainer.innerHTML = '<div class="glass-card" style="padding: 2rem; text-align: center; color: var(--text-gray);">No data found for this selection.</div>';
+                    }
+
+                    filtered.forEach(i => {
+                        if (i.type === 'income') fIncome += i.amount;
+                        else fExpense += i.amount;
+
+                        // Show actions for Everyone (Admins can edit all, Users only see their own anyway)
+                        const showActions = true;
+
+                        // Create card
+                        const card = document.createElement('div');
+                        card.className = 'expense-card';
+                        card.style.borderLeftColor = i.type === 'income' ? 'var(--success)' : '#ef4444';
+                        card.innerHTML = `
+                            <div style="display: flex; align-items: center; gap: 1.5rem; flex:1;">
+                                <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                                    ${i.type === 'income' ? '💰' : '💸'}
+                                </div>
+                                <div>
+                                    <h4 style="margin: 0; color: #fff; font-size: 1.1rem;">${i.description} ${i.user ? ` <span style="font-size: 0.75rem; color: #a855f7; background: rgba(168, 85, 247, 0.1); padding: 0.2rem 0.5rem; border-radius: 6px; margin-left: 0.5rem;">${i.user.fullName}</span>` : ''}</h4>
+                                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-gray); font-weight: 600;">${new Date(i.date).toLocaleDateString('en-IN', {day:'2-digit', month:'short'})} • <span style="color: var(--primary);">${(i.category && i.category.name) ? i.category.name : (i.legacyCategory || i.category || 'Other')}</span></p>
+                                </div>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:1.5rem;">
+                                <h4 style="margin: 0; font-size: 1.25rem; color: ${i.type === 'income' ? 'var(--success)' : '#ef4444'};">
+                                    ${i.type === 'income' ? '+' : '-'} ₹${i.amount.toLocaleString('en-IN')}
+                                </h4>
+                                ${showActions ? `
+                                <div style="display:flex; gap:0.5rem;">
+                                    <button onclick="openEditModal('${i.id}','${i.description.replace(/'/g,"\\'")}',${i.amount},'${i.type}','${(i.legacyCategory||'Other').replace(/'/g,"\\'")}' )" style="background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3); color:var(--primary); border-radius:10px; padding:0.4rem 0.8rem; font-size:0.8rem; font-weight:700; cursor:pointer; width:auto; margin:0; transition:0.2s;" onmouseover="this.style.background='rgba(56,189,248,0.25)'" onmouseout="this.style.background='rgba(56,189,248,0.1)'">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button onclick="deleteTransaction('${i.id}')" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#ef4444; border-radius:10px; padding:0.4rem 0.8rem; font-size:0.8rem; font-weight:700; cursor:pointer; width:auto; margin:0; transition:0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.25)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>` : ''}
+                            </div>
+                        `;
+                        listContainer.appendChild(card);
+                    });
+
+                    // Update global sums for visuals
+                    incomeSum = fIncome;
+                    expenseSum = fExpense;
+                    totalSum = fIncome - fExpense;
+                    updateVisuals();
+                    updateChart(fIncome, fExpense);
+                    
+                    // Update header title based on view if on overview
+                    const title = document.getElementById('historyTitle');
+                    if (title && listId === 'transactionList') {
+                        if (frame === 'income') title.innerHTML = '<i class="fas fa-wallet" style="color: var(--success);"></i> My Income';
+                        else if (frame === 'expense') title.innerHTML = '<i class="fas fa-receipt" style="color: #ef4444;"></i> My Expenses';
+                        else title.innerHTML = '<i class="fas fa-history" style="color: var(--primary);"></i> Recent Activity';
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function exportToCSV() {
+            if (!allTransactions.length) return;
+            let csv = "User,Email,Date,Category,Description,Type,Amount\n";
+            allTransactions.forEach(item => {
+                const userName = (item.userId?.fullName || 'Self').replace(/,/g, '');
+                const userEmail = (item.userId?.email || '').replace(/,/g, '');
+                const desc = (item.description || '').replace(/,/g, '');
+                csv += `${userName},${userEmail},${new Date(item.date).toLocaleDateString()},${item.category || 'Other'},${desc},${item.type},${item.amount}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'dumbo_transactions_monitor.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        // --- Admin: Overview KPI Stats ---
+        async function loadAdminOverview() {
+            try {
+                // Get user count
+                const usersRes = await fetch(`${CONFIG.API_BASE_URL}/api/users`, {
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                });
+                const users = await usersRes.json();
+                if (Array.isArray(users)) {
+                    document.getElementById('adminUserCount').textContent = users.length;
+                }
+
+                // Get all transactions for platform stats
+                const txnRes = await fetch(`${CONFIG.API_BASE_URL}/api/transactions`, {
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                });
+                const txns = await txnRes.json();
+                if (Array.isArray(txns)) {
+                    document.getElementById('adminTxnCount').textContent = txns.length.toLocaleString('en-IN');
+                    const totalExpense = txns
+                        .filter(t => t.type === 'expense')
+                        .reduce((sum, t) => sum + t.amount, 0);
+                    document.getElementById('adminExpenseTotal').textContent = totalExpense.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+                }
+            } catch (err) {
+                console.error('Admin overview error:', err);
+            }
+        }
+
+        // --- Admin: Load All Users ---
+        async function loadAdminUsers() {
+            const grid = document.getElementById('userCardGrid');
+            if (!grid) return;
+            grid.innerHTML = '<div style="padding:2rem; text-align:center; color:var(--text-gray);">Loading users...</div>';
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/api/users`, {
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                });
+                const users = await res.json();
+
+                if (!res.ok || !Array.isArray(users)) {
+                    grid.innerHTML = '<div style="padding:2rem; text-align:center; color:#ef4444;">Failed to load users.</div>';
+                    return;
+                }
+
+                grid.innerHTML = '';
+                users.forEach(u => {
+                    const card = document.createElement('div');
+                    card.style.cssText = 'background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:1.75rem; cursor:pointer; transition:all 0.3s ease;';
+                    card.onmouseover = () => { card.style.borderColor = 'rgba(192,132,252,0.4)'; card.style.transform = 'translateY(-4px)'; card.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)'; };
+                    card.onmouseout = () => { card.style.borderColor = 'rgba(255,255,255,0.08)'; card.style.transform = ''; card.style.boxShadow = ''; };
+                    card.onclick = () => filterByUser(u.id, u.fullName, u.email, u.bankName, u.accountNumber, u.ifscCode);
+                    card.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.25rem;">
+                            <div style="width:44px; height:44px; background:linear-gradient(135deg,#c084fc,#a855f7); border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; font-size:1.1rem; flex-shrink:0;">${u.fullName.charAt(0).toUpperCase()}</div>
+                            <div style="overflow:hidden;">
+                                <h4 style="margin:0; color:#fff; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${u.fullName}</h4>
+                                <p style="margin:0; color:#64748b; font-size:0.75rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${u.email}</p>
+                            </div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="background:${u.role==='Admin' ? 'rgba(192,132,252,0.15)' : 'rgba(56,189,248,0.1)'}; color:${u.role==='Admin' ? '#c084fc' : 'var(--primary)'}; padding:0.25rem 0.75rem; border-radius:8px; font-size:0.75rem; font-weight:700;">${u.role}</span>
+                            <span style="color:#64748b; font-size:0.8rem;"><i class="fas fa-exchange-alt" style="margin-right:0.4rem;"></i>${u._count.transactions} txns</span>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (err) {
+                console.error(err);
+                grid.innerHTML = '<div style="padding:2rem; text-align:center; color:#ef4444;">Network error loading users.</div>';
+            }
+        }
+
+        // --- Admin: Filter Transactions by User ---
+        async function filterByUser(userId, name, email, bank = null, account = null, ifsc = null) {
+            document.getElementById('selectedUserPanel').style.display = 'block';
+            document.getElementById('selectedUserName').textContent = name;
+            document.getElementById('selectedUserEmail').textContent = email;
+            document.getElementById('selectedUserAvatar').textContent = name.charAt(0).toUpperCase();
+            
+            // Set banking details
+            document.getElementById('selUserBank').textContent = bank || 'Not Set';
+            document.getElementById('selUserAccount').textContent = account || 'Not Set';
+            document.getElementById('selUserIFSC').textContent = ifsc || 'Not Set';
+
+            document.getElementById('selectedUserTxnList').innerHTML = '<div style="padding:2rem; text-align:center; color:var(--text-gray);">Loading transactions...</div>';
+            document.getElementById('selectedUserExpense').textContent = '₹0';
+
+            document.getElementById('selectedUserPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            try {
+                // Fetch all transactions (admin gets all)
+                const res = await fetch(`${CONFIG.API_BASE_URL}/api/transactions`, {
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                });
+                const all = await res.json();
+
+                // Filter by this user's ID and only include expenses for Admin view
+                const userTxns = all.filter(t => t.userId === userId && t.type === 'expense');
+                const list = document.getElementById('selectedUserTxnList');
+                list.innerHTML = '';
+
+                if (userTxns.length === 0) {
+                    list.innerHTML = '<div class="glass-card" style="padding:2rem; text-align:center; color:var(--text-gray);">No relevant settlement activity found.</div>';
+                    return;
+                }
+
+                let totalExpense = 0;
+                userTxns.forEach(i => {
+                    totalExpense += i.amount;
+
+                    const card = document.createElement('div');
+                    card.className = 'expense-card';
+                    card.style.borderLeftColor = i.type === 'income' ? 'var(--success)' : '#ef4444';
+                    card.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:1.5rem; flex:1;">
+                            <div style="width:44px; height:44px; background:rgba(255,255,255,0.05); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">${i.type === 'income' ? '💰' : '💸'}</div>
+                            <div>
+                                <h4 style="margin:0; color:#fff; font-size:1rem;">${i.description}</h4>
+                                <p style="margin:0; font-size:0.78rem; color:var(--text-gray); font-weight:600;">${new Date(i.date).toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'})} • <span style="color:var(--primary);">${i.legacyCategory || 'Other'}</span></p>
+                            </div>
+                        </div>
+                        <h4 style="margin:0; font-size:1.15rem; color:${i.type === 'income' ? 'var(--success)' : '#ef4444'};">
+                            ${i.type === 'income' ? '+' : '-'} ₹${i.amount.toLocaleString('en-IN')}
+                        </h4>
+                    `;
+                    list.appendChild(card);
+                });
+
+                document.getElementById('selectedUserExpense').textContent = '₹' + totalExpense.toLocaleString('en-IN');
+            } catch (err) {
+                console.error(err);
+                document.getElementById('selectedUserTxnList').innerHTML = '<div style="padding:2rem; text-align:center; color:#ef4444;">Error loading transactions.</div>';
+            }
+        }
+
+        // --- Edit / Delete Functions (User Module Only) ---
+        function openEditModal(id, description, amount, type, category) {
+            document.getElementById('editTxnId').value = id;
+            document.getElementById('editDesc').value = description;
+            document.getElementById('editAmount').value = amount;
+            document.getElementById('editType').value = type;
+            document.getElementById('editCategory').value = category;
+            const modal = document.getElementById('editModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        async function saveEditTransaction() {
+            const id = document.getElementById('editTxnId').value;
+            const description = document.getElementById('editDesc').value.trim();
+            const amount = document.getElementById('editAmount').value;
+            const type = document.getElementById('editType').value;
+            const category = document.getElementById('editCategory').value.trim();
+
+            if (!description || !amount) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/api/transactions/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': localStorage.getItem('token')
+                    },
+                    body: JSON.stringify({ description, amount: parseFloat(amount), type, category })
+                });
+
+                if (res.ok) {
+                    closeEditModal();
+                    const activeNav = document.querySelector('.nav-item.active');
+                    if (activeNav) activeNav.click();
+                    else switchFrame('all');
+                } else {
+                    const data = await res.json();
+                    alert('Error: ' + (data.msg || 'Could not update transaction.'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Network error. Please try again.');
+            }
+        }
+
+        async function deleteTransaction(id) {
+            if (!confirm('Are you sure you want to delete this transaction?')) return;
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/api/transactions/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                });
+
+                if (res.ok) {
+                    const activeNav = document.querySelector('.nav-item.active');
+                    if (activeNav) activeNav.click();
+                    else switchFrame('all');
+                } else {
+                    const data = await res.json();
+                    alert('Error: ' + (data.msg || 'Could not delete transaction.'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Network error. Please try again.');
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('editModal').addEventListener('click', function(e) {
+            if (e.target === this) closeEditModal();
+        });
+
+        // --- New Helper Functions ---
+        function openEntryModal(type) {
+            const form = document.getElementById('entryFormCard');
+            const title = document.getElementById('entryFormTitle');
+            const typeInput = document.getElementById('type');
+            
+            form.style.display = 'block';
+            typeInput.value = type;
+            title.innerHTML = type === 'income' 
+                ? '<i class="fas fa-plus-circle" style="color: var(--success);"></i> Add New Income' 
+                : '<i class="fas fa-minus-circle" style="color: #ef4444;"></i> Add New Expense';
+            
+            form.style.borderLeftColor = type === 'income' ? 'var(--success)' : '#ef4444';
+            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function closeEntryForm() {
+            document.getElementById('entryFormCard').style.display = 'none';
+        }
+
+        // Override addExpense to close form on success
+        const originalAddExpense = addExpense;
+        addExpense = async function() {
+            await originalAddExpense();
+            if (document.getElementById("desc").value === "") {
+                closeEntryForm();
+                const activeNav = document.querySelector('.nav-item.active');
+                if (activeNav) {
+                    activeNav.click();
+                } else {
+                    switchFrame('all');
+                }
+            }
+        };
+
+        function toggleMobileMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('mobile-active');
+            const btn = document.getElementById('mobileMenuBtn');
+            btn.classList.toggle('active');
+        }
+    </script>
+    <!-- Dumbo AI Concierge Chatbot -->
+    <div id="chatbot-container">
+        <div id="chatbot-window">
+            <div id="chatbot-header">
+                <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-size: 1.2rem;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <h4 style="margin: 0; color: #fff; font-size: 1rem;">Dumbo Finance</h4>
+                    <p style="margin: 0; color: var(--success); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">Smart Personal Finance Tracker & Advisor</p>
+                </div>
+                <button onclick="toggleChatbot()" style="background: none; border: none; color: #64748b; margin-left: auto; cursor: pointer; font-size: 1.2rem;">&times;</button>
+            </div>
+            <div id="chatbot-messages">
+                <div class="chat-msg ai">Greetings! I am the Dumbo Finance Advisor. I am ready to track your wealth signals and provide intelligent strategies. How can I assist today?</div>
+            </div>
+            <div id="chatbot-input-container">
+                <input type="text" id="chatbot-input" placeholder="Ask about your wealth...">
+                <button id="chatbot-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        <div id="chatbot-bubble" onclick="toggleChatbot()">
+            <i class="fas fa-comment-dots"></i>
+        </div>
+    </div>
+
+    <script>
+        const chatInput = document.getElementById('chatbot-input');
+        const chatWindow = document.getElementById('chatbot-window');
+        const msgContainer = document.getElementById('chatbot-messages');
+
+        function toggleChatbot() {
+            if (chatWindow.style.display === 'flex') {
+                chatWindow.style.display = 'none';
+            } else {
+                chatWindow.style.display = 'flex';
+                setTimeout(() => chatInput.focus(), 150);
+            }
+        }
+
+        async function sendChatMessage() {
+            const msg = chatInput.value.trim();
+            if (!msg) return;
+
+            // User Message
+            const userDiv = document.createElement('div');
+            userDiv.className = 'chat-msg user';
+            userDiv.textContent = msg;
+            msgContainer.appendChild(userDiv);
+            chatInput.value = '';
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+
+            // AI Thinking State
+            const aiDiv = document.createElement('div');
+            aiDiv.className = 'chat-msg ai';
+            aiDiv.innerHTML = '<span class="ai-typing">Analyzing vault signals...</span>';
+            msgContainer.appendChild(aiDiv);
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+
+            try {
+                // Determine API endpoint correctly
+                const baseUrl = typeof CONFIG !== 'undefined' ? CONFIG.API_BASE_URL : 'http://localhost:5005';
+                
+                const response = await fetch(`${baseUrl}/api/ai/alpha-advice`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-auth-token': localStorage.getItem('token')
+                    },
+                    body: JSON.stringify({ message: msg })
+                });
+                const data = await response.json();
+                aiDiv.textContent = data.advice || data.recommendation || "Wealth Signal Received: Your portfolio is currently following institutional growth patterns. I recommend maintaining your current liquidity distribution.";
+            } catch (err) {
+                console.error('Chat AI Error:', err);
+                aiDiv.textContent = "Apologies, the Zenith Node is currently synchronizing. Please try again in a moment.";
+            }
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+        }
+
+        // Robust listeners
+        document.getElementById('chatbot-send').addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+    </script>
+</body>
+</html>
