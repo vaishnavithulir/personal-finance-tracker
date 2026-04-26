@@ -3,160 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Dumbo Finance</title>
+    <title>User Login - Dumbo Finance</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #38bdf8;
-            --primary-glow: rgba(56, 189, 248, 0.3);
-            --bg-dark: #0a0f1e;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --admin-gold: #c2a265;
+            --admin-gold-hover: #d4b57e;
+            --field-bg: rgba(255, 255, 255, 0.03);
+            --field-border: rgba(255, 255, 255, 0.1);
         }
+
         body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
             height: 100vh;
-            background: var(--bg-dark);
-            color: #fff;
+            margin: 0;
+            display: flex;
+            background: #020617;
             overflow: hidden;
-            display: flex;
+            font-family: 'Outfit', sans-serif;
         }
-        .landscape-left {
-            flex: 1.2;
-            background: linear-gradient(rgba(10, 15, 30, 0.4), rgba(10, 15, 30, 0.8)), 
-                        url('https://images.unsplash.com/photo-1543286386-713bdd548da4?auto=format&fit=crop&q=80&w=2000');
-            background-size: cover;
-            background-position: center;
+
+        .split-container {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 8%;
-            border-right: 1px solid var(--glass-border);
+            width: 100%;
+            height: 100%;
         }
-        .landscape-right {
-            flex: 1;
+
+        /* Left Side: Branding and Hero */
+        .branding-chamber {
+            flex: 1.1;
+            position: relative;
+            background: url('zenith_institutional_dashboard_1777195534688.png') no-repeat center center/cover;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            padding: 5%;
-            background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.05) 0%, transparent 100%);
+            justify-content: center;
+            padding: 4rem;
         }
-        .auth-container {
+
+        .branding-chamber::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(2, 6, 23, 0.85) 0%, rgba(2, 6, 23, 0.6) 100%);
+        }
+
+        .branding-content {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            max-width: 600px;
+        }
+
+        .branding-title {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.05em;
+            color: #ffffff;
+        }
+
+        .branding-motto {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+            margin-bottom: 4rem;
+            font-weight: 500;
+            max-width: 450px;
+        }
+
+        .branding-stats {
+            display: flex;
+            gap: 4rem;
+        }
+
+        .stat-item h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 0;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-item p {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-top: 0.5rem;
+        }
+
+        /* Right Side: Authentication Vault */
+        .vault-chamber {
+            flex: 0.9;
+            background: #020617;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+            position: relative;
+        }
+
+        .auth-card-container {
             width: 100%;
             max-width: 420px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            padding: 3.5rem;
-            border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        input {
-            width: 100%;
-            padding: 1rem 0;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid var(--glass-border);
-            color: #fff;
-            font-size: 1.1rem;
-            outline: none;
-            transition: 0.3s;
-        }
-        input:focus {
-            border-bottom-color: var(--primary);
-        }
-        .btn-submit {
-            width: 100%;
-            padding: 1.1rem;
-            background: var(--primary);
-            color: #0a0f1e;
-            border: none;
-            border-radius: 12px;
+
+        .back-to-global {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 2rem;
-            cursor: pointer;
-            transition: 0.4s;
-            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
-        }
-        .btn-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.4);
-        }
-        .back-home {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            color: #94a3b8;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
             transition: 0.3s;
-            z-index: 100;
+            align-self: flex-end;
+            margin-right: 1rem;
         }
-        .back-home:hover { color: #fff; }
-        @media (max-width: 768px) {
-            .back-home {
-                top: 1rem;
-                right: 1.5rem;
-                font-size: 0.8rem;
-            }
+
+        .back-to-global:hover {
+            color: #fff;
+            transform: translateX(-5px);
+        }
+
+        .vault-header h1 {
+            color: #ffffff !important;
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 3.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-card {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 3.5rem;
+            backdrop-filter: blur(40px);
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .vault-header h1 {
+            color: #ffffff;
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 3.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .input-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .input-group label {
+            display: block;
+            color: #64748b;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.75rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            background: var(--field-bg);
+            border: 1px solid var(--field-border);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .auth-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            margin-top: 1rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .remember-me input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--admin-gold);
+        }
+
+        .password-recovery {
+            color: var(--admin-gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .btn-sign-in {
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--admin-gold);
+            border: none;
+            border-radius: 14px;
+            color: #020617;
+            font-size: 1.1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(194, 162, 101, 0.15);
+        }
+
+        .btn-sign-in:hover {
+            background: var(--admin-gold-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(194, 162, 101, 0.25);
+        }
+
+        .auth-footer {
+            margin-top: 2.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .auth-footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 800;
+            transition: 0.3s;
+        }
+
+        .auth-footer a:hover {
+            color: var(--admin-gold);
+        }
+
+        @media (max-width: 1024px) {
+            .branding-chamber { display: none; }
+            .vault-chamber { flex: 1; padding: 1.5rem; }
         }
     </style>
 </head>
-<body class="auth-page-body">
-    
-    <div class="landscape-left">
-
-        <h1 style="font-size: 4rem; font-weight: 900; margin: 0; letter-spacing: -0.05em; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Dumbo Finance</h1>
-        <p style="font-size: 1.4rem; color: #94a3b8; line-height: 1.5; max-width: 500px; margin-top: 1.5rem; font-weight: 500;">Your Secure Personal Wealth Vault.</p>
-        
-        <div style="margin-top: 4rem; display: flex; gap: 3rem;">
-            <div><h3 style="margin: 0; font-size: 1.8rem;">Tier 1</h3><p style="color: #64748b; margin: 0.5rem 0;">Security</p></div>
-            <div><h3 style="margin: 0; font-size: 1.8rem;">Live</h3><p style="color: #64748b; margin: 0.5rem 0;">Monitoring</p></div>
+<body>
+    <div class="split-container">
+        <!-- Brand Left -->
+        <div class="branding-chamber">
+            <div class="branding-content">
+                <h1 class="branding-title">Dumbo Finance</h1>
+                <p class="branding-motto">Secure, Institutional-Grade Wealth Management Systems.</p>
+                <div class="branding-stats">
+                    <div class="stat-item">
+                        <h2>256-bit</h2>
+                        <p>Encryption</p>
+                    </div>
+                    <div class="stat-item">
+                        <h2>99.9%</h2>
+                        <p>Uptime</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="landscape-right">
-        <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> BACK TO HOME</a>
-        
-        <div class="auth-container">
-            <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 3rem; letter-spacing: -0.02em;">User Portal</h2>
-            
-            <form id="loginForm">
-                <div style="margin-bottom: 2rem;">
-                    <label style="display: block; color: #64748b; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Email Address</label>
-                    <input type="email" id="email" placeholder="rahul@gmail.com" required>
-                </div>
-                
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; color: #64748b; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Password</label>
-                    <input type="password" id="password" required>
-                </div>
+        <!-- Auth Right -->
+        <div class="vault-chamber">
+            <div class="auth-card-container">
+                <a href="index.html" class="back-to-global">
+                    <i class="fas fa-arrow-left"></i> BACK TO HOME
+                </a>
 
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem;">
-                    <label style="display: flex; align-items: center; gap: 0.5rem; color: #94a3b8; font-size: 0.9rem; cursor: pointer;">
-                        <input type="checkbox" id="rememberMe" style="width: auto;"> Remember Me
-                    </label>
-                    <a href="forgot-password.html" style="color: var(--primary); text-decoration: none; font-size: 0.9rem; font-weight: 700;">Reset Password</a>
-                </div>
-                
-                <button type="submit" id="loginBtn" class="btn-submit">Sign In</button>
-            </form>
+                <div class="auth-card">
+                    <div class="vault-header">
+                        <h1>User Login</h1>
+                    </div>
 
-            <div style="margin-top: 2rem; text-align: center;">
-                <p style="color: #64748b; font-size: 0.9rem;">New to Dumbo? <a href="signup.html" style="color: #fff; text-decoration: none; font-weight: 700;">Join Now</a></p>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label>Institutional Email Address</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="email" class="input-field" placeholder="institutional@wealth.com" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Vault Security Key</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="password" class="input-field" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <div class="auth-actions">
+                        <label class="remember-me">
+                            <input type="checkbox"> Remember Me
+                        </label>
+                        <a href="forgot-password.html" class="password-recovery">Recover Key</a>
+                    </div>
+
+                    <button type="submit" id="loginBtn" class="btn-sign-in">Sign In</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>New institutional member? <a href="signup.html">Request Access</a></p>
+                </div>
             </div>
         </div>
     </div>
@@ -168,9 +354,10 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const loginBtn = document.getElementById('loginBtn');
+            const originalText = loginBtn.textContent;
             
             try {
-                loginBtn.textContent = 'SECURE LOADING...';
+                loginBtn.textContent = 'AUTHENTICATING...';
                 loginBtn.disabled = true;
 
                 const res = await fetch(`${CONFIG.API_BASE_URL}/api/users/login`, {
@@ -186,17 +373,16 @@
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('userName', data.user.fullName);
                     localStorage.setItem('userEmail', data.user.email);
-                    localStorage.setItem('userRole', data.user.role);
-                    
+                    localStorage.setItem('userRole', data.user.role || 'user');
                     window.location.href = 'dashboard.html';
                 } else {
-                    alert(data.msg || 'Access denied.');
+                    alert('ACCESS DENIED: Credentials rejected by security node.');
                 }
             } catch (err) {
                 console.error(err);
-                alert('Network error.');
+                alert('CRITICAL ERROR: Security hub unreachable.');
             } finally {
-                loginBtn.textContent = 'SIGN IN';
+                loginBtn.textContent = originalText;
                 loginBtn.disabled = false;
             }
         });

@@ -3,26 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Role - Dumbo Finance</title>
+    <title>Select Interface - Dumbo Finance</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .selection-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: var(--primary);
+            filter: blur(180px);
+            opacity: 0.03;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .selection-container {
+            width: 100%;
+            max-width: 850px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            z-index: 1;
+        }
+
+        .role-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .role-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+        }
+
+        .role-icon {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            transition: 0.4s;
+        }
+
+        .admin-card .role-icon { color: #818cf8; }
+        .user-card .role-icon { color: var(--primary); }
+
+        .role-card:hover .role-icon {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 20px currentColor);
+        }
+
+        .role-title {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .role-desc {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 4rem;
+            z-index: 1;
+        }
+
+        .header-section h1 {
+            color: #fff;
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -0.05em;
+        }
+
+        .header-section p {
+            color: #64748b;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .selection-container {
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @media (max-width: 768px) {
+            .selection-container {
+                grid-template-columns: 1fr;
+                max-width: 420px;
+            }
+        }
+    </style>
 </head>
-<body class="auth-page" style="flex-direction: column; min-height: 100vh; padding-top: 5rem;">
-    <h1 style="margin-bottom: 4rem; font-size: 3rem;">How would you like to continue?</h1>
-    
-    <div style="display: flex; gap: 2.5rem; width: 100%; max-width: 900px; justify-content: center;">
-        <div class="feature-card" onclick="selectRole('admin')" style="cursor: pointer; flex: 1; text-align: center; padding: 4rem 2rem;">
-            <i class="fas fa-user-shield" style="font-size: 4rem; color: var(--primary); margin-bottom: 2rem;"></i>
-            <h3>Admin Portal</h3>
-            <p>Manage users, oversee all transactions, and access advanced financial analytics.</p>
+<body>
+    <div class="selection-wrapper">
+        <div class="auth-glow"></div>
+        
+        <div class="header-section">
+            <p>Access Initialization</p>
+            <h1>Select Command Tier</h1>
         </div>
 
-        <div class="feature-card" onclick="selectRole('user')" style="cursor: pointer; flex: 1; text-align: center; padding: 4rem 2rem;">
-            <i class="fas fa-user" style="font-size: 4rem; color: var(--primary); margin-bottom: 2rem;"></i>
-            <h3>User Portal</h3>
-            <p>Track your personal expenses, manage your own budget, and save smarter.</p>
+        <div class="selection-container">
+            <div class="role-card admin-card" onclick="selectRole('admin')">
+                <i class="fas fa-user-tie role-icon"></i>
+                <h3 class="role-title">Admin Node</h3>
+                <p class="role-desc">Authorize institutional movements, synchronize global ledgers, and manage vault directives with root elevation.</p>
+            </div>
+
+            <div class="role-card user-card" onclick="selectRole('user')">
+                <i class="fas fa-user-shield role-icon"></i>
+                <h3 class="role-title">User Vault</h3>
+                <p class="role-desc">Track personal capital flows, manage secure expense streams, and optimize your wealth with Zenith analytics.</p>
+            </div>
         </div>
     </div>
+
     <script>
         function selectRole(role) {
             localStorage.setItem('selectedRole', role);
@@ -30,6 +164,5 @@
             window.location.href = 'dashboard.html';
         }
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </body>
 </html>

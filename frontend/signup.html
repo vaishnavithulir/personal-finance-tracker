@@ -3,82 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Dumbo Finance</title>
+    <title>Request Access - Dumbo Finance</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body class="auth-page" style="flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;">
-    
-    <!-- Branding Header -->
-    <div style="text-align: center; margin-bottom: 2.5rem; animation: fadeInDown 0.8s ease;">
-
-        <h2 style="font-size: 2.5rem; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; background: linear-gradient(135deg, #fff 0%, var(--primary) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Dumbo Finance</h2>
-    </div>
-
-    <!-- Main Auth Card -->
-    <div class="auth-container" style="max-width: 500px; padding: 2.5rem; background: #fff; color: #333; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
-        <h3 style="text-align: center; text-transform: uppercase; letter-spacing: 0.1em; color: #444; margin-bottom: 2rem; font-weight: 700;">User Registration</h3>
-        
-        <form id="signupForm">
-            <div style="display: flex; align-items: flex-end; gap: 1rem; margin-bottom: 1.5rem;">
-                <i class="far fa-user" style="font-size: 1.5rem; color: #666; padding-bottom: 8px;"></i>
-                <div class="input-group" style="flex: 1; margin-bottom: 0;">
-                    <label style="color: #666; font-size: 0.85rem; margin-bottom: 4px;">Full Name</label>
-                    <input type="text" id="fullName" placeholder="John Doe" required style="background: transparent; border: none; border-bottom: 1px solid #ddd; border-radius: 0; color: #333; padding-left: 0;">
-                </div>
-            </div>
-
-            <div style="display: flex; align-items: flex-end; gap: 1rem; margin-bottom: 1.5rem;">
-                <i class="far fa-envelope" style="font-size: 1.5rem; color: #666; padding-bottom: 8px;"></i>
-                <div class="input-group" style="flex: 1; margin-bottom: 0;">
-                    <label style="color: #666; font-size: 0.85rem; margin-bottom: 4px;">Email</label>
-                    <input type="email" id="email" placeholder="email@address.com" required style="background: transparent; border: none; border-bottom: 1px solid #ddd; border-radius: 0; color: #333; padding-left: 0;">
-                </div>
-            </div>
-            
-            <div style="display: flex; align-items: flex-end; gap: 1rem; margin-bottom: 2.5rem;">
-                <i class="fas fa-lock" style="font-size: 1.5rem; color: #666; padding-bottom: 8px;"></i>
-                <div class="input-group" style="flex: 1; margin-bottom: 0;">
-                    <label style="color: #666; font-size: 0.85rem; margin-bottom: 4px;">Password</label>
-                    <input type="password" id="password" required style="background: transparent; border: none; border-bottom: 1px solid #ddd; border-radius: 0; color: #333; padding-left: 0;">
-                </div>
-            </div>
-
-            <div style="display: flex; align-items: flex-end; gap: 1rem; margin-bottom: 2.5rem;">
-                <i class="fas fa-phone" style="font-size: 1.5rem; color: #666; padding-bottom: 8px;"></i>
-                <div class="input-group" style="flex: 1; margin-bottom: 0;">
-                    <label style="color: #666; font-size: 0.85rem; margin-bottom: 6px;">Phone Number (Mobile Sync)</label>
-                    <input type="tel" id="phoneNumber" placeholder="+91 90000 00000" class="premium-input">
-                </div>
-            </div>
-            
-            <button type="submit" id="submitBtn" style="background: #38bdf8; color: white; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; height: 50px; border-radius: 6px;">Create Account</button>
-        </form>
-    </div>
-
-    <!-- Additional Links -->
-    <div style="text-align: center; margin-top: 2rem; animation: fadeInUp 0.8s ease;">
-        <p style="color: #cbd5e1; margin-bottom: 1.5rem;">Already have an account?</p>
-        <button onclick="window.location.href='login.html'" style="width: auto; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.75rem 3rem; border-radius: 6px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em; margin-top: 0;">Sign In</button>
-    </div>
-
     <style>
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        :root {
+            --admin-gold: #c2a265;
+            --admin-gold-hover: #d4b57e;
+            --field-bg: rgba(255, 255, 255, 0.03);
+            --field-border: rgba(255, 255, 255, 0.1);
         }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        body {
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            background: #020617;
+            overflow: hidden;
+            font-family: 'Outfit', sans-serif;
         }
-        .input-group input:focus {
-            border-bottom-color: #38bdf8 !important;
-            box-shadow: none !important;
+
+        .split-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Left Side: Branding and Hero */
+        .branding-chamber {
+            flex: 1.1;
+            position: relative;
+            background: url('zenith_institutional_dashboard_1777195534688.png') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+        }
+
+        .branding-chamber::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(2, 6, 23, 0.85) 0%, rgba(2, 6, 23, 0.6) 100%);
+        }
+
+        .branding-content {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            max-width: 600px;
+        }
+
+        .branding-title {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.05em;
+            color: #ffffff;
+        }
+
+        .branding-motto {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+            margin-bottom: 4rem;
+            font-weight: 500;
+            max-width: 450px;
+        }
+
+        .branding-stats {
+            display: flex;
+            gap: 4rem;
+        }
+
+        .stat-item h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 0;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-item p {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-top: 0.5rem;
+        }
+
+        /* Right Side: Registration Vault */
+        .vault-chamber {
+            flex: 0.9;
+            background: #020617;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .auth-card-container {
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .back-to-global {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: 0.3s;
+            align-self: flex-end;
+            margin-right: 1rem;
+        }
+
+        .back-to-global:hover {
+            color: #fff;
+            transform: translateX(-5px);
+        }
+
+        .auth-card {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 2.5rem 3rem;
+            backdrop-filter: blur(40px);
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .vault-header h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .input-group label {
+            display: block;
+            color: #64748b;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-field {
+            width: 100%;
+            background: var(--field-bg);
+            border: 1px solid var(--field-border);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-sign-in {
+            width: 100%;
+            padding: 1.1rem;
+            background: var(--admin-gold);
+            border: none;
+            border-radius: 12px;
+            color: #020617;
+            font-size: 1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(194, 162, 101, 0.15);
+            margin-top: 1rem;
+        }
+
+        .btn-sign-in:hover {
+            background: var(--admin-gold-hover);
+            transform: translateY(-2px);
+        }
+
+        .auth-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .auth-footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 800;
+            transition: 0.3s;
+        }
+
+        .auth-footer a:hover {
+            color: var(--admin-gold);
+        }
+
+        @media (max-width: 1024px) {
+            .branding-chamber { display: none; }
+            .vault-chamber { flex: 1; padding: 1.5rem; }
         }
     </style>
+</head>
+<body>
+    <div class="split-container">
+        <!-- Brand Left -->
+        <div class="branding-chamber">
+            <div class="branding-content">
+                <h1 class="branding-title">Dumbo Finance</h1>
+                <p class="branding-motto">Secure, Institutional-Grade Wealth Management Systems.</p>
+                <div class="branding-stats">
+                    <div class="stat-item">
+                        <h2>256-bit</h2>
+                        <p>Encryption</p>
+                    </div>
+                    <div class="stat-item">
+                        <h2>99.9%</h2>
+                        <p>Uptime</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auth Right -->
+        <div class="vault-chamber">
+            <div class="auth-card-container">
+                <a href="index.html" class="back-to-global">
+                    <i class="fas fa-arrow-left"></i> BACK TO HOME
+                </a>
+
+                <div class="auth-card">
+                    <div class="vault-header">
+                        <h1>Request Access</h1>
+                    </div>
+
+                <form id="signupForm">
+                    <div class="input-group">
+                        <label>Identity (Full Name)</label>
+                        <input type="text" id="fullName" class="input-field" placeholder="Johnathan Doe" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Institutional Email</label>
+                        <input type="email" id="email" class="input-field" placeholder="email@institution.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Security Vault Key</label>
+                        <input type="password" id="password" class="input-field" placeholder="Create high-entropy key" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Biometric Sync (Phone)</label>
+                        <input type="tel" id="phoneNumber" class="input-field" placeholder="+91 90000 00000">
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="btn-sign-in">Initialize Identity</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Already have an Identifier? <a href="user-login.html">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="config.js"></script>
     <script>
@@ -88,9 +311,10 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
 
             try {
-                submitBtn.textContent = '...';
+                submitBtn.textContent = 'INITIALIZING...';
                 submitBtn.disabled = true;
 
                 const res = await fetch(`${CONFIG.API_BASE_URL}/api/users/register`, {
@@ -108,13 +332,13 @@
                     localStorage.setItem('userEmail', data.user.email);
                     window.location.href = 'role-selection.html';
                 } else {
-                    alert(data.msg || 'Registration failed.');
+                    alert(data.msg || 'Registration failed: Entity already exists');
                 }
             } catch (err) {
                 console.error(err);
-                alert('Server error.');
+                alert('Connection Error: Registry server unreachable.');
             } finally {
-                submitBtn.textContent = 'Create Account';
+                submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             }
         });

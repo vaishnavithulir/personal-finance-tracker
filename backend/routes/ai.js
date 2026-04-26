@@ -176,57 +176,71 @@ router.post('/advice', auth, async (req, res) => {
 });
 
 // @route    POST api/ai/alpha-advice
-// @desc     Real-time AI Chat Concierge / Advisor
-// @access   Private
-router.post('/alpha-advice', auth, async (req, res) => {
+// @desc     Real-time AI Chat Concierge / Advisor (Optionally Private)
+// @access   Public/Private
+router.post('/alpha-advice', async (req, res) => {
     try {
-        const { message } = req.body;
-        const transactions = await prisma.transaction.findMany({
-            where: { userId: req.user.id },
-            orderBy: { date: 'desc' },
-            take: 20
-        });
+        const token = req.header('x-auth-token');
+        let user = null;
+        let transactions = [];
 
+        if (token) {
+            try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+                user = decoded.user;
+                transactions = await prisma.transaction.findMany({
+                    where: { userId: user.id },
+                    orderBy: { date: 'desc' },
+                    take: 20
+                });
+            } catch (err) {
+                // Invalid token, proceed as guest
+            }
+        }
+
+        const { message } = req.body;
         const apiKey = process.env.GEMINI_API_KEY;
         
         if (!apiKey) {
-            // Intelligent Keyword-Based Mock Response
             const query = (message || "").toLowerCase();
-            let advice = "Your institutional wealth footprint is stable. I am monitoring your liquidity nodes.";
+            let advice = "My neural nodes are synchronizing with your vault. I am ready to optimize your capital distribution.";
             
-            if (query.includes("how") || query.includes("work") || query.includes("demo") || query.includes("video") || query.includes("application") || query.includes("feature")) {
-                advice = "Dumbo Finance is an institutional-grade Personal Finance Tracker. The Dashboard visualizes your global wealth nodes, while my Zenith AI engine provides 5-year predictive modeling and proactive strategy optimization. Your assets are secured within our proprietary digital vault, accessible only through your Neural ID.";
+            if (query.includes("how") || query.includes("work") || query.includes("demo") || query.includes("video") || query.includes("feature")) {
+                advice = "Dumbo Finance is an institutional-grade Personal Finance Tracker. Use your Dashboard to visualize wealth nodes, or leverage my Zenith AI engine for predictive strategy optimization. Your vault is secured with military-grade Neural ID encryption.";
             } else if (query.includes("balance") || query.includes("total") || query.includes("much")) {
                 const total = transactions.reduce((sum, t) => t.type === 'income' ? sum + t.amount : sum - t.amount, 0);
-                advice = `Your current institutional balance is approximately ₹${total.toLocaleString()}. This represents your high-liquidity holdings within the vault.`;
-            } else if (query.includes("save") || query.includes("saving") || query.includes("investment")) {
-                advice = "I recommend moving 15% of your stagnant liquidity into low-volatility institutional bonds to optimize your yield curve.";
-            } else if (query.includes("expense") || query.includes("spending") || query.includes("spent")) {
+                advice = `Your current institutional balance is ₹${total.toLocaleString('en-IN')}. This represents your high-liquidity holdings within the Dumbo vault.`;
+            } else if (query.includes("save") || query.includes("saving") || query.includes("invest")) {
+                advice = "I recommend reallocating 15% of your stagnant liquidity into low-volatility institutional bonds to optimize your yield curve.";
+            } else if (query.includes("spent") || query.includes("spending") || query.includes("expense")) {
                 const spent = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
-                advice = `You have directed ₹${spent.toLocaleString()} towards platform expenses recently. I suggest reviewing your recurring resource allocations to minimize leakage.`;
+                advice = `Institutional outflows currently peak at ₹${spent.toLocaleString('en-IN')}. I suggest reviewing your recurring resource allocations to minimize capital leakage.`;
             } else if (query.includes("hi") || query.includes("hello") || query.includes("hey")) {
-                advice = "Greetings. I am the Dumbo Finance Advisor. I have analyzed your vault signals and am ready to optimize your strategy.";
+                advice = "Greetings. I am the Dumbo Finance Advisor. Your vault signals are clear. How shall we optimize your strategy today?";
             } else if (query.includes("who") || query.includes("name")) {
-                advice = "I am the Dumbo Finance Advisor, a Smart Personal Finance Tracker & Advisor node powered by Zenith Intelligence.";
-            } else if (query.length > 0) {
-                advice = `I have received your query regarding "${message}". Based on your recent ${transactions.length} transactions, I recommend maintaining your current strategic position while monitoring for growth opportunities.`;
+                advice = "I am the Dumbo Finance Advisor, an autonomous wealth management node powered by Zenith Intelligence.";
+            } else if (transactions.length === 0) {
+                advice = "Welcome to your new vault. Currently, no transactions have been logged. I recommend synchronizing your bank statement to initiate my predictive modeling engine.";
+            } else {
+                advice = `Strategy Note: Based on your recent ${transactions.length} signals, I recommend maintaining your current liquidity position while we monitor for growth opportunities.`;
             }
 
             return res.json({ advice });
         }
 
         // Live Gemini Logic
-        const dataStr = transactions.map(t => `${t.type}: ₹${t.amount} (${t.category})`).join('\n');
+        const hasData = transactions.length > 0;
+        const dataStr = hasData ? transactions.map(t => `${t.type}: ₹${t.amount} (${t.category})`).join('\n') : "Guest Signal: No transaction ledger available.";
+        
         const prompt = `
             Context: You are the 'Dumbo Finance Advisor', a smart personal finance tracker.
             User Query: "${message}"
-            Recent Transactions:
-            ${dataStr}
+            ${hasData ? `Recent Transactions:\n${dataStr}` : "Note: This is a prospective member. They have not yet synchronized their bank vault."}
             
             Instructions: 
             1. You are the digital narrator for the Dumbo Finance application. 
-            2. If asked about how the app works, the video, or features, explain it like a cinematic walkthrough (Mention Dashboard, Zenith AI Predictions, and Vault Security).
-            3. Respond professionally and intelligently to all financial queries using their transaction data.
+            2. If the user is a prospective member (no transactions), explain the platform like a cinematic walkthrough. Highlight the Dashboard, Zenith AI Predictions, and Military-grade Vault Security.
+            3. If they are an active member (transactions provided), respond professionally and intelligently using their specific data.
             4. Keep responses concise (max 3-4 sentences).
         `;
 

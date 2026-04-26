@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Gateway - Dumbo Finance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .gateway-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: #020617;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-glow {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: var(--primary);
+            filter: blur(200px);
+            opacity: 0.04;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .gateway-container {
+            width: 100%;
+            max-width: 850px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            z-index: 2;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gateway-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 2.5rem;
+            border-radius: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gateway-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+        }
+
+        .gateway-icon {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            transition: 0.4s;
+        }
+
+        .admin-gateway .gateway-icon { color: #818cf8; }
+        .user-gateway .gateway-icon { color: var(--primary); }
+
+        .gateway-card:hover .gateway-icon {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 25px currentColor);
+        }
+
+        .gateway-title {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .gateway-desc {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 5rem;
+            z-index: 2;
+        }
+
+        .header-section h1 {
+            color: #fff;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -0.05em;
+        }
+
+        .header-btn-back {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 10;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.05);
+            padding: 0.75rem 1.25rem;
+            border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header-btn-back:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .gateway-container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gateway-wrapper">
+        <div class="auth-glow"></div>
+        
+        <a href="index.html" class="header-btn-back">
+            <i class="fas fa-arrow-left"></i> BACK TO HOME
+        </a>
+
+        <div class="header-section">
+            <h1 style="text-transform: uppercase; letter-spacing: 0.1em;">Initialize Connection</h1>
+            <p style="color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.8rem;">Select Authorization Node</p>
+        </div>
+
+        <div class="gateway-container">
+            <a href="admin-login.html" class="gateway-card admin-gateway">
+                <i class="fas fa-user-tie gateway-icon"></i>
+                <h3 class="gateway-title" style="color: #ffffff;">Admin Node</h3>
+                <p class="gateway-desc">Access root directives, synchronize institutional workflows, and manage global capital ledgers.</p>
+            </a>
+
+            <a href="user-login.html" class="gateway-card user-gateway">
+                <i class="fas fa-user-shield gateway-icon"></i>
+                <h3 class="gateway-title" style="color: #ffffff;">User Login</h3>
+                <p class="gateway-desc">Securely access your private wealth vault, optimize assets, and track institutional-grade capital streams.</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

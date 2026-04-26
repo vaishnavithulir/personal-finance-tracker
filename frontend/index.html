@@ -7,321 +7,366 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#38bdf8">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2830/2830284.png">
     <style>
-        :root {
-            --fast-blue: #38bdf8;
-            --fast-blue-dark: #0ea5e9;
-            --bg-dark: #0a0f1e;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+        html {
+            scroll-behavior: smooth;
         }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: #f8fafc;
-            margin: 0;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        .top-banner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.25rem 8%;
-            background: rgba(10, 15, 30, 0.8);
-            backdrop-filter: blur(20px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        .hero-fast {
+        .hero-section {
             padding: 12rem 8%;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            position: relative;
+            overflow: hidden;
             background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 60%);
         }
-        .btn-fast-reg {
-            background: var(--fast-blue);
-            color: #0c0f1a;
-            border: none;
-            padding: 1.1rem 3rem;
-            border-radius: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.25);
-        }
-        .btn-fast-reg:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 20px 45px rgba(56, 189, 248, 0.4);
-            filter: brightness(1.1);
-        }
-        .btn-fast-log {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            border: 1px solid var(--glass-border);
-            padding: 0.75rem 1.75rem;
-            border-radius: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.3s;
-            white-space: nowrap;
-            min-width: 110px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .btn-fast-log:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255,255,255,0.3);
-        }
-        .hero-text-fast h1 {
-            font-size: 5.5rem;
+
+        .hero-title {
+            font-size: 6rem;
             line-height: 0.95;
             color: #fff;
             margin-bottom: 2rem;
-            font-weight: 950;
+            font-weight: 900;
             letter-spacing: -0.05em;
             background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             max-width: 900px;
         }
-        .hero-text-fast p {
+
+        .hero-p {
             font-size: 1.5rem;
-            color: #94a3b8;
+            color: var(--text-gray);
             line-height: 1.5;
             margin-bottom: 4rem;
             max-width: 750px;
-            margin-left: auto;
-            margin-right: auto;
             font-weight: 500;
         }
-        .stats-section {
-            padding: 10rem 8%;
-            text-align: center;
+
+        .nav-glass {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 8%;
+            background: rgba(5, 11, 26, 0.8);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
         }
-        .stats-grid {
+
+        .btn-premium-pill {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #fff;
+            padding: 1.25rem 3rem;
+            border-radius: 20px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.25);
+        }
+
+        .btn-premium-pill:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(56, 189, 248, 0.4);
+        }
+
+        .btn-ghost-pill {
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            padding: 0.8rem 1.8rem;
+            border-radius: 16px;
+            font-weight: 700;
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-ghost-pill:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .gallery-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 5rem 8%;
         }
-        .stat-box {
+
+        .gallery-card {
             background: var(--glass);
-            padding: 4rem 2rem;
             border-radius: 32px;
             border: 1px solid var(--glass-border);
-            transition: 0.3s;
+            overflow: hidden;
+            transition: 0.4s;
+            position: relative;
         }
-        .stat-box:hover {
+
+        .gallery-card:hover {
             background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(56, 189, 248, 0.3);
+            border-color: var(--primary);
             transform: translateY(-10px);
         }
-        footer.fast-footer {
-            background: #05070a;
-            padding: 5rem 8%;
-            border-top: 1px solid var(--glass-border);
-            color: #64748b;
-            text-align: center;
+
+        .gallery-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: 0.4s;
         }
-        .nav-menu a {
-            color: #94a3b8;
-            font-weight: 600;
+
+        .gallery-card:hover img {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .dropdown-portal {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #050b1a;
+            min-width: 200px;
+            border-radius: 18px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin-top: 1rem;
+            z-index: 2000;
+            padding: 0.75rem;
+        }
+
+        .dropdown-portal a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            color: var(--text-gray);
             text-decoration: none;
+            font-weight: 700;
+            border-radius: 12px;
             transition: 0.3s;
-            font-size: 0.95rem;
         }
-        .nav-menu a:hover {
+
+        .dropdown-portal a:hover {
+            background: rgba(255, 255, 255, 0.05);
             color: #fff;
         }
+
         @media (max-width: 768px) {
+            .hero-title { font-size: 3rem !important; }
+            .gallery-grid { grid-template-columns: 1fr !important; }
             .nav-menu { display: none !important; }
-            .top-banner { 
-                padding: 1.5rem 5% !important; 
-                flex-direction: column !important;
-                height: auto !important;
-                gap: 1.5rem !important;
-                text-align: center;
-            }
-            .hero-fast { 
-                padding: 10rem 5% 5rem !important; 
-                text-align: center;
-            }
-            .hero-fast h1 { font-size: 2.5rem !important; line-height: 1.2; }
-            .hero-fast p { font-size: 1rem !important; margin-bottom: 2.5rem; }
-            .hero-fast > div { 
-                flex-direction: column !important; 
-                width: 100%;
-                gap: 1rem !important;
-            }
-            .hero-fast button { width: 100% !important; justify-content: center; }
-            
-            @keyframes neural-drift {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-            @keyframes core-pulse {
-                0%, 100% { transform: scale(1); box-shadow: 0 0 50px rgba(56, 189, 248, 0.3); }
-                50% { transform: scale(1.1); box-shadow: 0 0 80px rgba(56, 189, 248, 0.6); }
-            }
-            
-            .btn-fast-reg { padding: 1rem 2rem !important; font-size: 0.9rem !important; width: 100% !important; }
-            .btn-fast-log { 
-                padding: 1rem 2rem !important; 
-                font-size: 0.9rem !important; 
-                width: 100% !important; 
-                justify-content: center;
-                background: rgba(255,255,255,0.05);
-                border: 1px solid var(--glass-border);
-                border-radius: 14px !important;
-                white-space: nowrap !important;
-            }
-            .lang-wrapper { display: none !important; }
-            .stats-section h2 { font-size: 2.2rem !important; }
-            .stats-grid { grid-template-columns: 1fr !important; }
         }
     </style>
 </head>
 <body>
-    <!-- Top Navigation Banner -->
-    <div class="top-banner">
+    <div class="nav-glass">
         <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <h2 style="font-weight: 900; font-size: clamp(1.2rem, 4vw, 1.8rem); color: #fff; margin: 0; letter-spacing: -0.05em;">Dumbo Finance</h2>
-        </div>
-        
-        <div class="nav-menu" style="display: flex; gap: 2rem; align-items: center;">
-            <a href="index.html">Home</a>
-            <a href="bank-sync.html">Bank sync</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#support">Support</a>
+            <div style="width: 40px; height: 40px; background: rgba(56, 189, 248, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary); border: 1px solid rgba(56, 189, 248, 0.2);">
+                <i class="fas fa-vault"></i>
+            </div>
+            <h2 style="font-weight: 900; font-size: 1.6rem; color: #fff; margin: 0; letter-spacing: -0.05em;">Dumbo Finance</h2>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <nav class="nav-menu" style="display: flex; gap: 2.5rem; align-items: center;">
+            <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 700; font-size: 0.95rem;">Home</a>
+            <a href="bank-sync.html" style="color: var(--text-gray); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-gray)'">Bank sync</a>
+            <a href="#gallery" style="color: var(--text-gray); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-gray)'">Gallery</a>
+            <a href="#support" style="color: var(--text-gray); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-gray)'">Support</a>
+        </nav>
+
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
             <div style="position: relative;">
-                <button onclick="document.getElementById('loginDropdown').style.display='block'" class="btn-fast-log">Login <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></button>
-                <div id="loginDropdown" style="display: none; position: absolute; top: 100%; right: 0; background: #fff; min-width: 180px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee; z-index: 2000;">
-                    <a href="admin-login.html" style="display: block; padding: 1rem; color: #333; text-decoration: none; font-weight: 600; border-bottom: 1px solid #eee;">Dumbo Admin</a>
-                    <a href="user-login.html" style="display: block; padding: 1rem; color: #333; text-decoration: none; font-weight: 600;">Dumbo User</a>
-                </div>
-            </div>
-            <button onclick="window.location.href='signup.html'" class="btn-fast-reg">Sign up</button>
-            
-            <!-- Language Dropdown -->
-            <div class="lang-wrapper" style="position: relative; margin-left: 0.5rem;">
-                <button onclick="document.getElementById('langMenu').style.display='block'" style="background: none; border: none; color: #555; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.3rem;">
-                    <i class="fas fa-globe"></i> Language
+                <button onclick="window.location.href='login-selection.html'" class="btn-login-trigger" style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; white-space: nowrap; padding: 0.8rem 1.8rem; min-width: 140px; font-weight: 700; border-radius: 12px; font-size: 0.95rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #fff; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.15)'">
+                    <span>Log In</span>
+                    <i class="fas fa-chevron-right" style="font-size: 0.8rem; opacity: 0.8;"></i>
                 </button>
-                <div id="langMenu" style="display: none; position: absolute; top: 100%; right: 0; background: white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-radius: 8px; z-index: 100; min-width: 120px;">
-                    <a href="javascript:void(0)" onclick="alert('English'); document.getElementById('langMenu').style.display='none'" style="display: block; padding: 0.75rem 1rem; color: #333; text-decoration: none;">English</a>
-                    <a href="javascript:void(0)" onclick="alert('Spanish'); document.getElementById('langMenu').style.display='none'" style="display: block; padding: 0.75rem 1rem; color: #333; text-decoration: none;">Español</a>
-                </div>
             </div>
+            <button onclick="window.location.href='signup.html'" class="btn-premium-pill" style="padding: 0.6rem 2rem; border-radius: 12px; font-size: 0.9rem; text-transform: none; letter-spacing: normal;">Sign up</button>
         </div>
     </div>
 
-    <!-- Hero -->
-    <div class="hero-fast">
-        <h1>Your Finances at a Glance</h1>
-        <p>Stop wondering where your money goes. Dumbo Finance provides a customizable overview of your wealth on a single screen. Intuitive, robust, and lightning fast.</p>
-        <div style="display: flex; gap: 1.5rem;">
-            <button onclick="window.location.href='signup.html'" class="btn-fast-reg">Start Free Trial</button>
-            <button onclick="openVideoModal()" style="background: white; border: 1px solid #ddd; padding: 1.1rem 2.5rem; border-radius: 12px; font-weight: 700; color: #555; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 0.75rem;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='white'">
-                <i class="fas fa-play-circle" style="color: var(--fast-blue);"></i> Demo Video
-            </button>
-        </div>
-    </div>
-
-    <!-- Gallery Section -->
-    <div id="gallery" class="stats-section" style="background: radial-gradient(circle at 50% 100%, rgba(56, 189, 248, 0.05) 0%, transparent 50%);">
-        <h2 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 1rem; color: #fff; letter-spacing: -0.02em;">Experience the Future</h2>
-        <p style="color: #94a3b8; margin-bottom: 5rem; font-size: 1.2rem;">Take a tour of our high-fidelity financial management interfaces.</p>
+    <div id="home" class="hero-section" style="padding: 10rem 8%; display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <h1 class="hero-title" style="margin-bottom: 1.5rem; font-size: 3.8rem; line-height: 1.1; max-width: 900px;">Institutional Wealth, Refined.</h1>
+        <p class="hero-p" style="font-size: 1.15rem; max-width: 650px; line-height: 1.7; margin-bottom: 3.5rem; color: #94a3b8;">Experience the summit of personal finance tracking. Dumbo Finance delivers a multi-layered atmospheric interface with bank-grade encryption and institutional analytical depth.</p>
         
-        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem;">
-            <a href="login.html" class="stat-box" style="padding: 0; overflow: hidden; border-radius: 24px; position: relative; text-decoration: none; display: block;">
-                <img src="dashboard_preview_1_1776352312356.png" style="width: 100%; height: 300px; object-fit: cover; transition: 0.5s transform cubic-bezier(0.4, 0, 0.2, 1);">
-                <div style="padding: 2rem; background: linear-gradient(to top, rgba(10, 15, 30, 0.95), transparent); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; text-align: left;">
-                    <h4 style="margin: 0; color: #fff; font-size: 1.4rem; font-weight: 800;">Global Finance Hub</h4>
-                    <p style="margin: 0.5rem 0 0; color: #38bdf8; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">Real-time Portfolio Tracking</p>
-                </div>
+        <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: center; margin-top: 1rem;">
+            <a href="signup.html" class="btn-professional" style="background: var(--primary); color: #fff; width: 260px; height: 56px; border-radius: 12px; text-decoration: none; font-size: 0.95rem; font-weight: 800; transition: 0.3s; border: 1px solid var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; white-space: nowrap; box-sizing: border-box; padding: 0;" onmouseover="this.style.background='var(--primary-hover)'" onmouseout="this.style.background='var(--primary)'">Initialize Your Vault</a>
+            <a href="javascript:void(0)" onclick="openDemoVideo()" class="btn-ghost-pro" style="background: rgba(255,255,255,0.03); color: #fff; border: 1px solid rgba(255,255,255,0.1); width: 260px; height: 56px; border-radius: 12px; font-weight: 800; text-decoration: none; cursor: pointer; transition: 0.3s; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; white-space: nowrap; box-sizing: border-box; padding: 0;" onmouseover="this.style.background='rgba(255,255,255,0.08)'; this.style.borderColor='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.1)'">
+                <i class="fas fa-play-circle" style="color: var(--primary); margin-right: 0.75rem;"></i> Demo Video
             </a>
-            <a href="bank-sync.html" class="stat-box" style="padding: 0; overflow: hidden; border-radius: 24px; position: relative; text-decoration: none; display: block;">
-                <img src="dashboard_preview_2_1776352328685.png" style="width: 100%; height: 300px; object-fit: cover; transition: 0.5s transform cubic-bezier(0.4, 0, 0.2, 1);">
-                <div style="padding: 2rem; background: linear-gradient(to top, rgba(10, 15, 30, 0.95), transparent); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; text-align: left;">
-                    <h4 style="margin: 0; color: #fff; font-size: 1.4rem; font-weight: 800;">Bank Sync Ecosystem</h4>
-                    <p style="margin: 0.5rem 0 0; color: #38bdf8; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">Multi-Bank Encryption</p>
+        </div>
+
+        <!-- Demo Video Modal -->
+        <div id="videoModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(30px); z-index: 5000; justify-content: center; align-items: center; padding: 2rem;">
+            <div style="position: relative; width: 100%; max-width: 1100px; aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 60px 120px rgba(0,0,0,0.9);">
+                <button onclick="closeDemoVideo()" style="position: absolute; top: 25px; right: 25px; background: rgba(0,0,0,0.5); color: #fff; border: none; width: 45px; height: 45px; border-radius: 25px; cursor: pointer; z-index: 10; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); transition: 0.3s;" onmouseover="this.style.background='#ff4444'" onmouseout="this.style.background='rgba(0,0,0,0.5)'">&times;</button>
+                
+                <!-- Professional Video Mockup Content -->
+                <div id="videoPlayerContainer" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #0f172a 0%, #020617 100%);">
+                    <div id="loadingState" style="text-align: center; color: #fff;">
+                        <i class="fas fa-circle-notch fa-spin" style="font-size: 4rem; color: var(--primary); margin-bottom: 2rem;"></i>
+                        <h2 style="font-weight: 900; font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: -0.02em;">Zenith Platform Node</h2>
+                        <p style="color: #64748b; font-size: 1.2rem;">Synchronizing institutional media vault...</p>
+                    </div>
                 </div>
-            </a>
-            <a href="login.html?tour=true" class="stat-box" style="padding: 0; overflow: hidden; border-radius: 24px; position: relative; text-decoration: none; display: block;">
-                <img src="dashboard_preview_3_1776352345873.png" style="width: 100%; height: 300px; object-fit: cover; transition: 0.5s transform cubic-bezier(0.4, 0, 0.2, 1);">
-                <div style="padding: 2rem; background: linear-gradient(to top, rgba(10, 15, 30, 0.95), transparent); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; text-align: left;">
-                    <h4 style="margin: 0; color: #fff; font-size: 1.4rem; font-weight: 800;">Zenith AI Advisor</h4>
-                    <p style="margin: 0.5rem 0 0; color: #38bdf8; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">Smart Growth Predictions</p>
+            </div>
+        </div>
+
+        <script>
+            function speakInstitutional(text) {
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.rate = 0.9; // Professional, measured pace
+                    utterance.pitch = 0.85; // Serious, deep tone
+                    utterance.volume = 0.8;
+                    // Try to find a professional female or male voice
+                    const voices = window.speechSynthesis.getVoices();
+                    utterance.voice = voices.find(v => v.name.includes('Google UK English') || v.name.includes('Samantha') || v.name.includes('Daniel')) || voices[0];
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+
+            function openDemoVideo() {
+                const modal = document.getElementById('videoModal');
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                
+                // Initial Narrative Greeting
+                setTimeout(() => {
+                    speakInstitutional("Activating Dumbo Finance Zenith Node. Accessing secure media vault.");
+                }, 500);
+                
+                // Simulate video initialization
+                setTimeout(() => {
+                    const container = document.getElementById('videoPlayerContainer');
+                    container.innerHTML = `
+                        <div style="width: 100%; height: 100%; position: relative; background: #000;">
+                            <img src="zenith_institutional_dashboard_1777195534688.png" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: saturate(1.2) contrast(1.1);">
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at center, transparent 0%, rgba(2, 6, 23, 0.8) 100%);">
+                                <i class="fas fa-microchip" style="font-size: 5rem; color: var(--primary); margin-bottom: 2rem; filter: drop-shadow(0 0 30px var(--primary));"></i>
+                                <h1 style="color: #fff; font-size: 3rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">Vault Walkthrough</h1>
+                                <p style="color: #64748b; font-size: 1.5rem; font-weight: 500;">Establishing Secure Connection...</p>
+                                <div style="margin-top: 3rem; display: flex; gap: 1rem; align-items: center; color: var(--primary);">
+                                    <div class="pulse-ring"></div>
+                                    <span style="font-weight: 800; text-transform: uppercase; letter-spacing: 0.2rem;">Live Institutional Feed</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Main Narrative Body
+                    speakInstitutional("Welcome to your new institutional command center. We are currently synchronizing your global capital ledger across military-grade security nodes. Your Zenith Advisor is now ready to optimize your wealth signals.");
+
+                }, 1500);
+            }
+            function closeDemoVideo() {
+                window.speechSynthesis.cancel(); // Silences AI immediately
+                document.getElementById('videoModal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+                document.getElementById('videoPlayerContainer').innerHTML = `
+                    <div id="loadingState" style="text-align: center; color: #fff;">
+                        <i class="fas fa-circle-notch fa-spin" style="font-size: 4rem; color: var(--primary); margin-bottom: 2rem;"></i>
+                        <h2 style="font-weight: 900; font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: -0.02em;">Zenith Platform Node</h2>
+                        <p style="color: #64748b; font-size: 1.2rem;">Synchronizing institutional media vault...</p>
+                    </div>
+                `;
+            }
+        </script>
+    </div>
+
+    <div id="gallery" class="stats-section">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h2 style="font-size: 2.5rem; font-weight: 900; color: #fff; letter-spacing: -0.05em;">Institutional Gallery</h2>
+            <p style="color: var(--text-gray); font-size: 1.15rem; font-weight: 500;">Harmonized financial dashboards for every management tier.</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-card">
+                <img src="dashboard_preview_1_1776352312356.png" alt="Dashboard One">
+                <div style="padding: 2.5rem;">
+                    <h4 style="font-size: 1.4rem; font-weight: 800; margin: 0 0 0.5rem 0;">Primary Intelligence</h4>
+                    <p style="color: var(--text-gray); margin: 0; font-size: 0.9rem;">Real-time liquidity and asset monitoring with Nebula-grade visual depth.</p>
                 </div>
-            </a>
+            </div>
+            <div class="gallery-card">
+                <img src="dashboard_preview_2_1776352328685.png" alt="Dashboard Two">
+                <div style="padding: 2.5rem;">
+                    <h4 style="font-size: 1.4rem; font-weight: 800; margin: 0 0 0.5rem 0;">Bank Synchronization</h4>
+                    <p style="color: var(--text-gray); margin: 0; font-size: 0.9rem;">Secure banking integration with refractive encryption statuses.</p>
+                </div>
+            </div>
+            <div class="gallery-card">
+                <img src="dashboard_preview_3_1776352345873.png" alt="Dashboard Three">
+                <div style="padding: 2.5rem;">
+                    <h4 style="font-size: 1.4rem; font-weight: 800; margin: 0 0 0.5rem 0;">Smart Governance</h4>
+                    <p style="color: var(--text-gray); margin: 0; font-size: 0.9rem;">AI-powered growth analysis utilizing high-entropy neural models.</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Support Section -->
-    <div id="support" class="stats-section" style="background: rgba(255,255,255,0.02); border-top: 1px solid var(--glass-border);">
-        <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 1.5rem; color: #fff;">Institutional Support Desk</h2>
-        <p style="color: #94a3b8; margin-bottom: 4rem; max-width: 600px; margin-left: auto; margin-right: auto;">Our dedicated technical desk is available 24/7 to assist with your wealth management queries.</p>
-        <div style="max-width: 600px; margin: 0 auto; background: var(--glass); padding: 3.5rem; border-radius: 24px; border: 1px solid var(--glass-border); box-shadow: 0 30px 60px rgba(0,0,0,0.3); text-align: left;">
-            <div style="margin-bottom: 1.5rem;">
-                <label style="display: block; color: #64748b; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Work Email Address</label>
-                <input type="email" placeholder="email@institution.com" style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none; transition: 0.3s; box-sizing: border-box;" onfocus="this.style.borderColor='var(--fast-blue)'" onblur="this.style.borderColor='var(--glass-border)'">
+    <div id="support" class="stats-section" style="background: radial-gradient(circle at 50% 100%, rgba(192, 132, 252, 0.05), transparent 70%); border-top: 1px solid var(--glass-border);">
+        <div style="text-align: center; margin-bottom: 5rem;">
+            <h2 style="font-size: 3rem; font-weight: 900; color: #fff; letter-spacing: -0.05em; margin-bottom: 1rem;">Institutional Support</h2>
+            <p style="color: var(--text-gray); font-size: 1.1rem; max-width: 700px; margin: 0 auto;">Our governance protocol ensures multi-layered security and proactive integrity checks across every wealth layer within your private vault.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+            <div class="gallery-card" style="padding: 3rem; text-align: center;">
+                <i class="fas fa-shield-halved" style="font-size: 3rem; color: #c084fc; margin-bottom: 1.5rem;"></i>
+                <h4 style="color: #fff; margin-bottom: 1rem;">Protocol Integrity</h4>
+                <p style="color: var(--text-gray); font-size: 0.9rem; line-height: 1.6;">Every transaction is validated against institutional-grade security benchmarks before entering the ledger.</p>
             </div>
-            <div style="margin-bottom: 2rem;">
-                <label style="display: block; color: #64748b; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Nature of Inquiry</label>
-                <textarea placeholder="Describe your technical or account issue..." style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none; transition: 0.3s; min-height: 120px; box-sizing: border-box;" onfocus="this.style.borderColor='var(--fast-blue)'" onblur="this.style.borderColor='var(--glass-border)'"></textarea>
+            <div class="gallery-card" style="padding: 3rem; text-align: center;">
+                <i class="fas fa-fingerprint" style="color: var(--primary); font-size: 3rem; margin-bottom: 1.5rem;"></i>
+                <h4 style="color: #fff; margin-bottom: 1rem;">Identity Nodes</h4>
+                <p style="color: var(--text-gray); font-size: 0.9rem; line-height: 1.6;">Decentralized identity synchronization prevents unauthorized data extraction or spoofing at the root level.</p>
             </div>
-            <button onclick="alert('Support Case Opened! ID: #'+Math.floor(Math.random()*1000000))" class="btn-fast-reg" style="width: 100%; padding: 1.1rem;">Open Support Case</button>
+            <div class="gallery-card" style="padding: 3rem; text-align: center;">
+                <i class="fas fa-microchip" style="color: var(--success); font-size: 3rem; margin-bottom: 1.5rem;"></i>
+                <h4 style="color: #fff; margin-bottom: 1rem;">Automated Oversight</h4>
+                <p style="color: var(--text-gray); font-size: 0.9rem; line-height: 1.6;">Zenith Intelligence continuously monitors your global wealth footprint for anomalies and strategy leaks.</p>
+            </div>
         </div>
     </div>
 
-    <footer class="fast-footer">
-        <p>&copy; 2026 Dumbo Finance. All rights reserved.</p>
+    <footer style="padding: 5rem 8%; text-align: center; color: var(--text-gray); border-top: 1px solid var(--glass-border); background: #020617;">
+        <p style="font-weight: 600; font-size: 0.9rem;">&copy; 2026 DUMBO FINANCE. THE INSTITUTIONAL STANDARD FOR PERSONAL WEALTH.</p>
     </footer>
 
-    <script>
-        window.onclick = function(event) {
-            if (!event.target.closest('.btn-fast-log')) document.getElementById('loginDropdown').style.display='none';
-            if (!event.target.closest('button[onclick*="langMenu"]')) document.getElementById('langMenu').style.display='none';
-        }
-    </script>
-    <script src="config.js"></script>
     <!-- Dumbo AI Concierge Chatbot -->
     <div id="chatbot-container">
         <div id="chatbot-window">
             <div id="chatbot-header">
-                <div style="width: 40px; height: 40px; background: var(--fast-blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-size: 1.2rem;">
+                <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-size: 1.2rem;">
                     <i class="fas fa-robot"></i>
                 </div>
                 <div>
                     <h4 style="margin: 0; color: #fff; font-size: 1rem;">Dumbo Finance</h4>
-                    <p style="margin: 0; color: var(--fast-blue); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">Smart Personal Finance Tracker & Advisor</p>
+                    <p style="margin: 0; color: var(--success); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">Smart Personal Finance Tracker & Advisor</p>
                 </div>
                 <button onclick="toggleChatbot()" style="background: none; border: none; color: #64748b; margin-left: auto; cursor: pointer; font-size: 1.2rem;">&times;</button>
             </div>
             <div id="chatbot-messages">
-                <div class="chat-msg ai">Greetings! I am the Dumbo Finance Advisor. Welcome to the future of wealth management. How can I help you track and optimize your finances today?</div>
+                <div class="chat-msg ai">Greetings! I am the Dumbo Finance Advisor. I am ready to track your wealth signals and provide intelligent strategies. How can I assist today?</div>
             </div>
             <div id="chatbot-input-container">
-                <input type="text" id="chatbot-input" placeholder="Ask about Dumbo Finance...">
+                <input type="text" id="chatbot-input" placeholder="Ask about your wealth...">
                 <button id="chatbot-send">
                     <i class="fas fa-paper-plane"></i>
                 </button>
@@ -332,6 +377,7 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
     <script>
         const chatInput = document.getElementById('chatbot-input');
         const chatWindow = document.getElementById('chatbot-window');
@@ -356,106 +402,142 @@
             userDiv.textContent = msg;
             msgContainer.appendChild(userDiv);
             chatInput.value = '';
-            msgContainer.scrollTop = msgContainer.scrollHeight;
+            
+            // Smooth Scroll
+            msgContainer.scrollTo({ top: msgContainer.scrollHeight, behavior: 'smooth' });
 
             // AI Thinking State
             const aiDiv = document.createElement('div');
             aiDiv.className = 'chat-msg ai';
-            aiDiv.innerHTML = '<span class="ai-typing">Analyzing...</span>';
+            aiDiv.innerHTML = '<span class="ai-typing">Analyzing vault signals...</span>';
             msgContainer.appendChild(aiDiv);
-            msgContainer.scrollTop = msgContainer.scrollHeight;
+            msgContainer.scrollTo({ top: msgContainer.scrollHeight, behavior: 'smooth' });
 
-            // Simulated AI Logic for Landing Page
-            setTimeout(() => {
-                const query = msg.toLowerCase();
-                let response = "Dumbo Finance is a next-generation wealth management platform. Would you like to see our institutional projections?";
+            try {
+                const baseUrl = typeof CONFIG !== 'undefined' ? CONFIG.API_BASE_URL : 'http://localhost:5005';
+                const response = await fetch(`${baseUrl}/api/ai/alpha-advice`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-auth-token': localStorage.getItem('token') || ''
+                    },
+                    body: JSON.stringify({ message: msg })
+                });
+                const data = await response.json();
                 
-                if (query.includes('price') || query.includes('cost')) {
-                    response = "We offer tiered pricing starting with a Free Trial for all new wealth vaults.";
-                } else if (query.includes('safe') || query.includes('secure')) {
-                    response = "Our platform uses 256-bit bank-grade encryption and decentralized vault nodes.";
-                } else if (query.includes('hi') || query.includes('hello')) {
-                    response = "Greetings! I am the Dumbo Finance Advisor. How can I help you optimize your wealth today?";
-                }
-                
-                aiDiv.textContent = response;
-                msgContainer.scrollTop = msgContainer.scrollHeight;
-            }, 800);
+                // Cinematic reveal
+                setTimeout(() => {
+                    aiDiv.textContent = data.advice || data.recommendation || "Wealth synchronization complete. No immediate strategy changes required.";
+                    msgContainer.scrollTo({ top: msgContainer.scrollHeight, behavior: 'smooth' });
+                }, 600);
+            } catch (err) {
+                console.error('Chat AI Error:', err);
+                aiDiv.textContent = "Institutional node timed out. Please verify your connection and signal again.";
+            }
         }
 
-        // Attach listeners robustly
+        // Robust listeners
         document.getElementById('chatbot-send').addEventListener('click', sendChatMessage);
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendChatMessage();
         });
-    </script>
-    <!-- Cinematic Video Modal -->
-    <div id="videoModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; backdrop-filter: blur(15px); align-items: center; justify-content: center; padding: 5%;">
-        <div style="position: relative; width: 100%; max-width: 1200px; background: #000; border-radius: 30px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 50px 100px rgba(0,0,0,0.8);">
-            <button onclick="closeVideoModal()" style="position: absolute; top: 30px; right: 30px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; z-index: 10;">&times;</button>
-            
-            <div id="demoCarousel" style="width: 100%; height: 75vh; position: relative; background: #050a15; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 20px;">
-                <!-- Procedural Neural Engine -->
-                <div id="neural-mask" style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at center, transparent 30%, #050a15 80%); z-index: 2;"></div>
-                <div id="neural-bg" style="position: absolute; width: 100%; height: 100%; opacity: 0.4;">
-                    <div style="position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background-image: radial-gradient(rgba(56, 189, 248, 0.2) 1px, transparent 1px); background-size: 50px 50px; animation: neural-drift 60s linear infinite;"></div>
-                </div>
+
+        // Navigation Highlighting Logic
+        const homeForm = document.getElementById('homeLoginForm');
+        if (homeForm) {
+            homeForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = document.getElementById('homeEmail').value;
+                const password = document.getElementById('homePassword').value;
+                const btn = document.getElementById('homeLoginBtn');
                 
-                <div style="z-index: 5; text-align: center;">
-                    <div id="neural-core" style="width: 150px; height: 150px; background: rgba(56, 189, 248, 0.1); border: 2px solid var(--fast-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; box-shadow: 0 0 50px rgba(56, 189, 248, 0.3); animation: core-pulse 4s ease-in-out infinite;">
-                        <i class="fas fa-brain" style="font-size: 4rem; color: var(--fast-blue);"></i>
-                    </div>
-                    <h2 style="font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase;">Zenith AI Active</h2>
-                    <p style="color: #38bdf8; font-weight: 700; margin-bottom: 3rem; letter-spacing: 0.2em;">INSTITUTIONAL NEURAL VAULT MONITORING</p>
-                    
-                    <div style="display: flex; justify-content: center; gap: 4rem;">
-                        <div style="text-align: left;">
-                            <div style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase;">Sync Status</div>
-                            <div id="sync-val" style="color: #fff; font-family: monospace; font-size: 1.2rem;">CALIBRATING...</div>
-                        </div>
-                        <div style="text-align: left;">
-                            <div style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase;">Vault Growth</div>
-                            <div id="growth-val" style="color: var(--fast-blue); font-family: monospace; font-size: 1.2rem;">+0.00%</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="padding: 2rem; background: #0a0f1e; text-align: center;">
-                <button onclick="window.location.href='signup.html'" class="btn-fast-reg" style="max-width: 400px; margin: 0 auto;">Claim Your Vault Now</button>
-            </div>
-        </div>
-    </div>
+                try {
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AUTHENTICATING...';
+                    btn.disabled = true;
 
-    <script>
-        let nnInterval;
-        
-        function openVideoModal() {
-            document.getElementById('videoModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            
-            const sync = document.getElementById('sync-val');
-            const growth = document.getElementById('growth-val');
-            const statuses = ["ENCRYPTING...", "SYNCHRONIZING...", "OPTIMIZING...", "LIVE VAULT"];
-            let step = 0;
+                    const res = await fetch(`${CONFIG.API_BASE_URL}/api/users/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
 
-            nnInterval = setInterval(() => {
-                // Ticker
-                if (Math.random() > 0.8) {
-                    sync.textContent = statuses[step % statuses.length];
-                    step++;
+                    const data = await res.json();
+                    if (res.ok) {
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('isLoggedIn', 'true');
+                        localStorage.setItem('userName', data.user.fullName);
+                        localStorage.setItem('userEmail', data.user.email);
+                        localStorage.setItem('userRole', data.user.role || 'User');
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        alert('AUDIT FAILED: Credentials invalidated by vault security.');
+                    }
+                } catch (err) {
+                    alert('SERVER ERROR: Security node unreachable.');
+                } finally {
+                    btn.textContent = 'Initiate Access';
+                    btn.disabled = false;
                 }
-                
-                // Growth
-                const val = (Math.random() * 0.05 + step * 0.1).toFixed(2);
-                growth.textContent = `+${val}%`;
-            }, 100);
+            });
         }
 
-        function closeVideoModal() {
-            document.getElementById('videoModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-            clearInterval(nnInterval);
+        // Navigation Highlighting Logic
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        const sections = ['home', 'gallery', 'support'];
+
+        function updateActiveNav() {
+            let current = 'home';
+            
+            // Check scroll position with a dynamic offset
+            sections.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    // If element top is within 200px of header or its bottom is past the middle
+                    if (rect.top <= 200) {
+                        current = id;
+                    }
+                }
+            });
+
+            // Special case for reaching the bottom
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                current = 'support';
+            }
+
+            // Update links
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                link.style.color = 'var(--text-gray)';
+                link.style.fontWeight = '600';
+                
+                if (href === 'index.html' || href === '#') {
+                    if (current === 'hero-section') {
+                        link.style.color = 'var(--primary)';
+                        link.style.fontWeight = '700';
+                    }
+                } else if (href.includes(current)) {
+                    link.style.color = 'var(--primary)';
+                    link.style.fontWeight = '700';
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                setTimeout(updateActiveNav, 100); // Wait for scroll
+            });
+        });
+        
+        // Initial call
+        updateActiveNav();
+
+        window.onclick = function(event) {
+            const drop = document.getElementById('portalDrop');
+            if (drop && !event.target.closest('button')) {
+                drop.style.display = 'none';
+            }
         }
     </script>
 </body>

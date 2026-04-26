@@ -583,7 +583,7 @@
                             <div style="width: 80px; height: 80px; background: rgba(52, 211, 153, 0.1); color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 2rem;">
                                 <i class="fas fa-check-circle"></i>
                             </div>
-                            <h3 style="color: #fff; margin-bottom: 1rem;">Vault Synchronization Complete!</h3>
+                            <h3 style="color: #fff; margin-bottom: 1rem;">Bank Synchronization Complete!</h3>
                             <p style="color: var(--text-gray); margin-bottom: 2rem;">Successfully imported 3 new verified transactions from your institutional account.</p>
                             <button onclick="selectNavItem(document.querySelector('a[href=\'#overviewSection\']'))" style="width: auto; padding: 0.85rem 2.5rem; background: var(--primary); border: none; color: #0a1128; border-radius: 12px; font-weight: 800; text-transform: uppercase; cursor: pointer; box-shadow: 0 10px 20px var(--primary-glow);">View Transactions</button>
                         </div>
@@ -806,10 +806,16 @@
 
             const roleBadge = document.getElementById('userRoleBadge');
             if (roleBadge) {
+                // Force sync role with database state
                 const isAdmin = userRole.toLowerCase() === 'admin';
                 roleBadge.textContent = isAdmin ? 'ADMIN' : 'USER';
                 roleBadge.style.background = isAdmin ? 'rgba(192, 132, 252, 0.15)' : 'rgba(56, 189, 248, 0.15)';
                 roleBadge.style.color = isAdmin ? '#c084fc' : 'var(--primary)';
+                
+                // Update localStorage if there was a mismatch
+                if (isAdmin && userRole !== 'Admin') {
+                    localStorage.setItem('userRole', 'Admin');
+                }
             }
 
             // Sync Profile section data
@@ -1275,41 +1281,47 @@
         // --- Admin: Overview KPI Stats ---
         async function loadAdminOverview() {
             try {
-                // Get user count
+                const token = localStorage.getItem('token');
+                if (!token) return;
+
                 const usersRes = await fetch(`${CONFIG.API_BASE_URL}/api/users`, {
-                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                    headers: { 'x-auth-token': token }
                 });
-                const users = await usersRes.json();
-                if (Array.isArray(users)) {
-                    document.getElementById('adminUserCount').textContent = users.length;
+                
+                if (usersRes.ok) {
+                    const users = await usersRes.json();
+                    if (Array.isArray(users)) {
+                        const countEl = document.getElementById('adminUserCount');
+                        if (countEl) countEl.textContent = users.length;
+                    }
                 }
 
-                // Get all transactions for platform stats
                 const txnRes = await fetch(`${CONFIG.API_BASE_URL}/api/transactions`, {
-                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                    headers: { 'x-auth-token': token }
                 });
-                const txns = await txnRes.json();
-                if (Array.isArray(txns)) {
-                    document.getElementById('adminTxnCount').textContent = txns.length.toLocaleString('en-IN');
-                    
-                    const totalExpense = txns
-                        .filter(t => t.type === 'expense')
-                        .reduce((sum, t) => sum + t.amount, 0);
-                    const totalIncome = txns
-                        .filter(t => t.type === 'income')
-                        .reduce((sum, t) => sum + t.amount, 0);
+                
+                if (txnRes.ok) {
+                    const txns = await txnRes.json();
+                    if (Array.isArray(txns)) {
+                        const totalExpense = txns
+                            .filter(t => t.type === 'expense')
+                            .reduce((sum, t) => sum + t.amount, 0);
+                        const totalIncome = txns
+                            .filter(t => t.type === 'income')
+                            .reduce((sum, t) => sum + t.amount, 0);
+                            
+                        const expEl = document.getElementById('adminExpenseTotal');
+                        if (expEl) expEl.textContent = totalExpense.toLocaleString('en-IN', { maximumFractionDigits: 0 });
                         
-                    document.getElementById('adminExpenseTotal').textContent = totalExpense.toLocaleString('en-IN', { maximumFractionDigits: 0 });
-                    
-                    // Populate other Admin stats if they exist
-                    const pBalance = document.getElementById('adminPlatformBalance');
-                    if (pBalance) pBalance.textContent = (totalIncome - totalExpense).toLocaleString('en-IN', { minimumFractionDigits: 2 });
-                    
-                    const pIncome = document.getElementById('adminPlatformIncome');
-                    if (pIncome) pIncome.textContent = totalIncome.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+                        const pBalance = document.getElementById('adminPlatformBalance');
+                        if (pBalance) pBalance.textContent = (totalIncome - totalExpense).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+                        
+                        const pIncome = document.getElementById('adminPlatformIncome');
+                        if (pIncome) pIncome.textContent = totalIncome.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+                    }
                 }
             } catch (err) {
-                console.error('Admin overview error:', err);
+                console.error('Admin overview failed:', err);
             }
         }
 
@@ -1317,40 +1329,51 @@
         async function loadAdminUsers() {
             const grid = document.getElementById('userCardGrid');
             if (!grid) return;
-            grid.innerHTML = '<div style="padding:2rem; text-align:center; color:var(--text-gray);">Loading users...</div>';
+            
+            const token = localStorage.getItem('token');
+            if (!token) return;
 
             try {
                 const res = await fetch(`${CONFIG.API_BASE_URL}/api/users`, {
-                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                    headers: { 'x-auth-token': token }
                 });
-                const users = await res.json();
-
-                if (!res.ok || !Array.isArray(users)) {
-                    grid.innerHTML = '<div style="padding:2rem; text-align:center; color:#ef4444;">Failed to load users.</div>';
+                
+                if (!res.ok) {
+                    grid.innerHTML = '<div style="padding:2rem; text-align:center; color:#ef4444;">Access Denied or Server Error.</div>';
                     return;
                 }
 
+                const users = await res.json();
+                if (!Array.isArray(users)) return;
+
                 grid.innerHTML = '';
                 users.forEach(u => {
+                    // Safe access to count
+                    const txnCount = (u._count && typeof u._count.transactions !== 'undefined') ? u._count.transactions : 0;
+                    const initials = u.fullName ? u.fullName.charAt(0).toUpperCase() : 'U';
+                    const safeName = u.fullName ? u.fullName.replace(/'/g,"\\'") : 'Unknown User';
+
                     const card = document.createElement('div');
                     card.style.cssText = 'background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:1.75rem; cursor:pointer; transition:all 0.3s ease;';
                     card.onmouseover = () => { card.style.borderColor = 'rgba(192,132,252,0.4)'; card.style.transform = 'translateY(-4px)'; card.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)'; };
                     card.onmouseout = () => { card.style.borderColor = 'rgba(255,255,255,0.08)'; card.style.transform = ''; card.style.boxShadow = ''; };
-                    card.onclick = () => filterByUser(u.id, u.fullName, u.email, u.bankName, u.accountNumber, u.ifscCode);
+                    
+                    card.onclick = () => filterByUser(u.id, u.fullName || 'Unknown', u.email, u.bankName, u.accountNumber, u.ifscCode);
+                    
                     card.innerHTML = `
                         <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.25rem;">
-                            <div style="width:44px; height:44px; background:linear-gradient(135deg,#c084fc,#a855f7); border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; font-size:1.1rem; flex-shrink:0;">${u.fullName.charAt(0).toUpperCase()}</div>
+                            <div style="width:44px; height:44px; background:linear-gradient(135deg,#c084fc,#a855f7); border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; font-size:1.1rem; flex-shrink:0;">${initials}</div>
                             <div style="overflow:hidden;">
-                                <h4 style="margin:0; color:#fff; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${u.fullName}</h4>
+                                <h4 style="margin:0; color:#fff; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${u.fullName || 'Institutional Member'}</h4>
                                 <p style="margin:0; color:#64748b; font-size:0.75rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${u.email}</p>
                             </div>
                         </div>
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem;">
                             <div style="display:flex; gap:0.5rem; align-items:center;">
                                 <span style="background:${u.role==='Admin' ? 'rgba(192,132,252,0.15)' : 'rgba(56,189,248,0.1)'}; color:${u.role==='Admin' ? '#c084fc' : 'var(--primary)'}; padding:0.25rem 0.75rem; border-radius:8px; font-size:0.7rem; font-weight:700;">${u.role}</span>
-                                <span style="color:#64748b; font-size:0.75rem;"><i class="fas fa-exchange-alt" style="margin-right:0.3rem;"></i>${u._count.transactions}</span>
+                                <span style="color:#64748b; font-size:0.75rem;"><i class="fas fa-exchange-alt" style="margin-right:0.3rem;"></i>${txnCount}</span>
                             </div>
-                            <button onclick="event.stopPropagation(); deleteUser('${u.id}', '${u.fullName.replace(/'/g,"\\'")}')" style="background:rgba(239,68,68,0.1); border:none; color:#ef4444; width:32px; height:32px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">
+                            <button onclick="event.stopPropagation(); deleteUser('${u.id}', '${safeName}')" style="background:rgba(239,68,68,0.1); border:none; color:#ef4444; width:32px; height:32px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
@@ -1358,8 +1381,8 @@
                     grid.appendChild(card);
                 });
             } catch (err) {
-                console.error(err);
-                grid.innerHTML = '<div style="padding:2rem; text-align:center; color:#ef4444;">Network error loading users.</div>';
+                console.error('Admin user fetch failed:', err);
+                grid.innerHTML = '<div style="padding:2rem; text-align:center; color:#ef4444;">Terminal Synchronization Failure.</div>';
             }
         }
 
@@ -1624,19 +1647,19 @@
             userDiv.textContent = msg;
             msgContainer.appendChild(userDiv);
             chatInput.value = '';
-            msgContainer.scrollTop = msgContainer.scrollHeight;
+            
+            // Smooth Scroll
+            msgContainer.scrollTo({ top: msgContainer.scrollHeight, behavior: 'smooth' });
 
             // AI Thinking State
             const aiDiv = document.createElement('div');
             aiDiv.className = 'chat-msg ai';
             aiDiv.innerHTML = '<span class="ai-typing">Analyzing vault signals...</span>';
             msgContainer.appendChild(aiDiv);
-            msgContainer.scrollTop = msgContainer.scrollHeight;
+            msgContainer.scrollTo({ top: msgContainer.scrollHeight, behavior: 'smooth' });
 
             try {
-                // Determine API endpoint correctly
                 const baseUrl = typeof CONFIG !== 'undefined' ? CONFIG.API_BASE_URL : 'http://localhost:5005';
-                
                 const response = await fetch(`${baseUrl}/api/ai/alpha-advice`, {
                     method: 'POST',
                     headers: { 
@@ -1646,12 +1669,16 @@
                     body: JSON.stringify({ message: msg })
                 });
                 const data = await response.json();
-                aiDiv.textContent = data.advice || data.recommendation || "Wealth Signal Received: Your portfolio is currently following institutional growth patterns. I recommend maintaining your current liquidity distribution.";
+                
+                // Cinematic reveal
+                setTimeout(() => {
+                    aiDiv.textContent = data.advice || data.recommendation || "Bank synchronization complete. No immediate strategy changes required.";
+                    msgContainer.scrollTo({ top: msgContainer.scrollHeight, behavior: 'smooth' });
+                }, 600);
             } catch (err) {
                 console.error('Chat AI Error:', err);
-                aiDiv.textContent = "Apologies, the Zenith Node is currently synchronizing. Please try again in a moment.";
+                aiDiv.textContent = "Institutional node timed out. Please verify your connection and signal again.";
             }
-            msgContainer.scrollTop = msgContainer.scrollHeight;
         }
 
         // Robust listeners

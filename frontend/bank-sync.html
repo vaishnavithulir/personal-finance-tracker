@@ -83,45 +83,47 @@
 </head>
 <body>
 
-    <nav class="top-nav">
-        <div style="display: flex; align-items: center; gap: 3rem;">
-            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 1rem; color: #fff;">
-
-                <span style="font-weight: 900; font-size: 1.5rem; letter-spacing: -0.05em;">Dumbo Finance</span>
-            </a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="bank-sync.html" class="active">Bank sync</a>
-                <a href="index.html#gallery">Gallery</a>
-                <a href="index.html#support">Support</a>
+    <div class="nav-glass" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: rgba(5, 11, 26, 0.8); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 40px; height: 40px; background: rgba(56, 189, 248, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.2);">
+                <i class="fas fa-vault"></i>
             </div>
+            <h2 style="font-weight: 900; font-size: 1.6rem; color: #fff; margin: 0; letter-spacing: -0.05em;">Dumbo Finance</h2>
         </div>
-        <div class="action-btns" style="display: flex; gap: 0.75rem; align-items: center;">
-            <div style="position: relative; display: inline-block;">
-                <button onclick="toggleLoginMenu()" class="btn-outline" style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
-                    Log in <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+
+        <nav class="nav-menu" style="display: flex; gap: 2.5rem; align-items: center;">
+            <a href="index.html" style="color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Home</a>
+            <a href="bank-sync.html" style="color: #38bdf8; text-decoration: none; font-weight: 700; font-size: 0.95rem;">Bank sync</a>
+            <a href="index.html#gallery" style="color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Gallery</a>
+            <a href="index.html#support" style="color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Support</a>
+        </nav>
+
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div style="position: relative;">
+                <button onclick="document.getElementById('portalDrop').style.display='block'" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); padding: 0.6rem 1.5rem; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: 0.3s; font-size: 0.9rem;" onmouseover="this.style.background='#fff'; this.style.color='#0a0f1e'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='#fff'">
+                    Log In <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 0.5rem;"></i>
                 </button>
-                <div id="loginDropdown" style="display: none; position: absolute; top: 110%; right: 0; background: #fff; min-width: 180px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid #eee; z-index: 2000; overflow: hidden;">
-                    <a href="admin-login.html" style="display: block; padding: 1rem 1.5rem; color: #333; text-decoration: none; font-weight: 600; font-size: 0.95rem; border-bottom: 1px solid #eee;">Dumbo Admin</a>
-                    <a href="user-login.html" style="display: block; padding: 1rem 1.5rem; color: #333; text-decoration: none; font-weight: 600; font-size: 0.95rem;">Dumbo User</a>
+                <div id="portalDrop" style="display: none; position: absolute; top: 115%; right: 0; background: #050b1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; min-width: 200px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); z-index: 2000; overflow: hidden; backdrop-filter: blur(20px);">
+                    <a href="admin-login.html" style="display: flex; align-items: center; gap: 1rem; padding: 1rem; color: #94a3b8; text-decoration: none; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'; this.style.color='#fff'" onmouseout="this.style.background='transparent'; this.style.color='#94a3b8'">
+                         <i class="fas fa-shield-halved" style="color: #c084fc;"></i> Root Admin
+                    </a>
+                    <a href="user-login.html" style="display: flex; align-items: center; gap: 1rem; padding: 1rem; color: #94a3b8; text-decoration: none; font-weight: 700; transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'; this.style.color='#fff'" onmouseout="this.style.background='transparent'; this.style.color='#94a3b8'">
+                        <i class="fas fa-user-shield" style="color: #38bdf8;"></i> Vault Member
+                    </a>
                 </div>
             </div>
-            <a href="signup.html" class="btn-outline" style="background: var(--fast-blue); color: #0a0f1e; border: none;">Sign up</a>
+            <a href="signup.html" style="background: #38bdf8; color: #0a0f1e; text-decoration: none; padding: 0.6rem 2rem; border-radius: 12px; font-weight: 800; font-size: 0.9rem; transition: 0.3s; box-shadow: 0 10px 20px rgba(56, 189, 248, 0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 30px rgba(56, 189, 248, 0.4)'" onmouseout="this.style.transform='none'; this.style.boxShadow='0 10px 20px rgba(56, 189, 248, 0.25)'">Sign up</a>
         </div>
+    </div>
 
-        <script>
-            function toggleLoginMenu() {
-                const dropdown = document.getElementById('loginDropdown');
-                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    <script>
+        window.onclick = function(event) {
+            const drop = document.getElementById('portalDrop');
+            if (drop && !event.target.closest('button')) {
+                drop.style.display = 'none';
             }
-            window.onclick = function(event) {
-                if (!event.target.closest('button')) {
-                    const dropdown = document.getElementById('loginDropdown');
-                    if (dropdown) dropdown.style.display = 'none';
-                }
-            }
-        </script>
-    </nav>
+        }
+    </script>
 
     <div class="hero-section">
         <h1 style="font-size: 3.5rem; color: #fff; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 4rem; background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Verify if your bank is available</h1>
