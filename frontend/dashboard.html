@@ -433,10 +433,19 @@
                         <h2 style="font-size: 2.2rem; color: #fff; margin-bottom: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Verify if your bank is available</h2>
                         
                         <div style="max-width: 600px; margin: 0 auto; text-align: left;">
-                            <label style="color: #64748b; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; display: block; margin-left: 0.5rem;">Country</label>
-                            <select id="countrySelect" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 1.25rem; border-radius: 14px; font-size: 1.1rem; appearance: none; cursor: pointer; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%2000-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%20000%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1.5rem top 50%; background-size: 1rem auto; transition: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-                                <option value="in" style="background: #0a1128;">🇮🇳 India (Primary)</option>
-                                <option value="af" style="background: #0a1128;">🇦🇫 Afghanistan</option>
+                            <label style="color: #64748b; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; display: block; margin-left: 0.5rem;">Jurisdiction</label>
+                            <select id="jurisdictionSelect" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 1.25rem; border-radius: 14px; font-size: 1.1rem; appearance: none; cursor: pointer; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%2000-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%20000%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1.5rem top 50%; background-size: 1rem auto; transition: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+                                <option value="" disabled selected style="background: #0a1128;">Select Jurisdiction Realm</option>
+                                <option value="apac" style="background: #0a1128;">APAC (Asia-Pacific)</option>
+                                <option value="emea" style="background: #0a1128;">EMEA (Europe/Africa)</option>
+                                <option value="amer" style="background: #0a1128;">Americas (Global West)</option>
+                            </select>
+
+                            <div id="countryWrapper" style="display: none; margin-top: 2rem; animation: fadeIn 0.4s ease-out;">
+                                <label style="color: #64748b; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; display: block; margin-left: 0.5rem;">Country</label>
+                                <select id="countrySelect" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 1.25rem; border-radius: 14px; font-size: 1.1rem; appearance: none; cursor: pointer; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%2000-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%20000%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1.5rem top 50%; background-size: 1rem auto; transition: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+                                    <option value="in" style="background: #0a1128;">🇮🇳 India (Primary)</option>
+                                    <option value="af" style="background: #0a1128;">🇦🇫 Afghanistan</option>
                                 <option value="al" style="background: #0a1128;">🇦🇱 Albania</option>
                                 <option value="dz" style="background: #0a1128;">🇩🇿 Algeria</option>
                                 <option value="ad" style="background: #0a1128;">🇦🇩 Andorra</option>
@@ -1594,6 +1603,32 @@
             const btn = document.getElementById('mobileMenuBtn');
             btn.classList.toggle('active');
         }
+
+        // --- Bank Sync Node Logic ---
+        document.getElementById('jurisdictionSelect').addEventListener('change', function() {
+            const countryWrapper = document.getElementById('countryWrapper');
+            const countrySelect = document.getElementById('countrySelect');
+            const region = this.value;
+
+            if (region) {
+                countryWrapper.style.display = 'block';
+                this.style.borderColor = 'var(--primary)';
+                this.style.boxShadow = '0 0 20px rgba(56, 189, 248, 0.2)';
+
+                // Institutional Filtering Logic
+                Array.from(countrySelect.options).forEach(option => {
+                    const val = option.value;
+                    let show = false;
+                    
+                    if (region === 'apac') show = ['in', 'cn', 'hk', 'au'].includes(val);
+                    else if (region === 'emea') show = ['af', 'al', 'dz', 'ad', 'ao', 'at', 'be', 'hr', 'dk', 'eg', 'fi', 'fr', 'de', 'gr'].includes(val);
+                    else if (region === 'amer') show = ['ar', 'br', 'ca', 'cl', 'co'].includes(val);
+                    
+                    option.style.display = show ? 'block' : 'none';
+                    if (show && !countrySelect.value) countrySelect.value = val;
+                });
+            }
+        });
     </script>
     <!-- Dumbo AI Concierge Chatbot -->
     <div id="chatbot-container">
